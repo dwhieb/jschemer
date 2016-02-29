@@ -1,6 +1,7 @@
 const fs = require('fs');
 const hbs = require('handlebars');
 const markdown = require('markdown').markdown;
+const path = require('path');
 
 const preprocess = schema => {
   schema = JSON.parse(JSON.stringify(schema));
@@ -42,8 +43,8 @@ const preprocess = schema => {
  * @param {String} config.template=./template.hbs     The path to the JSchemer Handlebars template. Defaults to <code>./template.hbs</code>.
  */
 module.exports = config => {
-
-  const template = fs.readFileSync(config.template || './schema.hbs', 'utf8');
+  config = config || {};
+  const template = fs.readFileSync(config.template || path.join(__dirname, '/schema.hbs'), 'utf8');
   const converter = hbs.compile(template);
 
   hbs.registerPartial('schema', template);

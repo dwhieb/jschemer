@@ -1,6 +1,6 @@
 {
   "name": "jschemer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple utility for generating HTML from JSON Schema data using Handlebars.",
   "keywords": [
     "JSON Schema",
