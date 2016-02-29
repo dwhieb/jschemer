@@ -1,6 +1,9 @@
 # JSchemer
 A simple utility for generating clean HTML from JSON Schema data.
 
+## WARNING
+This package is not yet production-ready, although the HTML generation is stable. The version number will be incremented to 1.0.0 once the package is production-ready.
+
 ## Install
 `npm install --save jschemer`
 
