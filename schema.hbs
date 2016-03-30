@@ -1,24 +1,23 @@
 <section class=schema>
 
   {{#if title}}
-    <h1 class='title meta-prop'>{{title}}{{#if @key}}: <code>"{{@key}}"</code>{{/if}}</h1>
+    <h1 class='title meta-prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
   {{/if}}
 
-
   {{#if $schema}}
-    <p class='$schema prop'>Validate against: <a href={{schema}}>{{$schema}}</a></p>
+    <p class='$schema prop'><strong>Validate against:</strong> <a href={{schema}}>{{$schema}}</a></p>
   {{/if}}
 
   {{#if id}}
-    <p class='id prop'>ID: <code>{{id}}</code></p>
+    <p class='id prop'><strong>ID:</strong> <code>{{id}}</code></p>
   {{/if}}
 
   {{#if $ref}}
-    <p>An instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
+    <p>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
   {{/if}}
 
   {{#if type}}
-    <p class='type prop'>Type(s): {{#each type}}<code>{{this}}</code> {{/each}}</p>
+    <p class='type prop'><strong>Type:</strong> <code>{{type}}</code></p>
   {{/if}}
 
   {{#if description}}
@@ -26,59 +25,59 @@
   {{/if}}
 
   {{#if format}}
-    <p class='format meta-prop'>Format: {{format}}</p>
+    <p class='format meta-prop'><strong>Format:</strong> {{format}}</p>
   {{/if}}
 
   {{#if multipleOf}}
-    <p class='multipleOf numeric-prop'>Multiple of: <code>{{multipleOf}}</code></p>
+    <p class='multipleOf numeric-prop'><strong>Multiple of:</strong> <code>{{multipleOf}}</code></p>
   {{/if}}
 
   {{#if maximum}}
-    <p class='maximum numeric-prop'>Maximum: <code>{{maximum}}</code></p>
+    <p class='maximum numeric-prop'><strong>Maximum:</strong> <code>{{maximum}}</code></p>
   {{/if}}
 
   {{#if exclusiveMaximum}}
-    <p class='exclusive-maximum numeric-prop'>Exclusive maximum: <code>{{exclusiveMaximum}}</code></p>
+    <p class='exclusive-maximum numeric-prop'><strong>Exclusive maximum:</strong> <code>{{exclusiveMaximum}}</code></p>
   {{/if}}
 
   {{#if minimum}}
-    <p class='minimum numeric-prop'>Minimum: <code>{{minimum}}</code></p>
+    <p class='minimum numeric-prop'><strong>Minimum:</strong> <code>{{minimum}}</code></p>
   {{/if}}
 
   {{#if exclusiveMinimum}}
-    <p class='exclusive-minimum numeric-prop'>Exclusive minumum: <code>{{exclusiveMinimum}}</code></p>
+    <p class='exclusive-minimum numeric-prop'><strong>Exclusive minumum:</strong> <code>{{exclusiveMinimum}}</code></p>
   {{/if}}
 
   {{#if maxLength}}
-    <p class='maxLength string-prop'>Max length: <code>{{maxLength}}</code></p>
+    <p class='maxLength string-prop'><strong>Max length:</strong> <code>{{maxLength}}</code></p>
   {{/if}}
 
   {{#if minLength}}
-    <p class='minLength string-prop'>Min length: <code>{{minLength}}</code></p>
+    <p class='minLength string-prop'><strong>Min length:</strong> <code>{{minLength}}</code></p>
   {{/if}}
 
   {{#if pattern}}
-    <p class='pattern string-prop'>Regular expression pattern: <code>{{pattern}}</code></p>
+    <p class='pattern string-prop'><strong>Regular expression pattern:</strong> <code>{{pattern}}</code></p>
   {{/if}}
 
   {{#if maxItems}}
-    <p class='max-items array-prop'>Max items: <code>{{maxItems}}</code></p>
+    <p class='max-items array-prop'><strong>Max items:</strong> <code>{{maxItems}}</code></p>
   {{/if}}
 
   {{#if minItems}}
-    <p class='min-items array-prop'>Min items: <code>{{minItems}}</code></p>
+    <p class='min-items array-prop'><strong>Min items:</strong> <code>{{minItems}}</code></p>
   {{/if}}
 
   {{#if uniqueItems}}
-    <p class='unique-items array-prop'>Unique items: <code>{{uniqueItems.boolean}}</code></p>
+    <p class='unique-items array-prop'><strong>Unique items:</strong> <code>{{uniqueItems.boolean}}</code></p>
   {{/if}}
 
   {{#if maxProperties}}
-    <p class='max-properties object-prop'>Max properties: <code>{{maxProperties}}</code></p>
+    <p class='max-properties object-prop'><strong>Max properties:</strong> <code>{{maxProperties}}</code></p>
   {{/if}}
 
   {{#if minProperties}}
-    <p class='min-properties object-prop'>Min properties: <code>{{minProperties}}</code></p>
+    <p class='min-properties object-prop'><strong>Min properties:</strong> <code>{{minProperties}}</code></p>
   {{/if}}
 
   {{#if definitions}}
@@ -86,7 +85,7 @@
       <h2>Definitions</h2>
       <ul>
         {{#each definitions}}
-          <li>{{> schema this}}</li>
+          <li id={{@key}}>{{> schema this}}</li>
         {{/each}}
       </ul>
     </div>
@@ -105,7 +104,7 @@
 
   {{#if required}}
     <div class='required object-prop'>
-      <h2>Required</h2>
+      <h2>Required Properties</h2>
       <ul>
         {{#each required}}
         <li><code>{{this}}</code></li>
@@ -128,7 +127,7 @@
   {{#if items}}
     <div class='items array-prop'>
       <h2>Items</h2>
-      {{#if items.object}}
+      {{#if items._object}}
         {{> schema items}}
       {{else}}
         <ul>
@@ -178,13 +177,15 @@
       <h2>Dependencies</h2>
       <ul>
         {{#each dependencies}}
-          <li>
-            {{#if this.object}}
-              {{> schema this}}
-            {{else}}
-              {{this}}
-            {{/if}}
-          </li>
+          {{#if _object}}
+            <li>{{> schema this}}</li>
+          {{else}}
+            <li>
+              <p>
+                If <code>{{@key}}</code> is present{{#each this}}, <code>{{this}}</code>{{/each}} must be present.
+              </p>
+            </li>
+          {{/if}}
         {{/each}}
       </ul>
     </div>
@@ -235,7 +236,9 @@
   {{#if default}}
     <div class='default meta-prop'>
       <h2>Default Value</h2>
-      <pre>{{default}}</pre>
+      <pre>
+{{default}}
+      </pre>
     </div>
   {{/if}}
 

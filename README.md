@@ -1,14 +1,13 @@
 # JSchemer
 A simple utility for generating clean HTML from JSON Schema data.
 
-## WARNING
-This package is not yet production-ready, although the HTML generation is stable. The version number will be incremented to 1.0.0 once the package is production-ready.
-
 ## Install
 `npm install --save jschemer`
 
 ## Usage
-`const jschemer = require('jschemer')`;
+`const jschemer = require('jschemer')(config)`;
+
+(Currently there are no config options.)
 
 ## API
 The JSchemer exposes a single method, `convert`, which takes the JSON Schema data as its single argument, in either JSON or string format. `convert` returns a string containing the generated HTML. The returned HTML consists of a single `<section></section>`, not an entire HTML page.
@@ -34,7 +33,6 @@ If you would prefer the properties of a schema to display in a different order, 
 
 ## Notes
 * JSchemer assumes your JSON data is valid according to v4 of the JSON Schema specification. You should validate your JSON Schema data before running JSchemer.
-* [Default values for keywords]
 
 ## Technical Notes
 * HTML is generated using Handlebars

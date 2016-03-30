@@ -1,10 +1,42 @@
+'use strict';
+
 const fs = require('fs');
 const hbs = require('handlebars');
 const markdown = require('markdown').markdown;
 const path = require('path');
 
+// polyfill
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
+    var O = Object(this);
+    var len = parseInt(O.length) || 0;
+    if (len === 0) {
+      return false;
+    }
+    var n = parseInt(arguments[1]) || 0;
+    var k;
+    if (n >= 0) {
+      k = n;
+    } else {
+      k = len + n;
+      if (k < 0) {k = 0;}
+    }
+    var currentElement;
+    while (k < len) {
+      currentElement = O[k];
+      if (searchElement === currentElement ||
+         (searchElement !== searchElement && currentElement !== currentElement)) { // NaN !== NaN
+        return true;
+      }
+      k++;
+    }
+    return false;
+  };
+}
+
 const preprocess = schema => {
   schema = JSON.parse(JSON.stringify(schema));
+
   for (var prop in schema) {
 
     if (prop === 'patternProperties') {
@@ -12,28 +44,44 @@ const preprocess = schema => {
         schema.patternProperties[patt].pattern = patt;
         schema.patternProperties[patt] = preprocess(schema.patternProperties[patt]);
       }
-    } else if (prop === 'type') {
-      schema.type = Array.isArray(schema.type) ? schema.type : [schema.type];
+    } else if (prop === 'items' && schema.items instanceof Object) {
+      schema.items = preprocess(schema.items);
     } else if (prop === 'properties') {
-      for (var key in schema.properties) {
-        if (schema.properties[key].items && schema.properties[key].items instanceof Object) {
-          schema.properties[key].items.object = true;
-        }
+      for (let key in schema.properties) {
         schema.properties[key].title = schema.properties[key].title || key;
+        schema.properties[key]._key = key;
         schema.properties[key] = preprocess(schema.properties[key]);
       }
     } else if (prop === 'default') {
       schema.default = JSON.stringify(schema.default, null, 2);
+    } else if (prop === 'definitions') {
+      for (let key in schema.definitions) {
+        schema.definitions[key].title = schema.definitions[key].title || key;
+        schema.definitions[key]._key = key;
+        schema.definitions[key] = preprocess(schema.definitions[key]);
+      }
+    } else if (prop === '$ref' && schema.$ref.startsWith('#/definitions')) {
+      schema.$ref = schema.$ref.replace('/definitions/', '');
     }
 
+    const noobj = [
+      'additionalProperties',
+      'definitions',
+      'dependencies',
+      'patternProperties',
+      'properties'
+    ];
+
     if (typeof schema[prop] === 'boolean') {
-      schema[prop] = { boolean: schema[prop] };
-    } else if (schema[prop] instanceof Object) {
-      schema.object = true;
+      schema[prop] = { boolean: String(schema[prop]) };
+    } else if (schema[prop] instanceof Object && !noobj.includes(prop)) {
+      schema[prop]._object = true;
     }
 
   }
+
   return schema;
+
 };
 
 /**
