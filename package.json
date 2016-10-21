@@ -17,7 +17,11 @@
       "name": "Alyanna Landayan",
       "email": "alyanna.landayan@gmail.com"
     },
-    {}
+    {
+      "name": "Daniel W. Hieber",
+      "email": "dhieber@umail.ucsb.edu",
+      "url": "http://danielhieber.com"
+    }
   ],
   "main": "jschemer.js",
   "repository": "https://github.com/dwhieb/jschemer.git",
