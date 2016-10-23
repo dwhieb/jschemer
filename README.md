@@ -1,6 +1,13 @@
 # jschemer
 A simple utility for generating clean HTML from JSON Schema data using Node.
 
+[![npm](https://img.shields.io/npm/v/jschemer.svg)](https://www.npmjs.com/package/jschemer)
+[![Travis branch](https://img.shields.io/travis/dwhieb/jschemer/master.svg)](https://travis-ci.org/dwhieb/jschemer)
+[![npm](https://img.shields.io/npm/dt/jschemer.svg)](https://www.npmjs.com/package/jschemer)
+
+[![GitHub forks](https://img.shields.io/github/forks/dwhieb/jschemer.svg?style=social&label=Fork)](https://github.com/dwhieb/jschemer)
+[![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star)](https://github.com/dwhieb/jschemer)
+
 ## Install
 `npm install --save jschemer`
 
