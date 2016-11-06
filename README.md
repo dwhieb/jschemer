@@ -23,7 +23,7 @@ A simple utility for generating clean HTML from JSON Schema data using Node.
 jschemer schema.json
 
 # Compile the /schemas directory to the /docs folder
-jschemer schema.json -o docs
+jschemer /schemas -o docs
 ```
 
 Option             | Description
