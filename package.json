@@ -1,7 +1,7 @@
 {
   "name": "jschemer",
   "version": "2.0.0-alpha.1",
-  "description": "A simple utility for generating clean HTML from JSON Schema data using Node.",
+  "description": "A simple utility that generates documentation for JSON Schema data using Handlebars.",
   "keywords": [
     "json schema",
     "json-schema",
