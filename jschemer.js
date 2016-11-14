@@ -1,7 +1,27 @@
 #!/usr/bin/env node
+/* eslint-disable no-sync */
 
+const fs = require('fs');
 const meta = require('./package.json');
 const program = require('commander');
+
+const checkForDirectory = path => {
+
+  fs.lstat(path, (err, stats) => {
+
+    if (err) throw err;
+
+    if (stats.isDirectory()) {
+      console.log('directory');
+      // TODO: traverse the directory
+    } else {
+      console.log('file');
+      // TODO: process the single schema
+    }
+
+  });
+
+};
 
 const jschemer = function(path, options = {}) {
 
@@ -12,6 +32,24 @@ const jschemer = function(path, options = {}) {
   if (typeof options !== 'object') {
     throw new TypeError(`The 'options' argument must be an object.`);
   }
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`A file or folder with the name "${path}" was not found.`);
+  }
+
+  ['css', 'readme'].forEach(opt => {
+    if (options[opt] && !fs.existsSync(options[opt])) {
+      throw new Error(`A file with the name "${options[opt]}" was not found.`);
+    }
+  });
+
+  // TODO: create an /out folder
+  // TODO: copy jschemer.css into /out folder
+  // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
+  // TODO: convert the readme to HTML
+  // TODO: read the schema / directory of schemas into memory
+  // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
+  // TODO: generate a page for each schema using Handlebars
 
 };
 
