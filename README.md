@@ -23,15 +23,15 @@ A simple utility for generating clean HTML from JSON Schema data using Node.
 jschemer schema.json
 
 # Compile the /schemas directory to the /docs folder
-jschemer /schemas -o docs
+jschemer schemas --out docs
 ```
 
 Option             | Description
 ------------------ | -----------
-`-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
-`-c`, `--css`      | The path to the CSS file to use to style the documentation. Defaults to `out/jschemer.css`.
-`-r`, `--readme`   | A `README.md` file to include in the generated documentation.
+`-c`, `--css`      | The path to the CSS file to use for styling the documentation. Defaults to `out/jschemer.css`.
 `-i`, `--ignore`   | A list of filenames to ignore.
+`-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
+`-r`, `--readme`   | A `README.md` file to include in the generated documentation.
 
 ### Node
 ```js
@@ -40,9 +40,9 @@ const jschemer = require('jschemer');
 const path = 'schemas'; // may be a directory or single file
 
 const opts = {
-  out:    '/docs',
-  ignore: ['ignored.json'],
   css:    'css/custom.css',
+  ignore: ['ignored.json'],
+  out:    '/docs',
   readme: 'README.md'
 };
 

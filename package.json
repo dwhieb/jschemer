@@ -26,7 +26,9 @@
   "main": "jschemer.js",
   "repository": "https://github.com/dwhieb/jschemer.git",
   "dependencies": {
+    "commander": "^2.9.0",
     "handlebars": "^4.0.5",
     "minimist": "^1.2.0"
-  }
+  },
+  "bin": "./jschemer.js"
 }
