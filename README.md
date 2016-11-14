@@ -29,7 +29,7 @@ jschemer /schemas -o docs
 Option             | Description
 ------------------ | -----------
 `-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
-`-c`, `--css`      | The path to the CSS file to use to style the documentation. Defaults to `out/jschemer.css`.
+`-c`, `--css`      | The path to the CSS file to use for styling the documentation. Defaults to `out/jschemer.css`.
 `-r`, `--readme`   | A `README.md` file to include in the generated documentation.
 `-i`, `--ignore`   | A list of filenames to ignore.
 
