@@ -5,6 +5,7 @@ const fs = require('fs');
 const meta = require('./package.json');
 const program = require('commander');
 
+// TODO: use or delete this code
 const checkForDirectory = path => {
 
   fs.lstat(path, (err, stats) => {
@@ -25,6 +26,7 @@ const checkForDirectory = path => {
 
 const jschemer = function(path, options = {}) {
 
+  // validate path and options
   if (typeof path !== 'string') {
     throw new TypeError(`The 'path' argument must be a string.`);
   }
