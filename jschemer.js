@@ -14,10 +14,8 @@ const checkForDirectory = path => {
     if (err) throw err;
 
     if (stats.isDirectory()) {
-      console.log('directory');
       // TODO: traverse the directory
     } else {
-      console.log('file');
       // TODO: process the single schema
     }
 
@@ -45,13 +43,23 @@ const jschemer = function(path, options = {}) {
     }
   });
 
-  // TODO: create an /out folder
-  // TODO: copy jschemer.css into /out folder
-  // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
-  // TODO: convert the readme to HTML
-  // TODO: read the schema / directory of schemas into memory
-  // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
-  // TODO: generate a page for each schema using Handlebars
+// setting Defaults
+
+  options.out = options.out || 'out';
+
+  fs.mkdir(options.out, function() {
+    console.log('done');
+
+    // TODO: copy jschemer.css into /out folder
+    // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
+    // TODO: convert the readme to HTML
+    // TODO: read the schema / directory of schemas into memory
+    // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
+    // TODO: generate a page for each schema using Handlebars
+
+  });
+
+
 
 };
 
