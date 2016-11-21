@@ -31,12 +31,12 @@ const jschemer = function(path, options = {}) {
     // TODO: create a /schemas folder within the /out folder
     // TODO: copy jschemer.css or file specified in css option into /out folder
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
-    // TODO: convert the readme to HTML
     // TODO: read the schema / directory of schemas into memory
     // - use fs.lstat and stats.isDirectory to check for directory
-    // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
-    // TODO: include a link to jschemer.css / specified css file in index.html
-    // TODO: generate a page for each schema using Handlebars
+    // TODO: preprocess each schema
+    // TODO: generate index.html using Handlebars
+    // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
+
     // TODO: export a method for generating only the HTML for a single schema
 
   });
@@ -87,12 +87,11 @@ if (require.main) {
 module.exports = jschemer;
 
 // Schema preprocessing:
-// - add _fileName attribute
 
 // Global context (for both index.hbs and schema-page.hbs)
 // * css: The name (not path) of the css file
 // * nav: An array of object containing information about each schema
-//   - _fileName
+//   - fileName
 //   - title
 
 // Context required for index.hbs
