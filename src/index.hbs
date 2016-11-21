@@ -8,6 +8,31 @@
     <link rel=stylesheet href="{{out}}/{{css}}" type=text/css>
   </head>
 
-  <body></body>
+  <body>
+
+    {{!-- The readme for the documentation --}}
+    <main>{{md readme}}</main>
+
+    {{!-- The list of schemas, with links to their individual pages --}}
+    <nav>
+      <h1>Schemas</h1>
+      <ul>
+        {{#each schema in schemas}}
+          <li>
+            <a href="schemas/{{schema._path}}">
+              {{#if schema.title}}
+                {{!-- Show the schema title if available --}}
+                {{schema.title}}
+              {{else}}
+                {{!-- Show the schema index if the schema's title is unavailable --}}
+                Schema {{@index}}
+              {{/if}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </nav>
+
+  </body>
 
 </html>

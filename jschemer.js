@@ -28,6 +28,7 @@ const jschemer = function(path, options = {}) {
 
   fs.mkdir(options.out || 'out', () => {
 
+    // TODO: create a /schemas folder within the /out folder
     // TODO: copy jschemer.css or file specified in css option into /out folder
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
     // TODO: convert the readme to HTML
@@ -84,3 +85,12 @@ if (require.main) {
 }
 
 module.exports = jschemer;
+
+// Schema preprocessing:
+// - add _path attribute
+
+// Context required for index.hbs
+// - out:     The name of the out folder
+// - css:     The name of the css file
+// - readme:  The text of the readme, in markdown
+// - schemas: An array of schemas
