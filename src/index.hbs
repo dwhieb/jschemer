@@ -1,3 +1,5 @@
+{{!-- This is the template for the main page of the schemas documentation --}}
+
 <!DOCTYPE html>
 <html lang=en>
 
@@ -5,7 +7,7 @@
     <meta charset=utf-8>
     <title>Schemas</title>
     <meta name=viewport content='width=device-width'>
-    <link rel=stylesheet href="{{out}}/{{css}}" type=text/css>
+    <link rel=stylesheet href="{{css}}" type=text/css>
   </head>
 
   <body>
@@ -17,19 +19,7 @@
     <nav>
       <h1>Schemas</h1>
       <ul>
-        {{#each schema in schemas}}
-          <li>
-            <a href="schemas/{{schema._path}}">
-              {{#if schema.title}}
-                {{!-- Show the schema title if available --}}
-                {{schema.title}}
-              {{else}}
-                {{!-- Show the schema index if the schema's title is unavailable --}}
-                Schema {{@index}}
-              {{/if}}
-            </a>
-          </li>
-        {{/each}}
+        {{#each nav}}<li><a href="schemas/{{fileName}}">{{title}}</a></li>{{/each}}
       </ul>
     </nav>
 

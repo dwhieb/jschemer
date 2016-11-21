@@ -20,6 +20,7 @@ A simple utility for generating clean HTML from JSON Schema data using Node.
 jschemer schema.json
 
 # Compile the /schemas directory to the /docs folder
+# NB: jschemer does not create documentation for items in subfolders/subdirectories
 jschemer schemas --out docs
 ```
 
@@ -34,7 +35,7 @@ Option             | Description
 ```js
 const jschemer = require('jschemer');
 
-const path = 'schemas'; // may be a directory or single file
+const path = 'schemas'; // may be a directory or single file (NB: jschemer does not create documentation for items in subfolders/subdirectories)
 
 const opts = {
   css:    'css/custom.css',

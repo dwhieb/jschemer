@@ -87,10 +87,16 @@ if (require.main) {
 module.exports = jschemer;
 
 // Schema preprocessing:
-// - add _path attribute
+// - add _fileName attribute
+
+// Global context (for both index.hbs and schema-page.hbs)
+// * css: The name (not path) of the css file
+// * nav: An array of object containing information about each schema
+//   - _fileName
+//   - title
 
 // Context required for index.hbs
-// - out:     The name of the out folder
-// - css:     The name of the css file
 // - readme:  The text of the readme, in markdown
-// - schemas: An array of schemas
+
+// Context required for schema-page.hbs
+// - A single schema object to create a page for
