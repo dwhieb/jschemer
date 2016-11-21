@@ -28,20 +28,12 @@ const jschemer = function(path, options = {}) {
 
   fs.mkdir(options.out || 'out', () => {
 
-    console.log('done');
-
-    // fs.createReadStream('archive/jschemer.css').pipe(fs.createWriteStream('out/jschemer.css'));
-
+    const throwError = err => { throw err; };
     const rs = fs.createReadStream('archive/jschemer.css');
-    rs.on('error', function(err){
-      throw err;
-    });
-
     const ws = fs.createWriteStream('out/jschemer.css');
-    ws.on('error',function(err){
-      throw err;
-    });
 
+    rs.on('error', throwError);
+    ws.on('error', throwError);
     rs.pipe(ws);
 
     // TODO: create a /schemas folder within the /out folder
