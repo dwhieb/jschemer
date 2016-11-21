@@ -29,23 +29,29 @@ const jschemer = function(path, options = {}) {
   fs.mkdir(options.out || 'out', () => {
 
     const throwError = err => { throw err; };
-    const rs = fs.createReadStream('archive/jschemer.css');
+    const rs = fs.createReadStream(options.css || 'src/jschemer.css');
     const ws = fs.createWriteStream('out/jschemer.css');
 
     rs.on('error', throwError);
     ws.on('error', throwError);
     rs.pipe(ws);
 
-    // TODO: create a /schemas folder within the /out folder
-    // TODO: copy jschemer.css or file specified in css option into /out folder
-    // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
-    // TODO: read the schema / directory of schemas into memory
-    // - use fs.lstat and stats.isDirectory to check for directory
-    // TODO: preprocess each schema
-    // TODO: generate index.html using Handlebars
-    // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
+    fs.mkdir('out/schemas', () => {
 
-    // TODO: export a method for generating only the HTML for a single schema
+      fs.readFile(options.readme || 'src/readme.md', 'utf8', (err, readme) => {
+        console.log(readme);
+        
+        // TODO: read the schema / directory of schemas into memory
+          //find out what the user path variable points to file or directory
+          // - use fs.lstat and stats.isDirectory to check for directory
+          //problems to solve: determine whether user gave file or folder in path variable
+        // TODO: preprocess each schema
+        // TODO: generate index.html using Handlebars
+        // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
+        // TODO: export a method for generating only the HTML for a single schema
+      });
+
+    });
 
   });
 
