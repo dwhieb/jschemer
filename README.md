@@ -1,15 +1,12 @@
 # jschemer
 A simple utility for generating clean HTML from JSON Schema data using Node.
 
-[![npm](https://img.shields.io/npm/v/documentdb-session.svg?maxAge=2592000)](https://www.npmjs.com/package/jschemer)
-[![Build Status](https://travis-ci.org/dwhieb/jschemer.svg?branch=master)](https://travis-ci.org/dwhieb/jschemer)
-[![npm](https://img.shields.io/npm/dt/jschemer.svg?maxAge=2592000)](https://www.npmjs.com/package/jschemer)
-[![David](https://img.shields.io/david/dwhieb/jschemer.svg?maxAge=2592000)](https://github.com/dwhieb/jschemer)
+[![npm](https://img.shields.io/npm/v/jschemer.svg)](https://www.npmjs.com/package/jschemer)
+[![David](https://img.shields.io/david/dwhieb/jschemer.svg)](https://www.npmjs.com/package/jschemer)
+[![npm](https://img.shields.io/npm/dt/jschemer.svg)](https://www.npmjs.com/package/jschemer)
+[![Travis](https://img.shields.io/travis/dwhieb/jschemer.svg)](https://travis-ci.org/dwhieb/jschemer)
+[![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star)](https://github.com/dwhieb/jschemer/)
 [![GitHub issues](https://img.shields.io/github/issues/dwhieb/jschemer.svg)](https://github.com/dwhieb/jschemer/issues)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dwhieb/jschemer/master/LICENSE)
-
-[![GitHub forks](https://img.shields.io/github/forks/dwhieb/jschemer.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/dwhieb/jschemer)
-[![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star&maxAge=2592000)](https://github.com/dwhieb/documentdb-session)
 
 ## Install
 `npm install --save jschemer`
