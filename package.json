@@ -30,5 +30,8 @@
     "handlebars": "^4.0.5",
     "minimist": "^1.2.0"
   },
-  "bin": "./jschemer.js"
+  "bin": "./jschemer.js",
+  "scripts": {
+    "build": "lessc jschemer.less jschemer.css"
+  }
 }

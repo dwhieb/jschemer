@@ -43,12 +43,7 @@ const jschemer = function(path, options = {}) {
     }
   });
 
-// setting Defaults
-
-  options.out = options.out || 'out';
-
-  fs.mkdir(options.out, function() {
-    console.log('done');
+  fs.mkdir(options.out || 'out', () => {
 
     // TODO: copy jschemer.css into /out folder
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
@@ -58,8 +53,6 @@ const jschemer = function(path, options = {}) {
     // TODO: generate a page for each schema using Handlebars
 
   });
-
-
 
 };
 
