@@ -32,6 +32,6 @@
   },
   "bin": "./jschemer.js",
   "scripts": {
-    "build": "lessc jschemer.less jschemer.css"
+    "build": "lessc src/jschemer.less src/jschemer.css"
   }
 }
