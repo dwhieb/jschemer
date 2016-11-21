@@ -6,23 +6,6 @@ const fs = require('fs');
 const meta = require('./package.json');
 const program = require('commander');
 
-// temp code
-const checkForDirectory = path => {
-
-  fs.lstat(path, (err, stats) => {
-
-    if (err) throw err;
-
-    if (stats.isDirectory()) {
-      // TODO: traverse the directory
-    } else {
-      // TODO: process the single schema
-    }
-
-  });
-
-};
-
 const jschemer = function(path, options = {}) {
 
   if (typeof path !== 'string') {
@@ -43,11 +26,8 @@ const jschemer = function(path, options = {}) {
     }
   });
 
-// setting Defaults
+  fs.mkdir(options.out || 'out', () => {
 
-  options.out = options.out || 'out';
-
-  fs.mkdir(options.out, function() {
     console.log('done');
 
     // fs.createReadStream('archive/jschemer.css').pipe(fs.createWriteStream('out/jschemer.css'));
@@ -64,12 +44,16 @@ const jschemer = function(path, options = {}) {
 
     rs.pipe(ws);
 
-    // TODO: copy jschemer.css into /out folder
+    // TODO: create a /schemas folder within the /out folder
+    // TODO: copy jschemer.css or file specified in css option into /out folder
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
-    // TODO: convert the readme to HTML
     // TODO: read the schema / directory of schemas into memory
-    // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
-    // TODO: generate a page for each schema using Handlebars
+    // - use fs.lstat and stats.isDirectory to check for directory
+    // TODO: preprocess each schema
+    // TODO: generate index.html using Handlebars
+    // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
+
+    // TODO: export a method for generating only the HTML for a single schema
 
   });
 
@@ -117,3 +101,17 @@ if (require.main) {
 }
 
 module.exports = jschemer;
+
+// Schema preprocessing:
+
+// Global context (for both index.hbs and schema-page.hbs)
+// * css: The name (not path) of the css file
+// * nav: An array of object containing information about each schema
+//   - fileName
+//   - title
+
+// Context required for index.hbs
+// - readme:  The text of the readme, in markdown
+
+// Context required for schema-page.hbs
+// - A single schema object to create a page for
