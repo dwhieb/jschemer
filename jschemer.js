@@ -6,23 +6,6 @@ const fs = require('fs');
 const meta = require('./package.json');
 const program = require('commander');
 
-// temp code
-const checkForDirectory = path => {
-
-  fs.lstat(path, (err, stats) => {
-
-    if (err) throw err;
-
-    if (stats.isDirectory()) {
-      // TODO: traverse the directory
-    } else {
-      // TODO: process the single schema
-    }
-
-  });
-
-};
-
 const jschemer = function(path, options = {}) {
 
   if (typeof path !== 'string') {
@@ -49,6 +32,7 @@ const jschemer = function(path, options = {}) {
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
     // TODO: convert the readme to HTML
     // TODO: read the schema / directory of schemas into memory
+    // - use fs.lstat and stats.isDirectory to check for directory
     // TODO: generate index.html using Handlebars, the readme data, and the list of schemas
     // TODO: include a link to jschemer.css / specified css file in index.html
     // TODO: generate a page for each schema using Handlebars
