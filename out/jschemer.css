@@ -1,0 +1,67 @@
+.schema {
+  border-radius: 0.25em;
+  box-shadow: 0px 0px 3px 3px #ccc;
+  font-family: 'Fira Sans';
+  margin: 0.5rem 0rem;
+  padding: 1rem 1.5rem;
+}
+.schema a {
+  border-bottom: 1px solid white;
+  color: #3399ff;
+}
+.schema a:link {
+  color: #3399ff;
+}
+.schema a:visited {
+  color: #3399ff;
+}
+.schema a:hover {
+  border-bottom: 1px solid #3399ff;
+}
+.schema a:active {
+  color: #3399ff;
+}
+.schema code {
+  font-family: 'Fira Mono';
+  font-weight: normal;
+}
+.schema em {
+  font-style: italic;
+}
+.schema h1,
+.schema h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.schema h1 code,
+.schema h2 code {
+  font-size: 1.25rem;
+}
+.schema h2 {
+  padding-top: 0.5rem;
+}
+.schema .link {
+  border-bottom: 1px solid white;
+  color: #3399ff;
+}
+.schema .link:link {
+  color: #3399ff;
+}
+.schema .link:visited {
+  color: #3399ff;
+}
+.schema .link:hover {
+  border-bottom: 1px solid #3399ff;
+}
+.schema .link:active {
+  color: #3399ff;
+}
+.schema p {
+  padding: 0.25rem 0rem;
+}
+.schema pre {
+  font-family: 'Fira Mono';
+}
+.schema strong {
+  font-weight: bold;
+}

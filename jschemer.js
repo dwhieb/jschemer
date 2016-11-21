@@ -50,6 +50,20 @@ const jschemer = function(path, options = {}) {
   fs.mkdir(options.out, function() {
     console.log('done');
 
+    // fs.createReadStream('archive/jschemer.css').pipe(fs.createWriteStream('out/jschemer.css'));
+
+    const rs = fs.createReadStream('archive/jschemer.css');
+    rs.on('error', function(err){
+      throw err;
+    });
+
+    const ws = fs.createWriteStream('out/jschemer.css');
+    ws.on('error',function(err){
+      throw err;
+    });
+
+    rs.pipe(ws);
+
     // TODO: copy jschemer.css into /out folder
     // TODO: if no readme option was provided, generate a generic readme (as a string); otherwise, read the data from the readme file into memory
     // TODO: convert the readme to HTML
@@ -58,8 +72,6 @@ const jschemer = function(path, options = {}) {
     // TODO: generate a page for each schema using Handlebars
 
   });
-
-
 
 };
 
