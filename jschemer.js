@@ -47,10 +47,9 @@ const jschemer = function(path, options = {}) {
         const schemas = [];
 
         const readFile = filename => {
-          // read the file (using fs.readFile)
-          // add the contents of the file to the schemas array (using .push)
-          // the schemas array will wind up being an array of strings
-        };
+          fs.readFile(filename, 'utf8', (err, data) => {
+            schemas.push(data);
+          };
 
         fs.stat(path, (err, stats) => {
 
