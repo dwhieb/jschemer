@@ -3,6 +3,7 @@
 
 // modules
 const fs = require('fs');
+const hbs = require('handlebars');
 const meta = require('./package.json');
 const program = require('commander');
 
@@ -37,11 +38,11 @@ const jschemer = function(path, options = {}) {
     rs.pipe(ws);
 
     fs.mkdir('out/schemas', err => {
-
-      if (err) throw err;
+      if (err && !err.message.includes('EEXIST')) {
+        throw err;
+      }
 
       fs.readFile(options.readme || 'src/readme.md', 'utf8', (err, readme) => {
-
         if (err) throw err;
 
         const schemas = [];
@@ -49,14 +50,17 @@ const jschemer = function(path, options = {}) {
         const readFile = filename => {
           fs.readFile(filename, 'utf8', (err, data) => {
             schemas.push(data);
-          };
+          });
+        };
 
         fs.stat(path, (err, stats) => {
 
           if (stats.isFile()) {
+            fs.readFile(filename, 'utf8', (err, data) => {
+              schemas.push(data);
 
-            // read the file
-            readFile(path);
+              //preprocess(schemas);
+            });
 
           } else if (stats.isDirectory()) {
 
@@ -71,10 +75,6 @@ const jschemer = function(path, options = {}) {
 
         });
 
-        // TODO: read the schema / directory of schemas into memory
-          //find out what the user path variable points to file or directory
-          // - use fs.stat and stats.isDirectory to check for directory
-          //problems to solve: determine whether user gave file or folder in path variable
         // TODO: preprocess each schema
         // TODO: generate index.html using Handlebars
         // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
