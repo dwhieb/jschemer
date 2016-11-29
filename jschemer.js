@@ -62,9 +62,9 @@ const jschemer = function(path, options = {}) {
         }
 
         // TODO: read the schema / directory of schemas into memory
-          //find out what the user path variable points to file or directory
+          // find out what the user path variable points to file or directory
           // - use fs.stat and stats.isDirectory to check for directory
-          //problems to solve: determine whether user gave file or folder in path variable
+          // problems to solve: determine whether user gave file or folder in path variable
         // TODO: preprocess each schema
         // TODO: generate index.html using Handlebars
         // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
