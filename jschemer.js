@@ -36,9 +36,13 @@ const jschemer = function(path, options = {}) {
     ws.on('error', throwError);
     rs.pipe(ws);
 
-    fs.mkdir('out/schemas', () => {
+    fs.mkdir('out/schemas', err => {
+
+      if (err) throw err;
 
       fs.readFile(options.readme || 'src/readme.md', 'utf8', (err, readme) => {
+
+        if (err) throw err;
 
         const schemas = [];
 
@@ -48,18 +52,25 @@ const jschemer = function(path, options = {}) {
           // the schemas array will wind up being an array of strings
         };
 
-        // will probably have to move this if/else block inside the fs.stat callback
-        if (/* is file */) {
+        fs.stat(path, (err, stats) => {
 
-          // read the file
-          readFile(path);
+          if (stats.isFile()) {
 
-        } else (/* is directory */) {
+            // read the file
+            readFile(path);
 
-          // gets list of files in the directory, and runs the readFile function for each one
-          fs.readdir(path, 'utf8', (err, filenames) => filenames.forEach(readFile));
+          } else if (stats.isDirectory()) {
 
-        }
+            // gets list of files in the directory, and runs the readFile function for each one
+            fs.readdir(path, 'utf8', (err, filenames) => filenames.forEach(readFile));
+
+          } else {
+
+            throw new Error('Unable to determine whether the "path" argument is a file or directory.');
+
+          }
+
+        });
 
         // TODO: read the schema / directory of schemas into memory
           //find out what the user path variable points to file or directory
