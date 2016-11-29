@@ -39,11 +39,6 @@ const jschemer = function(path, options = {}) {
     fs.mkdir('out/schemas', () => {
 
       fs.readFile(options.readme || 'src/readme.md', 'utf8', (err, readme) => {
-        console.log(readme);
-
-      fs.readFile('archive/schema.hbs' || 'out/schemas', 'utf8', (err, data) => {
-
-      });
 
         // TODO: read the schema / directory of schemas into memory
           //find out what the user path variable points to file or directory
