@@ -40,14 +40,36 @@ const jschemer = function(path, options = {}) {
 
       fs.readFile(options.readme || 'src/readme.md', 'utf8', (err, readme) => {
 
+        const schemas = [];
+
+        const readFile = filename => {
+          // read the file (using fs.readFile)
+          // add the contents of the file to the schemas array (using .push)
+          // the schemas array will wind up being an array of strings
+        };
+
+        // will probably have to move this if/else block inside the fs.stat callback
+        if (/* is file */) {
+
+          // read the file
+          readFile(path);
+
+        } else (/* is directory */) {
+
+          // gets list of files in the directory, and runs the readFile function for each one
+          fs.readdir(path, 'utf8', (err, filenames) => filenames.forEach(readFile));
+
+        }
+
         // TODO: read the schema / directory of schemas into memory
           //find out what the user path variable points to file or directory
-          // - use fs.lstat and stats.isDirectory to check for directory
+          // - use fs.stat and stats.isDirectory to check for directory
           //problems to solve: determine whether user gave file or folder in path variable
         // TODO: preprocess each schema
         // TODO: generate index.html using Handlebars
         // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
         // TODO: export a method for generating only the HTML for a single schema
+
       });
 
     });
