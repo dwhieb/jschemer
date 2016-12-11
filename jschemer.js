@@ -72,9 +72,14 @@ const jschemer = function(path, options = {}) {
             throw new Error('Unable to determine whether the "path" argument is a file or directory.');
 
           }
+            //readfile gogauchos.hbs ('template') + data.json ('data')
+            // save readfile into var
+            //then compile template which hands back function
+            //run given back function on data var which will return htm
+
+
 
         });
-
         // TODO: preprocess each schema
         // TODO: generate index.html using Handlebars
         // TODO: generate a page for each schema using Handlebars, and place them in the /schemas folder
