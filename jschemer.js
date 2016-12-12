@@ -179,7 +179,6 @@ const jschemer = (schemaPath, options = {}) => {
   //   getFileNames => readFiles => preprocessSchemas
   //   getReadme
   // ]
-  // createContext
   // [
   //   createIndexPage
   //   createSchemaPages
