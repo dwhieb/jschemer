@@ -27,11 +27,11 @@
   "repository": "https://github.com/dwhieb/jschemer.git",
   "dependencies": {
     "commander": "^2.9.0",
-    "handlebars": "^4.0.5",
-    "minimist": "^1.2.0"
+    "handlebars": "^4.0.5"
   },
   "bin": "./jschemer.js",
   "scripts": {
-    "build": "lessc src/jschemer.less src/jschemer.css"
+    "build": "lessc src/jschemer.less src/jschemer.css",
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   }
 }
