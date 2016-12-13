@@ -1,3 +1,149 @@
 {
-  "title": "Test Schema"
+  "$schema": "http://json-schema.org/draft-05/schema#",
+  "title": "Test Schema",
+  "id": "https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schema.json",
+  "description": "This is a schema designed to test the jschemer package.",
+  "type": "object",
+
+  "maxProperties": 100,
+  "minProperties": 2,
+  "required": ["num"],
+  "additionalProperties": true,
+
+  "dependencies": {
+    "obj": {
+      "required": ["str"]
+    },
+    "arr1": ["arr2"]
+  },
+
+  "definitions": {
+    "definedProp": { "type": "integer" }
+  },
+
+  "properties": {
+
+    "arr1": {
+      "title": "Array Property 1",
+      "type": "array",
+      "items": [
+        { "type": "string" },
+        { "$ref": "#/definitions/definedProp" }
+      ],
+      "additionalItems": { "type": "object" }
+    },
+
+    "arr2": {
+      "title": "Array Property 2",
+      "type": "array",
+      "items": { "type": "number" },
+      "maxItems": 12,
+      "minItems": 2,
+      "uniqueItems": true
+    },
+
+    "arr3": {
+      "title": "Array Property 3",
+      "type": "array",
+      "items": [
+        { "type": "number" },
+        { "type": "number" }
+      ],
+      "additionalItems": false
+    },
+
+    "num": {
+      "title": "Number Property",
+      "type": "integer",
+      "multipleOf": 4,
+      "maximum": 20,
+      "exclusiveMaximum": true,
+      "minimum": 4,
+      "exclusiveMinimum": false
+    },
+
+    "obj": {
+      "title": "Object Property",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+
+    "str": {
+      "title": "String Property",
+      "type": "string",
+      "maxLength": 16,
+      "minLength": 4,
+      "pattern": "[a-z]",
+      "enum": ["aaaa", "bbbbb", "cccccc", "ddddddd"]
+    }
+
+  },
+
+  "patternProperties": {
+    "[A-Z]": { "type": "string" }
+  },
+
+  "allOf": [
+    {
+      "required": ["prop1"],
+      "properties": {
+        "prop1": { "type": "string" }
+      }
+    },
+    {
+      "required": ["prop2"],
+      "properties": {
+        "prop2": { "type": "string" }
+      }
+    }
+  ],
+
+  "anyOf": [
+    {
+      "required": ["string-prop-1"],
+      "properties": {
+        "string-prop-1": { "type": "string" }
+      }
+    },
+    {
+      "required": ["string-prop-2"],
+      "properties": {
+        "string-prop-2": { "type": "string" }
+      }
+    }
+  ],
+
+  "oneOf": [
+    {
+      "required": ["oneOf1"],
+      "properties": {
+        "oneOf1": { "type": "number" }
+      }
+    },
+    {
+      "required": ["oneOf2"],
+      "properties": {
+        "oneOf2": { "type": "string" }
+      }
+    }
+  ],
+
+  "not": {
+    "required": ["cid"],
+    "properties": {
+      "cid": {}
+    }
+  },
+
+  "default": {
+    "num": 8,
+    "prop1": "hello",
+    "prop2": "hola",
+    "string-prop-1": "jambo",
+    "oneOf1": "salve"
+  }
+
 }
