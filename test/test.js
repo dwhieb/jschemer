@@ -19,7 +19,7 @@ describe('jschemer', function() {
 
   it('is a function that returns a Promise', function() {
     expect(typeof jschemer).toBe('function');
-    expect(jschemer(schemaPath) instanceof Promise).toBe(true);
+    expect(jschemer(schemaPath).catch(fail) instanceof Promise).toBe(true);
   });
 
   it('can be run twice consecutively', function(done) {
@@ -31,11 +31,11 @@ describe('jschemer', function() {
 
   it('validates arguments correctly', function() {
 
-    const badOpts = () => jschemer(schemaPath, 'string');
-    const badPath = () => jschemer({});
-    const noArgs  = () => jschemer();
-    const noOpts  = () => jschemer(schemaPath);
-    const noPath  = () => jschemer(null, {});
+    const badOpts = () => jschemer(schemaPath, 'string').catch(fail);
+    const badPath = () => jschemer({}).catch(fail);
+    const noArgs  = () => jschemer().catch(fail);
+    const noOpts  = () => jschemer(schemaPath).catch(fail);
+    const noPath  = () => jschemer(null, {}).catch(fail);
 
     expect(badOpts).toThrow();
     expect(badPath).toThrow();
@@ -47,15 +47,13 @@ describe('jschemer', function() {
 
   it('validates options correctly', function(done) {
 
-    const emptyIgnore     = () => jschemer(schemaPath, { ignore: [] });
-    const emptyOpts       = () => jschemer(schemaPath, {});
-    const invalidCss      = () => jschemer(schemaPath, { css: 'does/not/exist' });
-    const invalidIgnore   = () => jschemer(schemaPath, { ignore: ['notreal.json'] });
-    const invalidReadme   = () => jschemer(schemaPath, { readme: 'notreal.md' });
-    const wrongTypeCss    = () => jschemer(schemaPath, { css: true });
-    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true });
-    const wrongTypeOut    = () => jschemer(schemaPath, { out: true });
-    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true });
+    const emptyIgnore     = () => jschemer(schemaPath, { ignore: [] }).catch(fail);
+    const emptyOpts       = () => jschemer(schemaPath, {}).catch(fail);
+    const invalidIgnore   = () => jschemer(schemaPath, { ignore: ['notreal.json'] }).catch(fail);
+    const wrongTypeCss    = () => jschemer(schemaPath, { css: true }).catch(fail);
+    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true }).catch(fail);
+    const wrongTypeOut    = () => jschemer(schemaPath, { out: true }).catch(fail);
+    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true }).catch(fail);
 
     expect(emptyIgnore).not.toThrow();
     expect(emptyOpts).not.toThrow();
@@ -65,12 +63,12 @@ describe('jschemer', function() {
     expect(wrongTypeOut).toThrow();
     expect(wrongTypeReadme).toThrow();
 
-    Promise.all([
-      invalidReadme().then(fail).catch(done),
-      invalidCss().then(fail).catch(done),
-    ])
-    .then(done);
+    const invalidCss    = () => jschemer(schemaPath, { css: 'does/not/exist' });
+    const invalidReadme = () => jschemer(schemaPath, { readme: 'notreal.md' });
 
+    invalidCss()
+    .then(fail, () => invalidReadme().then(fail, done))
+    .catch(fail);
 
   });
 
