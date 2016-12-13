@@ -24,7 +24,7 @@ describe('jschemer', function() {
 
   it('can be run twice consecutively', function(done) {
     jschemer(schemaPath)
-    // .then(() => jschemer(schemaPath))
+    .then(() => jschemer(schemaPath))
     .then(done)
     .catch(fail);
   });
