@@ -8,12 +8,13 @@ const program = require('commander');
 
 const wrapError = (err, message) => {
   const e = new Error(message);
+
   e.inner = err;
   return e;
 };
 
 // the jschemer function exported by this module
-const jschemer = (schemaPath, options = {}) => {
+const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-statements
 
   // validate arguments
   if (typeof schemaPath !== 'string') {
@@ -170,20 +171,20 @@ const jschemer = (schemaPath, options = {}) => {
   // makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
   // (also populates the nav array)
   const preprocessSchemas = () => schemas.forEach(function preprocess(schema) {
+    /* eslint-disable no-param-reassign */
 
     nav.push({
-      title:    schema.title,
       filename: schema._filename,
+      title:    schema.title,
     });
 
-    // TODO: Danny
-
-    // The preprocess function should be called recursively on any subschemas
-
-    // NB: The "_filename" attribute was already added during the readFile step
+    Object.keys(schema).forEach(key => {
+      if (typeof schema[key] === 'object') schema[key]._key = key;
+    });
 
     return schema;
 
+    /* eslint-enable no-param-reassign */
   });
 
   // reads a file and adds its data to the schemas array

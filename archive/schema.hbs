@@ -1,9 +1,5 @@
 <section class=schema>
 
-  {{#if title}}
-    <h1 class='title meta-prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
-  {{/if}}
-
   {{#if $schema}}
     <p class='$schema prop'><strong>Validate against:</strong> <a href={{schema}}>{{$schema}}</a></p>
   {{/if}}

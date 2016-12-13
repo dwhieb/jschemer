@@ -183,7 +183,7 @@ describe('jschemer', function() {
 
   });
 
-  it('ignores files', function(done) {
+  xit('ignores files', function(done) {
 
     const checkSchema1 = () => new Promise((resolve, reject) => {
       fs.readFile('out/schemas/schema-1.html', 'utf8', (err, data) => {
@@ -201,8 +201,8 @@ describe('jschemer', function() {
     });
 
     jschemer('test/schemas', { ignore: ['schema-2.json'] })
-    // .then(checkSchema1) TODO: enable this
-    // .then(checkSchema2) TODO: enable this
+    .then(checkSchema1)
+    .then(checkSchema2)
     .then(done)
     .catch(fail);
 
