@@ -101,10 +101,9 @@ const jschemer = (schemaPath, options = {}) => {
   // create the /out/schemas directory
   const createSchemasFolder = () => new Promise((resolve, reject) => {
 
-    fs.mkdir(path.join(outPath, 'schemas'), err => {
+    fs.mkdir(path.join(__dirname, outPath, 'schemas'), err => {
 
       if (err && !err.message.includes('EEXIST')) {
-        console.log(err);
         reject(wrapError(err, `Unable to create the /schemas directory.`));
       }
 
