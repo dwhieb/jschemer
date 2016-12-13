@@ -17,9 +17,15 @@ describe('jschemer', function() {
 
   beforeEach(deleteOutFolder);
 
-  it('is a function that returns a Promise', function() {
+  it('is a function that returns a Promise', function(done) {
+
+    const run = jschemer(schemaPath)
+    .then(done)
+    .catch(fail);
+
+    expect(run instanceof Promise).toBe(true);
     expect(typeof jschemer).toBe('function');
-    // expect(jschemer(schemaPath).catch(fail) instanceof Promise).toBe(true);
+
   });
 
   it('can be run twice consecutively', function(done) {
