@@ -1,4 +1,5 @@
 /* eslint-disable
+  consistent-return,
   func-names,
   max-nested-callbacks,
   max-statements,
@@ -67,47 +68,50 @@ describe('jschemer', function() {
     Promise.all([
       invalidReadme().then(fail).catch(done),
       invalidCss().then(fail).catch(done),
-    ]).then(done);
+    ])
+    .then(done);
 
 
   });
 
-  xit('creates the documentation folder and files', function(done) {
+  it('creates the documentation folder and files', function(done) {
 
-    const checkCss = () => new Promise(resolve => {
-      fs.stat('out/jschemer.css', err => {
-        // TODO: CSS should contain a known rule from the default CSS
-        if (err) fail(err);
-        else resolve();
+    const checkCss = () => new Promise((resolve, reject) => {
+      fs.readFile('out/jschemer.css', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        const comment = 'default stylesheet for jschemer documentation pages';
+        expect(data.includes(comment)).toBe(true);
+        resolve();
       });
     });
 
-    const checkIndex = () => new Promise(resolve => {
-      fs.stat('out/index.html', err => {
-        // TODO: index.html should contain the default readme
-        if (err) fail(err);
-        else resolve();
+    const checkIndex = () => new Promise((resolve, reject) => {
+      fs.readFile('out/index.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        const text = 'Click on any of the schemas in the menu to view its documentation.';
+        expect(data.includes(text)).toBe(true);
+        resolve();
       });
     });
 
-    const checkOutFolder = () => new Promise(resolve => {
+    const checkOutFolder = () => new Promise((resolve, reject) => {
       fs.stat('out', err => {
-        if (err) fail(err);
+        if (err) reject(err);
         else resolve();
       });
     });
 
-    const checkSchema = () => new Promise(resolve => {
-      fs.stat('out/schemas/schema.html', err => {
-        // TODO: schema.html should contain the correct title
-        if (err) fail(err);
-        else resolve();
+    const checkSchema = () => new Promise((resolve, reject) => {
+      fs.readFile('out/schemas/schema.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('>Test Schema<')).toBe(true);
+        resolve();
       });
     });
 
-    const checkSchemasFolder = () => new Promise(resolve => {
+    const checkSchemasFolder = () => new Promise((resolve, reject) => {
       fs.stat('out/schemas', err => {
-        if (err) fail(err);
+        if (err) reject(err);
         else resolve();
       });
     });
@@ -116,27 +120,126 @@ describe('jschemer', function() {
     .then(checkOutFolder)
     .then(checkSchemasFolder)
     .then(checkCss)
-    .then(checkIndex)
-    .then(checkSchema)
+    // .then(checkIndex) TODO: enable this
+    // .then(checkSchema) TODO: enable this
     .then(done)
     .catch(fail);
 
   });
 
-  xit('creates a custom CSS file', function(done) {
-    // TODO: custom.css exists, and contains a rule from the original CSS file
+  xit('creates multiple schemas', function(done) {
+
+    const checkSchema1 = () => new Promise((resolve, reject) => {
+      fs.readFile('out/schemas/schema-1.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('>Test Schema 1<')).toBe(true);
+        resolve();
+      });
+    });
+
+    const checkSchema2 = () => new Promise((resolve, reject) => {
+      fs.readFile('out/schemas/schema-2.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('>Test Schema 2<')).toBe(true);
+        resolve();
+      });
+    });
+
+    jschemer('test/schemas')
+    .then(checkSchema1)
+    .then(checkSchema2)
+    .then(done)
+    .catch(fail);
+
   });
 
-  xit('ignores files', function(done) {
-    // TODO: schema-1.html exists but schema-2.html does not
+  it('creates a custom CSS file', function(done) {
+
+    const checkCustomCss = () => new Promise((resolve, reject) => {
+      fs.readFile('out/custom.css', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('color: yellow;')).toBe(true);
+        resolve();
+      });
+    });
+
+    const checkLinkPath = () => new Promise((resolve, reject) => {
+      fs.readFile('out/index.hbs', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('out/custom.css')).toBe(true);
+        resolve();
+      });
+    });
+
+    jschemer(schemaPath, { css: 'test/custom.css' })
+    .then(checkCustomCss)
+    // .then(checkLinkPath) TODO: enable this
+    .then(done)
+    .catch(fail);
+
   });
 
-  xit('creates a custom /out folder', function(done) {
-    // TODO: the folder should be called '/docs'
+  it('ignores files', function(done) {
+
+    const checkSchema1 = () => new Promise((resolve, reject) => {
+      fs.readFile('out/schemas/schema-1.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('>Test Schema 1<')).toBe(true);
+        resolve();
+      });
+    });
+
+    const checkSchema2 = () => new Promise((resolve, reject) => {
+      fs.stat('out/schemas/schema-2.html', 'utf8', err => {
+        if (err && err.code === 'ENOENT') return resolve();
+        reject(err);
+      });
+    });
+
+    jschemer('test/schemas', { ignore: ['schema-2.json'] })
+    // .then(checkSchema1) TODO: enable this
+    // .then(checkSchema2) TODO: enable this
+    .then(done)
+    .catch(fail);
+
+  });
+
+  it('creates a custom /out folder', function(done) {
+
+    const checkOutFolder = () => new Promise((resolve, reject) => {
+      fs.stat('docs', err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+    const deleteDocsFolder = () => new Promise(resolve => {
+      exec('rm -r docs', resolve);
+    });
+
+    jschemer(schemaPath, { out: 'docs' })
+    .then(checkOutFolder)
+    .then(deleteDocsFolder)
+    .then(done)
+    .catch(fail);
+
   });
 
   xit('includes a custom readme', function(done) {
-    // TODO: index.html should include content from the custom readme
+
+    const checkReadme = () => new Promise((resolve, reject) => {
+      fs.readFile('out/index.html', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('>Custom Readme>')).toBe(true);
+        resolve();
+      });
+    });
+
+    jschemer(schemaPath, { readme: 'test/custom-readme.md' })
+    .then(checkReadme)
+    .then(done)
+    .catch(fail);
+
   });
 
   afterAll(deleteOutFolder);
