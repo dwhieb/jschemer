@@ -105,6 +105,7 @@ describe('jschemer', function() {
       fs.readFile('out/jschemer.css', 'utf8', (err, data) => {
         if (err) return reject(err);
         const comment = 'default stylesheet for jschemer documentation pages';
+
         expect(data.includes(comment)).toBe(true);
         resolve();
       });
