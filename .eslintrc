@@ -2,7 +2,9 @@
   "extends": "../eslintrc/.eslintrc",
   "rules": {
     "callback-return": "warn",
-    "max-nested-callbacks": ["warn", 3],
+    "consistent-return": "off",
+    "guard-for-in": "off",
+    "max-nested-callbacks": ["warn", 4],
     "no-catch-shadow": "off",
     "no-underscore-dangle": "off"
   }

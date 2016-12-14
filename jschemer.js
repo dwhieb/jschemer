@@ -2,58 +2,60 @@
 
 // modules
 const fs = require('fs');
+const hbs = require('handlebars');
 const meta = require('./package.json');
-const path = require('path');
+const Path = require('path');
 const program = require('commander');
 
 const wrapError = (err, message) => {
+
   const e = new Error(message);
 
   e.inner = err;
   return e;
+
 };
 
 // the jschemer function exported by this module
-const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-statements
+const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
   // validate arguments
-  if (typeof schemaPath !== 'string') {
-    throw new TypeError(`The 'schemaPath' argument must be a string.`);
+  if (typeof path !== 'string') {
+    throw new TypeError(`The 'path' argument must be a string.`);
   }
 
   if (typeof options !== 'object') {
     throw new TypeError(`The 'options' argument must be an object.`);
   }
 
-  if (options.css && typeof options.css !== 'string') {
+  if ('css' in options && typeof options.css !== 'string') {
     throw new TypeError(`The 'css' option must be a string.`);
   }
 
-  if (options.ignore && !(
+  if ('ignore' in options && !(
     Array.isArray(options.ignore)
     && options.ignore.every(item => typeof item === 'string')
   )) {
     throw new TypeError(`The 'ignore' option must be an array of filenames.`);
   }
 
-  if (options.out && typeof options.out !== 'string') {
+  if ('out' in options && typeof options.out !== 'string') {
     throw new TypeError(`The 'out' option must be a string.`);
   }
 
-  if (options.readme && typeof options.readme !== 'string') {
+  if ('readme' in options && typeof options.readme !== 'string') {
     throw new TypeError(`The 'readme' option must be a string.`);
   }
 
   // initialize options and other function-scoped variables
   const cssPath = options.css || 'src/jschemer.css';
-  const cssFilename = path.parse(cssPath).base;
-  const filenames = [];
+  const cssFilename = Path.parse(cssPath).base;
   const ignore = options.ignore || [];
   const outPath = options.out || 'out';
-  const nav = [];
   const readmePath = options.readme || 'src/readme.md';
+  const nav = [];
   const schemas = [];
-  let readme = ''; // eslint-disable-line no-unused-vars
+  let schemaPath = path;
 
   // copy the CSS file into the /out directory
   const copyCSS = () => new Promise((resolve, reject) => {
@@ -69,12 +71,13 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
   });
 
   // creates the index.html page
-  const createIndexPage = () => new Promise((resolve, reject) => {
+  const createIndexPage = readme => new Promise((resolve, reject) => {
     // TODO: Alyanna
     // Context:
     // - css
     // - nav
     // - readme
+    resolve();
   });
 
   // create the '/out' directory
@@ -91,18 +94,50 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
   });
 
   // create a documentation page for each schema
-  const createSchemaPages = () => Promise.all(schemas.map(schema => new Promise((resolve, reject) => {
-    // TODO: Alyanna
-    // Context (for each page):
-    // - css
-    // - nav
-    // - schema
-  })));
+  const createSchemaPages = () => new Promise((resolve, reject) => {
+
+    fs.readFile('src/schema.hbs', 'utf8', (err, schemaTemplate) => {
+
+      if (err) return reject(wrapError(err, 'Unable to read contents of schema.hbs.'));
+
+      hbs.registerPartial('schema', schemaTemplate);
+
+      fs.readFile('src/schema-page.hbs', 'utf8', (err, pageTemplate) => {
+
+        if (err) return reject(wrapError(err, 'Unable to read contents of schema-page.hbs.'));
+
+        Promise.all(schemas.map(schema => new Promise((resolve, reject) => {
+
+          const convert = hbs.compile(pageTemplate);
+          const html = convert({
+            css: cssFilename,
+            nav,
+            schema,
+          });
+
+          const filename = schema._filename.includes('.json') ?
+            schema._filename.replace('.json', '.html')
+            : `${schema._filename}.html`;
+
+          fs.writeFile(Path.join(outPath, 'schemas', filename), html, err => {
+            if (err) reject(wrapError(err, `Unable to create documentation page for the "${schema.title}" schema.`));
+            else resolve();
+          });
+
+        })))
+        .then(resolve)
+        .catch(reject);
+
+      });
+
+    });
+
+  });
 
   // create the /out/schemas directory
   const createSchemasFolder = () => new Promise((resolve, reject) => {
 
-    fs.mkdir(path.join(outPath, 'schemas'), err => {
+    fs.mkdir(Path.join(outPath, 'schemas'), err => {
 
       if (err && !err.message.includes('EEXIST')) {
         reject(wrapError(err, `Unable to create the /schemas directory.`));
@@ -119,35 +154,45 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
 
     // TODO: ignore any files in the ignore array
 
-    // get info about "schemaPath" variable to determine whether it's a file or directory
-    fs.stat(schemaPath, (err, stats) => {
+    const filenames = [];
+
+    const addFilename = filename => {
+      if (!ignore.includes(filename)) filenames.push(filename);
+    };
+
+    // get info about "path" variable to determine whether it's a file or directory
+    fs.stat(path, (err, stats) => {
 
       // reject on error
       if (err) {
 
-        reject(wrapError(err, `Unable to retrieve information about the path "${schemaPath}".`));
+        reject(wrapError(err, `Unable to retrieve information about the path "${path}".`));
 
       // if the provided path is a file, add that path to filenames
       } else if (stats.isFile()) {
 
-        filenames.push(schemaPath);
-        resolve();
+        const filename = Path.parse(path).base;
+        const regexp = new RegExp(`${filename}$`);
+
+        schemaPath = path.replace(regexp, '');
+        addFilename(filename);
+        resolve(filenames);
 
       // if the provided path is a directory, add each path + filename to the directory
       } else if (stats.isDirectory()) {
 
-        fs.readdir(schemaPath, 'utf8', (err, files) => {
+        fs.readdir(path, 'utf8', (err, files) => {
           if (err) {
             reject(wrapError(err, 'Unable to list the files in the provided directory.'));
           } else {
-            files.forEach(filename => filenames.push(path.join(schemaPath, filename)));
-            resolve();
+            files.forEach(addFilename);
+            resolve(filenames);
           }
         });
 
       } else {
 
-        throw new Error('Unable to determine whether the "schemaPath" argument is a file or directory.');
+        throw new Error('Unable to determine whether the "path" argument is a file or directory.');
 
       }
 
@@ -157,30 +202,54 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
 
   // read the contents of the readme file
   const getReadme = () => new Promise((resolve, reject) => {
-    fs.readFile(readmePath, 'utf8', (err, res) => {
-      if (err) {
-        reject(wrapError(err, `Unable to read the contents of the readme.`));
-      } else {
-        readme = res;
-        resolve();
-      }
-
+    fs.readFile(readmePath, 'utf8', (err, readme) => {
+      if (err) reject(wrapError(err, 'Unable to read the contents of the readme.'));
+      else resolve(readme);
     });
   });
 
   // makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
   // (also populates the nav array)
-  const preprocessSchemas = () => schemas.forEach(function preprocess(schema) {
-    /* eslint-disable no-param-reassign */
+  /* eslint-disable no-param-reassign */
+  const preprocessSchemas = () => schemas.forEach(function preprocess(schema) { // eslint-disable-line max-statements
 
     nav.push({
       filename: schema._filename,
       title:    schema.title,
     });
 
-    Object.keys(schema).forEach(key => {
-      if (typeof schema[key] === 'object') schema[key]._key = key;
-    });
+    for (const prop in schema) {
+
+      switch (prop) {
+
+        case 'default': {
+          schema.default = JSON.stringify(schema.default, null, 2);
+          break;
+        }
+
+        case '$ref': {
+          if (schema.$ref.startsWith('#')) {
+            schema.$ref = schema.$ref.replace('#/definitions/', '');
+          }
+          break;
+        }
+
+        case 'properties': {
+          for (const key in schema.properties) {
+            schema.properties[key].title = schema.properties[key].title || key;
+            schema.properties[key]._key = key;
+            schema.properties[key] = preprocess(schema.properties[key]);
+          }
+          break;
+        }
+
+        default: {
+          break;
+        }
+
+      }
+
+    }
 
     return schema;
 
@@ -189,7 +258,7 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
 
   // reads a file and adds its data to the schemas array
   const readFile = filename => new Promise((resolve, reject) => {
-    fs.readFile(filename, 'utf8', (err, data) => {
+    fs.readFile(Path.join(schemaPath, filename), 'utf8', (err, data) => {
 
       if (err) {
         reject(wrapError(err, `Error reading the schema file "${filename}".`));
@@ -214,15 +283,15 @@ const jschemer = (schemaPath, options = {}) => { // eslint-disable-line max-stat
   });
 
   // runs the readFile function for each filename in the filenames array
-  const readFiles = () => Promise.all(filenames.map(readFile));
+  const readFiles = filenames => Promise.all(filenames.map(readFile));
 
   // run each task, in parallel if possible
   return Promise.all([
     createOutFolder().then(createSchemasFolder).then(copyCSS),
     getFileNames().then(readFiles).then(preprocessSchemas),
-    getReadme(),
-  ]).then(Promise.all([
-    createIndexPage(),
+  ])
+  .then(() => Promise.all([
+    getReadme().then(createIndexPage),
     createSchemaPages(),
   ]));
 
@@ -235,7 +304,7 @@ if (require.main === module) {
 
   program
   .version(meta.version)     // set version
-  .arguments('<schemaPath>') // set required <schemaPath> argument
+  .arguments('<path>') // set required <path> argument
 
   // set options
   .option('-c, --css <filename>', `The path to the CSS file to use for styling the documentation. Defaults to 'out/jschemer.css'.`)
@@ -244,7 +313,7 @@ if (require.main === module) {
   .option('-r, --readme <filename>', `A readme file (in Markdown) to include in the generated documentation.`)
 
   // run this once the arguments are parsed
-  .action(schemaPath => {
+  .action(path => {
 
     // collect the options passed to the command line
     const options = {
@@ -255,16 +324,16 @@ if (require.main === module) {
     };
 
     // run jschemer using the passed options
-    jschemer(schemaPath, options);
+    jschemer(path, options);
 
   })
 
   // parse the command line arguments
   .parse(process.argv);
 
-  // throw an error if the <schemaPath> argument is missing
+  // throw an error if the <path> argument is missing
   if (!program.args.length) {
-    throw new Error(`A <schemaPath> argument must be provided. The <schemaPath> argument may either be a single file or a directory.`);
+    throw new Error(`A <path> argument must be provided. The <path> argument may either be a single file or a directory.`);
   }
 
 }

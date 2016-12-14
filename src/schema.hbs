@@ -3,7 +3,34 @@
 <section class=schema>
 
   {{#if title}}
-    <h1 class='title prop meta-prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
+    <h1 class='title meta any prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
+  {{/if}}
+
+  {{#if $ref}}
+
+    <p>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
+
+  {{else}}
+
+    {{#if $schema}}
+      <p class='$schema meta any prop'><strong>Validate against:</strong> <a href="{{$schema}}">{{$schema}}</a></p>
+    {{/if}}
+
+    {{#if id}}
+      <p class='id meta any prop'><strong>Schema ID:</strong> <code>{{id}}</code></p>
+    {{/if}}
+
+    {{#if description}}
+      <p class='description meta any prop'>{{description}}</p>
+    {{/if}}
+
+    {{#if default}}
+      <div class='default meta any prop'>
+        <h2>Default Value</h2>
+        <pre>{{default}}</pre>
+      </div>
+    {{/if}}
+
   {{/if}}
 
 </section>

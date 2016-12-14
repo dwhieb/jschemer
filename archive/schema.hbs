@@ -1,23 +1,7 @@
 <section class=schema>
 
-  {{#if $schema}}
-    <p class='$schema prop'><strong>Validate against:</strong> <a href={{schema}}>{{$schema}}</a></p>
-  {{/if}}
-
-  {{#if id}}
-    <p class='id prop'><strong>ID:</strong> <code>{{id}}</code></p>
-  {{/if}}
-
-  {{#if $ref}}
-    <p>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
-  {{/if}}
-
   {{#if type}}
     <p class='type prop'><strong>Type:</strong> <code>{{type}}</code></p>
-  {{/if}}
-
-  {{#if description}}
-    <p class='description meta-prop'>{{md description}}</p>
   {{/if}}
 
   {{#if format}}
