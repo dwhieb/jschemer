@@ -28,22 +28,22 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     throw new TypeError(`The 'options' argument must be an object.`);
   }
 
-  if ('css' in options && typeof options.css !== 'string') {
+  if (options.css && typeof options.css !== 'string') {
     throw new TypeError(`The 'css' option must be a string.`);
   }
 
-  if ('ignore' in options && !(
+  if (options.ignore && !(
     Array.isArray(options.ignore)
     && options.ignore.every(item => typeof item === 'string')
   )) {
     throw new TypeError(`The 'ignore' option must be an array of filenames.`);
   }
 
-  if ('out' in options && typeof options.out !== 'string') {
+  if (options.out && typeof options.out !== 'string') {
     throw new TypeError(`The 'out' option must be a string.`);
   }
 
-  if ('readme' in options && typeof options.readme !== 'string') {
+  if (options.readme && typeof options.readme !== 'string') {
     throw new TypeError(`The 'readme' option must be a string.`);
   }
 
@@ -94,45 +94,28 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   });
 
   // create a documentation page for each schema
-  const createSchemaPages = () => new Promise((resolve, reject) => {
+  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => {
+    return new Promise((resolve, reject) => {
 
-    fs.readFile('src/schema.hbs', 'utf8', (err, schemaTemplate) => {
+      const convert = hbs.compile(pageTemplate);
 
-      if (err) return reject(wrapError(err, 'Unable to read contents of schema.hbs.'));
+      const html = convert({
+        css: cssFilename,
+        nav,
+        schema,
+      });
 
-      hbs.registerPartial('schema', schemaTemplate);
+      const filename = schema._filename.includes('.json') ?
+        schema._filename.replace('.json', '.html')
+        : `${schema._filename}.html`;
 
-      fs.readFile('src/schema-page.hbs', 'utf8', (err, pageTemplate) => {
-
-        if (err) return reject(wrapError(err, 'Unable to read contents of schema-page.hbs.'));
-
-        Promise.all(schemas.map(schema => new Promise((resolve, reject) => {
-
-          const convert = hbs.compile(pageTemplate);
-          const html = convert({
-            css: cssFilename,
-            nav,
-            schema,
-          });
-
-          const filename = schema._filename.includes('.json') ?
-            schema._filename.replace('.json', '.html')
-            : `${schema._filename}.html`;
-
-          fs.writeFile(Path.join(outPath, 'schemas', filename), html, err => {
-            if (err) reject(wrapError(err, `Unable to create documentation page for the "${schema.title}" schema.`));
-            else resolve();
-          });
-
-        })))
-        .then(resolve)
-        .catch(reject);
-
+      fs.writeFile(Path.join(outPath, 'schemas', filename), html, err => {
+        if (err) reject(wrapError(err, `Unable to create documentation page for the "${schema.title}" schema.`));
+        else resolve();
       });
 
     });
-
-  });
+  }));
 
   // create the /out/schemas directory
   const createSchemasFolder = () => new Promise((resolve, reject) => {
@@ -211,19 +194,14 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   // makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
   // (also populates the nav array)
   /* eslint-disable no-param-reassign */
-  const preprocessSchemas = () => schemas.forEach(function preprocess(schema) { // eslint-disable-line max-statements
+  const preprocess = schema => { // eslint-disable-line max-statements
 
-    nav.push({
-      filename: schema._filename,
-      title:    schema.title,
-    });
-
-    const setBooleanOrSchema = (prop, schema) => {
-      if (typeof schema[prop] === 'boolean') {
-        schema[prop] = { boolean: schema[prop] };
-      } else if (typeof schema[prop] === 'object') {
-        preprocess(schema[prop]);
-        schema[prop]._object = true;
+    const setBooleanOrSchema = (prop, sch) => {
+      if (typeof sch[prop] === 'boolean') {
+        sch[prop] = { boolean: sch[prop] };
+      } else if (typeof sch[prop] === 'object') {
+        preprocess(sch[prop]);
+        sch[prop]._object = true;
       }
     };
 
@@ -311,10 +289,21 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     return schema;
 
     /* eslint-enable no-param-reassign */
+  };
+
+  const preprocessSchemas = () => schemas.forEach(schema => {
+
+    nav.push({
+      filename: schema._filename,
+      title:    schema.title,
+    });
+
+    preprocess(schema);
+
   });
 
   // reads a file and adds its data to the schemas array
-  const readFile = filename => new Promise((resolve, reject) => {
+  const readSchema = filename => new Promise((resolve, reject) => {
     fs.readFile(Path.join(schemaPath, filename), 'utf8', (err, data) => {
 
       if (err) {
@@ -340,16 +329,32 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   });
 
   // runs the readFile function for each filename in the filenames array
-  const readFiles = filenames => Promise.all(filenames.map(readFile));
+  const readSchemaFiles = filenames => Promise.all(filenames.map(readSchema));
+
+  // gets the contents of schema-page.hbs
+  const readSchemaPageTemplate = () => new Promise((resolve, reject) => {
+    fs.readFile('src/schema-page.hbs', 'utf8', (err, pageTemplate) => {
+      if (err) reject(wrapError(err, 'Unable to read the contents of schema-page.hbs.'));
+      else resolve(pageTemplate);
+    });
+  });
+
+  // get the contents of schema.hbs and register its as a Handlebars partial
+  const readSchemaTemplate = () => new Promise((resolve, reject) => {
+    fs.readFile('src/schema.hbs', 'utf8', (err, schemaTemplate) => {
+      if (err) return reject(wrapError(err, 'Unable to read contents of schema.hbs.'));
+      hbs.registerPartial('schemaTemplate', schemaTemplate);
+      resolve();
+    });
+  });
 
   // run each task, in parallel if possible
   return Promise.all([
     createOutFolder().then(createSchemasFolder).then(copyCSS),
-    getFileNames().then(readFiles).then(preprocessSchemas),
-  ])
-  .then(() => Promise.all([
+    getFileNames().then(readSchemaFiles).then(preprocessSchemas),
+  ]).then(() => Promise.all([
     getReadme().then(createIndexPage),
-    createSchemaPages(),
+    readSchemaTemplate().then(readSchemaPageTemplate).then(createSchemaPages),
   ]));
 
 };

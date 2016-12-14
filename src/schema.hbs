@@ -7,9 +7,7 @@
   {{/if}}
 
   {{#if $ref}}
-
     <p class='$ref any prop'>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
-
   {{else}}
 
     {{#if $schema}}
@@ -34,7 +32,7 @@
         <p>The following schema definitions may be used by this schema:</p>
         <ul>
           {{#each definitions}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -46,7 +44,7 @@
         <p>This schema must validate against all of the following schemas:</p>
         <ul>
           {{#each allOf}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -58,7 +56,7 @@
         <p>This schema must validate against at least one of the following schemas:</p>
         <ul>
           {{#each anyOf}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -70,7 +68,7 @@
         <p>This schema must validate against one and only one of the following schemas:</p>
         <ul>
           {{#each oneOf}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -80,7 +78,7 @@
       <div class='not any prop'>
         <h2>Do Not Validate Against (<code>not</code>)</h2>
         <p>This schema must not validate against the following schema:</p>
-        {{> schema this}}
+        {{> schemaTemplate not}}
       </div>
     {{/if}}
 
@@ -166,7 +164,7 @@
         <h2>Properties</h2>
         <ul>
           {{#each properties}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -178,7 +176,7 @@
         <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
         <ul>
           {{#each patternProperties}}
-            <li>{{> schema this}}</li>
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -193,7 +191,7 @@
       {{#if additionalProperties._object}}
         <div class='additional-items object prop'>
           <h2>Additional Properties</h2>
-          {{> schema additionalProperties}}
+          {{> schemaTemplate additionalProperties}}
         </div>
       {{/if}}
     {{/if}}
@@ -205,7 +203,7 @@
           {{#each dependencies}}
             <li>
               {{#if _object}}
-                {{> schema this}}
+                {{> schemaTemplate this}}
               {{else}}
                 <p>If <code>{{@key}}</code> is present, the following properties must be present:</p>
                 <ul>
@@ -241,11 +239,11 @@
         <h2>Items</h2>
 
         {{#if items._object}}
-          {{> schema items}}
+          {{> schemaTemplate items}}
         {{else}}
           <ul>
             {{#each items}}
-              <li>{{> schema this}}</li>
+              <li>{{> schemaTemplate this}}</li>
             {{/each}}
           </ul>
         {{/if}}
@@ -262,7 +260,7 @@
       {{#if additionalItems._object}}
         <div class='additional-items array prop'>
           <h2>Additional Items</h2>
-          {{> schema additionalItems}}
+          {{> schemaTemplate additionalItems}}
         </div>
       {{/if}}
     {{/if}}
