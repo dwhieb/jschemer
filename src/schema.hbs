@@ -1,1 +1,277 @@
 {{!-- This is a partial template which represents a single JSON Schema --}}
+
+<section class=schema>
+
+  {{#if title}}
+    <h1 class='title meta any prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
+  {{/if}}
+
+  {{#if $ref}}
+    <p class='$ref any prop'>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
+  {{else}}
+
+    {{#if $schema}}
+      <p class='$schema meta any prop'><strong>Validate against:</strong> <a href="{{$schema}}">{{$schema}}</a></p>
+    {{/if}}
+
+    {{#if id}}
+      <p class='id meta any prop'><strong>Schema ID:</strong> <code>{{id}}</code></p>
+    {{/if}}
+
+    {{#if description}}
+      <p class='description meta any prop'>{{description}}</p>
+    {{/if}}
+
+    {{#if type}}
+      <p class='type any prop'><strong>Type:</strong> <code>{{type}}</code></p>
+    {{/if}}
+
+    {{#if definitions}}
+      <div class='definitions any prop'>
+        <h2>Definitions</h2>
+        <p>The following schema definitions may be used by this schema:</p>
+        <ul>
+          {{#each definitions}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if allOf}}
+      <div class='all-of any prop'>
+        <h2>Validates Against (<code>allOf</code>)</h2>
+        <p>This schema must validate against all of the following schemas:</p>
+        <ul>
+          {{#each allOf}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if anyOf}}
+      <div class='any-of any prop'>
+        <h2>Validates Against (<code>anyOf</code>)</h2>
+        <p>This schema must validate against at least one of the following schemas:</p>
+        <ul>
+          {{#each anyOf}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if oneOf}}
+      <div class='one-of any prop'>
+        <h2>Validates Against (<code>oneOf</code>)</h2>
+        <p>This schema must validate against one and only one of the following schemas:</p>
+        <ul>
+          {{#each oneOf}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if not}}
+      <div class='not any prop'>
+        <h2>Do Not Validate Against (<code>not</code>)</h2>
+        <p>This schema must not validate against the following schema:</p>
+        {{> schemaTemplate not}}
+      </div>
+    {{/if}}
+
+    {{!-- numeric properties --}}
+    {{#if multipleOf}}
+      <p class='multiple-of numeric prop'><strong>Multiple of:</strong> <code>{{multipleOf}}</code></p>
+    {{/if}}
+
+    {{#if minimum}}
+      <p class='minimum numeric prop'><strong>Minimum:</strong> <code>{{minimum}}</code></p>
+    {{/if}}
+
+    {{#if exclusiveMinimum}}
+      <p class='exclusive-minimum numeric prop'>
+        <strong>Exclusive minumum:</strong> <code>{{exclusiveMinimum}}</code>
+      </p>
+    {{/if}}
+
+    {{#if maximum}}
+      <p class='maximum numeric prop'><strong>Maximum:</strong> <code>{{maximum}}</code></p>
+    {{/if}}
+
+    {{#if exclusiveMaximum}}
+      <p class='exclusive-maximum numeric prop'>
+        <strong>Exclusive maximum:</strong> <code>{{exclusiveMaximum}}</code>
+      </p>
+    {{/if}}
+
+    {{!-- string properties --}}
+    {{#if format}}
+      <p class='format string prop'><strong>Format:</strong> {{format}}</p>
+    {{/if}}
+
+    {{#if pattern}}
+      <p class='pattern string prop'><strong>Regular expression pattern:</strong> <code>{{pattern}}</code></p>
+    {{/if}}
+
+    {{#if minLength}}
+      <p class='min-length string prop'><strong>Min length:</strong> <code>{{minLength}}</code></p>
+    {{/if}}
+
+    {{#if maxLength}}
+      <p class='max-length string prop'><strong>Max length:</strong> <code>{{maxLength}}</code></p>
+    {{/if}}
+
+    {{!-- object properties --}}
+    {{#if minProperties}}
+      <p class='min-properties object prop'>
+        <strong>Min properties:</strong> <code>{{minProperties}}</code>
+      </p>
+    {{/if}}
+
+    {{#if maxProperties}}
+      <p class='max-properties object prop'>
+        <strong>Max properties:</strong> <code>{{maxProperties}}</code>
+      </p>
+    {{/if}}
+
+    {{#if required}}
+      <div class='required object prop'>
+        <h2>Required Properties</h2>
+        <ul>
+          {{#each required}}
+            <li><code>{{this}}</code></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if enum}}
+      <div class='enum any prop'>
+        <h2>Allowed Values (<code>enum</code>)</h2>
+        <ul>
+          {{#each enum}}
+            <li><pre>{{this}}</pre></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if properties}}
+      <div class='properties object prop'>
+        <h2>Properties</h2>
+        <ul>
+          {{#each properties}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if patternProperties}}
+      <div class='pattern-properties object prop'>
+        <h2>Custom Properties (<code>patternProperties</code>)</h2>
+        <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
+        <ul>
+          {{#each patternProperties}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if additionalProperties}}
+      {{#if additionalProperties.boolean}}
+        <p class='additional-items object prop'>
+          <strong>Additional properties:</strong> {{additionalProperties.boolean}}
+        </p>
+      {{/if}}
+      {{#if additionalProperties._object}}
+        <div class='additional-items object prop'>
+          <h2>Additional Properties</h2>
+          {{> schemaTemplate additionalProperties}}
+        </div>
+      {{/if}}
+    {{/if}}
+
+    {{#if dependencies}}
+      <div class='dependencies object prop'>
+        <h2>Dependencies</h2>
+        <ul>
+          {{#each dependencies}}
+            <li>
+              {{#if _object}}
+                {{> schemaTemplate this}}
+              {{else}}
+                <p>If <code>{{@key}}</code> is present, the following properties must be present:</p>
+                <ul>
+                  {{#each this}}
+                    <li><code>{{this}}</code></li>
+                  {{/each}}
+                </ul>
+              {{/if}}
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{!-- array properties --}}
+    {{#if minItems}}
+      <p class='min-items array prop'><strong>Min items:</strong> <code>{{minItems}}</code></p>
+    {{/if}}
+
+    {{#if maxItems}}
+      <p class='max-items array prop'><strong>Max items:</strong> <code>{{maxItems}}</code></p>
+    {{/if}}
+
+    {{#if uniqueItems}}
+      <p class='unique-items array prop'>
+        <strong>Unique items:</strong> <code>{{uniqueItems.boolean}}</code>
+      </p>
+    {{/if}}
+
+    {{#if items}}
+      <div class='items array prop'>
+
+        <h2>Items</h2>
+
+        {{#if items._object}}
+          {{> schemaTemplate items}}
+        {{else}}
+          <ul>
+            {{#each items}}
+              <li>{{> schemaTemplate this}}</li>
+            {{/each}}
+          </ul>
+        {{/if}}
+
+      </div>
+    {{/if}}
+
+    {{#if additionalItems}}
+      {{#if additionalItems.boolean}}
+        <p class='additional-items array prop'>
+          <strong>Additional items:</strong> <code>{{additionalItems.boolean}}</code>
+        </p>
+      {{/if}}
+      {{#if additionalItems._object}}
+        <div class='additional-items array prop'>
+          <h2>Additional Items</h2>
+          {{> schemaTemplate additionalItems}}
+        </div>
+      {{/if}}
+    {{/if}}
+
+    {{#if default}}
+      <div class='default meta any prop'>
+        <h2>Default Value</h2>
+        <pre>{{default}}</pre>
+      </div>
+    {{/if}}
+
+  {{/if}}
+
+</section>

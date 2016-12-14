@@ -16,15 +16,14 @@ describe('jschemer', function() {
   const deleteOutFolder = done => exec('rm -r out', done);
 
   beforeEach(deleteOutFolder);
+  afterAll(deleteOutFolder);
 
   it('is a function that returns a Promise', function(done) {
 
-    const run = jschemer(schemaPath)
-    .then(done)
-    .catch(fail);
+    const run = jschemer(schemaPath).then(done).catch(fail);
 
-    expect(run instanceof Promise).toBe(true);
     expect(typeof jschemer).toBe('function');
+    expect(run instanceof Promise).toBe(true);
 
   });
 
@@ -35,45 +34,67 @@ describe('jschemer', function() {
     .catch(fail);
   });
 
-  it('validates arguments correctly', function() {
+  it('validates arguments correctly', function(done) {
 
-    const badOpts = () => jschemer(schemaPath, 'string').catch(fail);
-    const badPath = () => jschemer({}).catch(fail);
-    const noArgs  = () => jschemer().catch(fail);
-    const noOpts  = () => jschemer(schemaPath).catch(fail);
-    const noPath  = () => jschemer(null, {}).catch(fail);
+    const noOpts  = () => jschemer(schemaPath);
+
+    const badOpts = () => jschemer(schemaPath, 'string');
+    const badPath = () => jschemer({});
+    const noArgs  = () => jschemer();
+    const noPath  = () => jschemer(null, {});
 
     expect(badOpts).toThrow();
     expect(badPath).toThrow();
     expect(noArgs).toThrow();
-    expect(noOpts).not.toThrow();
     expect(noPath).toThrow();
+
+    noOpts().then(done).catch(fail);
 
   });
 
   it('validates options correctly', function(done) {
 
-    const emptyIgnore     = () => jschemer(schemaPath, { ignore: [] }).catch(fail);
-    const emptyOpts       = () => jschemer(schemaPath, {}).catch(fail);
-    const invalidIgnore   = () => jschemer(schemaPath, { ignore: ['notreal.json'] }).catch(fail);
-    const wrongTypeCss    = () => jschemer(schemaPath, { css: true }).catch(fail);
-    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true }).catch(fail);
-    const wrongTypeOut    = () => jschemer(schemaPath, { out: true }).catch(fail);
-    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true }).catch(fail);
+    const emptyIgnore = () => new Promise((resolve, reject) => {
+      jschemer(schemaPath, { ignore: [] }).then(resolve).catch(reject);
+    });
 
-    expect(emptyIgnore).not.toThrow();
-    expect(emptyOpts).not.toThrow();
-    expect(invalidIgnore).not.toThrow();
+    const emptyOpts = () => new Promise((resolve, reject) => {
+      jschemer(schemaPath, {}).then(resolve).catch(reject);
+    });
+
+    const invalidCss = () => new Promise((resolve, reject) => {
+      jschemer(schemaPath, { css: 'does/not/exist' }).then(reject).catch(resolve);
+    });
+
+    const invalidIgnore = () => new Promise((resolve, reject) => {
+      jschemer(schemaPath, { ignore: ['notreal.json'] }).then(resolve).catch(reject);
+    });
+
+    const invalidReadme = () => new Promise((resolve, reject) => {
+      jschemer(schemaPath, { readme: 'notreal.md' }).then(reject).catch(resolve);
+    });
+
+    const wrongTypeCss = () => jschemer(schemaPath, { css: true });
+
+    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true });
+
+    const wrongTypeOut = () => jschemer(schemaPath, { out: true });
+
+    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true });
+
     expect(wrongTypeCss).toThrow();
     expect(wrongTypeIgnore).toThrow();
     expect(wrongTypeOut).toThrow();
     expect(wrongTypeReadme).toThrow();
 
-    const invalidCss    = () => jschemer(schemaPath, { css: 'does/not/exist' });
-    const invalidReadme = () => jschemer(schemaPath, { readme: 'notreal.md' });
-
-    invalidCss()
-    .then(fail, () => invalidReadme().then(fail, done))
+    Promise.all([
+      emptyIgnore(),
+      emptyOpts(),
+      invalidCss(),
+      invalidIgnore(),
+      invalidReadme(),
+    ])
+    .then(done)
     .catch(fail);
 
   });
@@ -84,6 +105,7 @@ describe('jschemer', function() {
       fs.readFile('out/jschemer.css', 'utf8', (err, data) => {
         if (err) return reject(err);
         const comment = 'default stylesheet for jschemer documentation pages';
+
         expect(data.includes(comment)).toBe(true);
         resolve();
       });
@@ -125,13 +147,13 @@ describe('jschemer', function() {
     .then(checkSchemasFolder)
     .then(checkCss)
     // .then(checkIndex) TODO: enable this
-    // .then(checkSchema) TODO: enable this
+    .then(checkSchema)
     .then(done)
     .catch(fail);
 
   });
 
-  xit('creates multiple schemas', function(done) {
+  it('creates multiple schemas', function(done) {
 
     const checkSchema1 = () => new Promise((resolve, reject) => {
       fs.readFile('out/schemas/schema-1.html', 'utf8', (err, data) => {
@@ -194,15 +216,15 @@ describe('jschemer', function() {
     });
 
     const checkSchema2 = () => new Promise((resolve, reject) => {
-      fs.stat('out/schemas/schema-2.html', 'utf8', err => {
-        if (err && err.code === 'ENOENT') return resolve();
-        reject(err);
+      fs.stat('out/schemas/schema-2.html', err => {
+        if (err && err.code.includes('ENOENT')) resolve();
+        else reject(err);
       });
     });
 
     jschemer('test/schemas', { ignore: ['schema-2.json'] })
-    // .then(checkSchema1) TODO: enable this
-    // .then(checkSchema2) TODO: enable this
+    .then(checkSchema1)
+    .then(checkSchema2)
     .then(done)
     .catch(fail);
 
@@ -245,7 +267,5 @@ describe('jschemer', function() {
     .catch(fail);
 
   });
-
-  afterAll(deleteOutFolder);
 
 });

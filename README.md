@@ -58,11 +58,11 @@ jschemer comes with a default CSS file, `jschemer.css`. You can easily customize
 
 * camelCase keywords in JSON Schema are given a hyphen-separated CSS class name, e.g. `max-items`.
 
-* HTML elements in the generated documentation are also given CSS classes labeling the data type they apply to: `array-prop`, `numeric-prop`, `object-prop`, `string-prop`. Attributes that apply to any data type, such as `type`, are just given the class `prop`. Metadata keywords such as `title` are given the class `meta-prop`.
+* HTML elements in the generated documentation are also given CSS classes labeling the data type they apply to: `array`, `numeric`, `object`, `string`. Attributes that apply to any data type, such as `type`, are given the class `any`. The metadata keywords such `title`, `description`, `default`, `id`, and `$schema` are given the class `meta` (as well as `any`). All properties are also given the `prop` class.
 
 An example of the outputted HTML, with CSS classes:
 ```html
-<div class='additional-items array-prop'>
+<div class='additional-items array prop'>
   <h2>Additional Items</h2>
   <code>true</code>
 </div>
