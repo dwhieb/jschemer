@@ -100,7 +100,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
       const convert = hbs.compile(pageTemplate);
 
       const html = convert({
-        css: cssFilename,
+        cssFilename,
         nav,
         schema,
       });

@@ -1,1 +1,86 @@
 /* default stylesheet for jschemer documentation pages */
+
+// CSS reset
+html, body, div,                  // general elements
+h1, h2, h3, h4, h5, h6,           // heading elements
+p, blockquote, pre,               // text elements
+a, br, code, em, hr, img, strong, // inline elements
+b, i, u,                          // styling elements
+ol, ul, li,                       // lists
+main, nav, section                // sectioning elements
+{
+  border: none;
+  border-collapse: collapse;
+  display: flex;
+  flex-direction: column;
+  font: inherit;
+  line-height: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+a, b, br, code, em, h1, h2, h3, h4, h5, h6, hr, i, img, strong, u {
+  display: inline;
+}
+
+body {
+  background-color: white;
+  font-family: 'Fira Sans';
+  font-size: 100%;
+  font-stretch: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1.5rem;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+blockquote {
+  quotes: none;
+  &:before, &:after {
+    content: '';
+    content: none;
+  }
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  display: table;
+}
+
+tbody {
+  display: table-row-group;
+}
+
+td, th {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+th {
+  text-align: center;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tr {
+  display: table-row;
+}
+
+// styling by element type
+
+// TODO: adjust link style, rather than reset it
+a, a:link, a:visited, a:hover, a:active {
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+}
