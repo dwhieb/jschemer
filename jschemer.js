@@ -218,18 +218,70 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
       title:    schema.title,
     });
 
+    const setBooleanOrSchema = (prop, schema) => {
+      if (typeof schema[prop] === 'boolean') {
+        schema[prop] = { boolean: schema[prop] };
+      } else if (typeof schema[prop] === 'object') {
+        preprocess(schema[prop]);
+        schema[prop]._object = true;
+      }
+    };
+
     for (const prop in schema) {
 
       switch (prop) {
+
+        case '$ref': {
+          if (schema.$ref.startsWith('#')) {
+            schema.$ref = schema.$ref.replace('#/definitions/', '');
+          }
+          break;
+        }
+
+        case 'additionalItems': {
+          setBooleanOrSchema(prop, schema);
+          break;
+        }
+
+        case 'additionalProperties': {
+          setBooleanOrSchema(prop, schema);
+          break;
+        }
 
         case 'default': {
           schema.default = JSON.stringify(schema.default, null, 2);
           break;
         }
 
-        case '$ref': {
-          if (schema.$ref.startsWith('#')) {
-            schema.$ref = schema.$ref.replace('#/definitions/', '');
+        case 'dependencies': {
+          for (const key in schema.dependencies) {
+            if (typeof schema.dependencies[key] === 'object') {
+              preprocess(schema.dependencies[key]);
+              schema.dependencies[key]._object = true;
+            }
+          }
+          break;
+        }
+
+        case 'enum': {
+          schema.enum = schema.enum.map(val => JSON.stringify(val, null, 2));
+          break;
+        }
+
+        case 'items': {
+          if (Array.isArray(schema.items)) {
+            schema.items.forEach(preprocess);
+          } else if (typeof schema.items === 'object') {
+            preprocess(schema.items);
+            schema.items._object = true;
+          }
+          break;
+        }
+
+        case 'patternProperties': {
+          for (const patt in schema.patternProperties) {
+            schema.patternProperties[patt] = preprocess(schema.patternProperties[patt]);
+            schema.patternProperties[patt]._pattern = patt;
           }
           break;
         }
@@ -240,6 +292,11 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
             schema.properties[key]._key = key;
             schema.properties[key] = preprocess(schema.properties[key]);
           }
+          break;
+        }
+
+        case 'uniqueItems': {
+          schema.uniqueItems = { boolean: String(schema.uniqueItems) };
           break;
         }
 
