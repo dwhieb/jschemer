@@ -1,4 +1,8 @@
 /* default stylesheet for jschemer documentation pages */
+@darkblue: #1756a9;
+@lightblue: #2a7ae2;
+@softblue: #eef;
+@softblueconstrast: #e8e8e8;
 
 // CSS reset
 html, body, div,                  // general elements
@@ -22,8 +26,20 @@ main, nav, section                // sectioning elements
   vertical-align: baseline;
 }
 
-a, b, br, code, em, h1, h2, h3, h4, h5, h6, hr, i, img, strong, u {
+a, b, blockquote, br, code, em, hr, i, img, p, strong, u {
   display: inline;
+}
+
+// TODO: adjust link style, rather than reset it
+a {
+  background: initial;
+  color: @lightblue;
+  border-bottom: 1px solid white;
+  text-decoration: none;
+  &:visited { color: @darkblue; }
+  &:hover { border-bottom: 1px solid @lightblue; }
+  &:hover:visited { border-bottom: 1px solid @darkblue; }
+  &:active { font-weight: bold; }
 }
 
 body {
@@ -35,8 +51,9 @@ body {
   font-variant: normal;
   font-weight: normal;
   line-height: 1.5rem;
+  margin: 1rem;
   min-height: 100vh;
-  min-width: 100vw;
+  overflow-x: hidden;
 }
 
 blockquote {
@@ -76,11 +93,127 @@ tr {
   display: table-row;
 }
 
-// styling by element type
+.inline-schema {
+  &:before {
+    background-image: url('json-schema.svg');
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+    content: '';
+    display: inline-block;
+    filter: drop-shadow(2px 2px #ccc);
+    height: 1.5rem;
+    margin-right: 0.5em;
+    width: 1.5rem;
+  }
+}
 
-// TODO: adjust link style, rather than reset it
-a, a:link, a:visited, a:hover, a:active {
-  background: transparent;
-  color: inherit;
-  text-decoration: none;
+.softBorder {
+  border: 1px solid @softblueconstrast;
+  border-radius: 3px;
+}
+
+.schema {
+
+  .softBorder;
+  margin: 0.5rem 0rem;
+  padding: 1rem;
+
+  code, pre {
+    .softBorder;
+    background-color: @softblue;
+    font-family: 'Fira Sans Mono', monospace;
+  }
+
+  div.prop > :not(h2) {
+    padding-left: 0.5rem;
+  }
+
+  h1, h2 {
+    display: inline;
+  }
+
+  > h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+  }
+
+  h2 {
+    font-weight: bold;
+  }
+
+  p > code {
+    word-wrap: break-word;
+  }
+
+  pre {
+    overflow-x: scroll;
+    padding: 0.5em 0.5em;
+  }
+
+  .prop {
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+
+    > .schema {
+      margin-left: 2.5rem;
+      position: relative;
+      &:before {
+        margin-left: -2.5rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  .all-of,
+  .any-of,
+  .definitions,
+  .dependencies,
+  .items,
+  .one-of,
+  .pattern-properties,
+  .properties {
+    > ul > li {
+
+      .inline-schema;
+      align-items: center;
+      flex-direction: row;
+
+      > .schema {
+        flex-grow: 1;
+      }
+
+    }
+  }
+
+  .additional-items,
+  .items,
+  .not {
+    > .schema {
+      .inline-schema;
+    }
+  }
+
+  .enum > ul > li {
+    margin: 0.25rem 0rem;
+  }
+
+  .required > ul {
+    list-style: disc outside none;
+    > li {
+      align-items: flex-start;
+      display: list-item;
+      margin-left: 0.75rem;
+    }
+  }
+
 }

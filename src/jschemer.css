@@ -41,6 +41,7 @@ section {
 }
 a,
 b,
+blockquote,
 br,
 code,
 em,
@@ -53,9 +54,28 @@ h6,
 hr,
 i,
 img,
+p,
 strong,
 u {
   display: inline;
+}
+a {
+  background: initial;
+  color: #2a7ae2;
+  border-bottom: 1px solid white;
+  text-decoration: none;
+}
+a:visited {
+  color: #1756a9;
+}
+a:hover {
+  border-bottom: 1px solid #2a7ae2;
+}
+a:hover:visited {
+  border-bottom: 1px solid #1756a9;
+}
+a:active {
+  font-weight: bold;
 }
 body {
   background-color: white;
@@ -66,8 +86,9 @@ body {
   font-variant: normal;
   font-weight: normal;
   line-height: 1.5rem;
+  margin: 1rem;
   min-height: 100vh;
-  min-width: 100vw;
+  overflow-x: hidden;
 }
 blockquote {
   quotes: none;
@@ -101,12 +122,41 @@ thead {
 tr {
   display: table-row;
 }
-a,
-a:link,
-a:visited,
-a:hover,
-a:active {
-  background: transparent;
-  color: inherit;
-  text-decoration: none;
+.schema {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+  margin: 0.5rem 0rem;
+  padding: 1rem;
+}
+.schema code,
+.schema pre {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+  background-color: #eef;
+  font-family: 'Fira Sans Mono', monospace;
+  overflow-x: auto;
+}
+.schema div.prop > :not(h2) {
+  padding-left: 0.5rem;
+}
+.schema h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+}
+.schema h2 {
+  font-weight: bold;
+}
+.schema p > code {
+  word-wrap: break-word;
+}
+.schema pre {
+  padding: 0.5em 0.5em;
+}
+.schema strong {
+  font-weight: bold;
+}
+.softBorder {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
 }
