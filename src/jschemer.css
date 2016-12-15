@@ -116,6 +116,13 @@ thead {
 tr {
   display: table-row;
 }
+.bulleted {
+  list-style: disc outside none;
+}
+.bulleted li {
+  display: list-item;
+  margin-left: 0.75rem;
+}
 .inline-schema:before {
   background-image: url('json-schema.svg');
   background-repeat: no-repeat;
@@ -234,14 +241,26 @@ tr {
   margin-right: 0.5em;
   width: 1.5rem;
 }
+.schema .dependencies > ul > li > div {
+  flex-grow: 1;
+}
+.schema .dependencies > ul > li > div ul {
+  list-style: disc outside none;
+}
+.schema .dependencies > ul > li > div ul li {
+  display: list-item;
+  margin-left: 0.75rem;
+}
+.schema .dependencies .dependencies-list {
+  margin-left: 0.5rem;
+}
 .schema .enum > ul > li {
   margin: 0.25rem 0rem;
 }
 .schema .required > ul {
   list-style: disc outside none;
 }
-.schema .required > ul > li {
-  align-items: flex-start;
+.schema .required > ul li {
   display: list-item;
   margin-left: 0.75rem;
 }

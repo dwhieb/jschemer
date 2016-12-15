@@ -206,14 +206,19 @@
           {{#each dependencies}}
             <li>
               {{#if _object}}
-                {{> schemaTemplate this}}
+                <div>
+                  <p>If the property <code>{{@key}}</code> is present, the following schema also applies:</p>
+                  {{> schemaTemplate this}}
+                </div>
               {{else}}
-                <p>If <code>{{@key}}</code> is present, the following properties must be present:</p>
-                <ul>
-                  {{#each this}}
-                    <li><code>{{this}}</code></li>
-                  {{/each}}
-                </ul>
+                <div>
+                  <p>If the property <code>{{@key}}</code> is present, the following properties must also be present:</p>
+                  <ul class=dependencies-list>
+                    {{#each this}}
+                      <li><code>{{this}}</code></li>
+                    {{/each}}
+                  </ul>
+                </div>
               {{/if}}
             </li>
           {{/each}}

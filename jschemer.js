@@ -109,7 +109,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   });
 
   // create a documentation page for each schema
-  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => {
+  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => { // eslint-disable-line arrow-body-style
     return new Promise((resolve, reject) => {
 
       const convert = hbs.compile(pageTemplate);
@@ -149,8 +149,6 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
   // adds the list of files to convert to the filenames array
   const getFileNames = () => new Promise((resolve, reject) => {
-
-    // TODO: ignore any files in the ignore array
 
     const filenames = [];
 
@@ -254,7 +252,10 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
         case 'dependencies': {
           for (const key in schema.dependencies) {
-            if (typeof schema.dependencies[key] === 'object') {
+            if (
+              typeof schema.dependencies[key] === 'object'
+              && !Array.isArray(schema.dependencies[key])
+            ) {
               preprocess(schema.dependencies[key]);
               schema.dependencies[key]._object = true;
             }
@@ -413,7 +414,7 @@ if (require.main === module) {
     };
 
     // run jschemer using the passed options
-    jschemer(path, options);
+    jschemer(path, options).catch(console.err); // eslint-disable-line no-console
 
   })
 

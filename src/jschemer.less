@@ -93,6 +93,14 @@ tr {
   display: table-row;
 }
 
+.bulleted {
+  list-style: disc outside none;
+  li {
+    display: list-item;
+    margin-left: 0.75rem;
+  }
+}
+
 .inline-schema {
   &:before {
     background-image: url('json-schema.svg');
@@ -203,17 +211,24 @@ tr {
     }
   }
 
+  .dependencies {
+    > ul > li > div {
+      flex-grow: 1;
+      ul {
+        .bulleted;
+      }
+    }
+    .dependencies-list {
+      margin-left: 0.5rem;
+    }
+  }
+
   .enum > ul > li {
     margin: 0.25rem 0rem;
   }
 
   .required > ul {
-    list-style: disc outside none;
-    > li {
-      align-items: flex-start;
-      display: list-item;
-      margin-left: 0.75rem;
-    }
+    .bulleted;
   }
 
 }
