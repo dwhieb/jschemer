@@ -134,7 +134,7 @@
   "not": {
     "required": ["cid"],
     "properties": {
-      "cid": {}
+      "cid": { "type": "string" }
     }
   },
 
