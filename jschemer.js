@@ -348,7 +348,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
   // gets the contents of schema-page.hbs
   const readSchemaPageTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('src/schema-page.hbs', 'utf8', (err, pageTemplate) => {
+    fs.readFile('src/templates/schema-page.hbs', 'utf8', (err, pageTemplate) => {
       if (err) reject(wrapError(err, 'Unable to read the contents of schema-page.hbs.'));
       else resolve(pageTemplate);
     });
@@ -356,7 +356,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
   // get the contents of schema.hbs and register its as a Handlebars partial
   const readSchemaTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('src/schema.hbs', 'utf8', (err, schemaTemplate) => {
+    fs.readFile('src/templates/schema.hbs', 'utf8', (err, schemaTemplate) => {
       if (err) return reject(wrapError(err, 'Unable to read contents of schema.hbs.'));
       hbs.registerPartial('schemaTemplate', schemaTemplate);
       resolve();
