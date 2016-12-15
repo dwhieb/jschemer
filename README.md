@@ -1,5 +1,4 @@
 # jschemer
-A simple utility for generating clean HTML from JSON Schema data using Node.
 
 [![npm](https://img.shields.io/npm/v/jschemer.svg)](https://www.npmjs.com/package/jschemer)
 [![David](https://img.shields.io/david/dwhieb/jschemer.svg)](https://www.npmjs.com/package/jschemer)
@@ -7,6 +6,12 @@ A simple utility for generating clean HTML from JSON Schema data using Node.
 [![Travis](https://img.shields.io/travis/dwhieb/jschemer.svg)](https://travis-ci.org/dwhieb/jschemer)
 [![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star)](https://github.com/dwhieb/jschemer/)
 [![GitHub issues](https://img.shields.io/github/issues/dwhieb/jschemer.svg)](https://github.com/dwhieb/jschemer/issues)
+
+A simple utility for generating clean HTML documentation pages from JSON Schema data using Node.
+
+[View the live demo here]().
+
+![](screenshot.png)
 
 ## Install
 `npm install --save jschemer`
@@ -27,7 +32,7 @@ jschemer schemas --out docs
 Option             | Description
 ------------------ | -----------
 `-c`, `--css`      | The path to the CSS file to use for styling the documentation. Defaults to `out/jschemer.css`.
-`-i`, `--ignore`   | A list of filenames to ignore.
+`-i`, `--ignore`   | A comma-separated (no spaces) list of filenames to ignore.
 `-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
 `-r`, `--readme`   | A `README.md` file to include in the generated documentation.
 
