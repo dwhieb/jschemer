@@ -80,7 +80,7 @@ body {
   font-variant: normal;
   font-weight: normal;
   line-height: 1.5rem;
-  margin: 1rem;
+  margin: 1rem 1.5rem;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -137,6 +137,50 @@ tr {
 .softBorder {
   border: 1px solid #e8e8e8;
   border-radius: 3px;
+}
+a {
+  background: initial;
+  color: #2a7ae2;
+  border-bottom: 1px solid white;
+  text-decoration: none;
+}
+a:visited {
+  color: #1756a9;
+}
+a:hover {
+  border-bottom: 1px solid #2a7ae2;
+}
+a:hover:visited {
+  border-bottom: 1px solid #1756a9;
+}
+a:active {
+  font-weight: bold;
+}
+nav {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+  align-items: flex-start;
+  padding: 1rem;
+}
+nav h1 {
+  font-weight: bold;
+}
+nav h1 a {
+  border-bottom: 2px solid white;
+}
+nav h1 a:hover {
+  border-bottom: 2px solid #2a7ae2;
+}
+nav h1 a:hover:visited {
+  border-bottom: 1px solid #1756a9;
+}
+nav ul {
+  list-style: disc outside none;
+  margin-left: 0.5rem;
+}
+nav ul li {
+  display: list-item;
+  margin-left: 0.75rem;
 }
 .schema {
   border: 1px solid #e8e8e8;
@@ -263,4 +307,29 @@ tr {
 .schema .required > ul li {
   display: list-item;
   margin-left: 0.75rem;
+}
+@media screen and (max-width: 699px) {
+  body > nav {
+    order: 1;
+  }
+  body > main {
+    order: 2;
+  }
+}
+@media screen and (min-width: 700px) {
+  body {
+    flex-direction: row;
+  }
+  nav {
+    background-color: white;
+    margin: 1.5rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 10rem;
+    z-index: 1;
+  }
+  main {
+    margin-right: 13.75rem;
+  }
 }
