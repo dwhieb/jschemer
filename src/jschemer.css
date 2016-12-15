@@ -73,7 +73,7 @@ a:active {
 }
 body {
   background-color: white;
-  font-family: 'Fira Sans';
+  font-family: 'Fira Sans', 'Droid Sans', 'Trebuchet MS', sans-serif;
   font-size: 100%;
   font-stretch: normal;
   font-style: normal;
@@ -142,7 +142,7 @@ tr {
   border: 1px solid #e8e8e8;
   border-radius: 3px;
   background-color: #eef;
-  font-family: 'Fira Sans Mono', monospace;
+  font-family: 'Fira Sans Mono', 'Consolas', monospace;
 }
 .schema div.prop > :not(h2) {
   padding-left: 0.5rem;
