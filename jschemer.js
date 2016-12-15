@@ -211,11 +211,17 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   /* eslint-disable no-param-reassign */
   const preprocess = schema => { // eslint-disable-line max-statements
 
+    const setTitle = (key, sch) => {
+      sch.title = sch.title || key;
+      sch._key = key;
+    };
+
     const setBooleanOrSchema = (prop, sch) => {
       if (typeof sch[prop] === 'boolean') {
         sch[prop] = { boolean: sch[prop] };
       } else if (typeof sch[prop] === 'object') {
         preprocess(sch[prop]);
+        setTitle(prop, sch[prop]);
         sch[prop]._object = true;
       }
     };
@@ -256,6 +262,13 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
           break;
         }
 
+        case 'definitions': {
+          for (const def in schema.definitions) {
+            setTitle(def, schema.definitions[def]);
+          }
+          break;
+        }
+
         case 'enum': {
           schema.enum = schema.enum.map(val => JSON.stringify(val, null, 2));
           break;
@@ -281,9 +294,8 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
         case 'properties': {
           for (const key in schema.properties) {
-            schema.properties[key].title = schema.properties[key].title || key;
-            schema.properties[key]._key = key;
             schema.properties[key] = preprocess(schema.properties[key]);
+            setTitle(key, schema.properties[key]);
           }
           break;
         }
