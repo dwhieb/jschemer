@@ -68,10 +68,9 @@ jschemer comes with a default CSS file, `jschemer.css`. You can easily customize
 An example of the outputted HTML, with CSS classes:
 
 ```html
-<div class='additional-items array prop'>
-  <h2>Additional Items</h2>
-  <code>true</code>
-</div>
+<p class='additional-properties object prop'>
+  <strong>Additional properties:</strong> true
+</p>
 ```
 
 ## Notes:
