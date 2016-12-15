@@ -32,7 +32,7 @@
   "bin": "./jschemer.js",
   "scripts": {
     "build": "lessc src/jschemer.less src/jschemer.css",
-    "example": "node jschemer.js test/schema.json -o example",
+    "example": "node jschemer.js test/test-schema.json -o example",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   }
 }

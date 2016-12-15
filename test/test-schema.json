@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-05/schema#",
   "title": "Test Schema",
-  "id": "https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schema.json",
+  "id": "https://raw.githubusercontent.com/dwhieb/jschemer/master/test/test-schema.json",
   "description": "This is a schema designed to test the jschemer package.",
   "type": "object",
 

@@ -12,7 +12,7 @@ const jschemer = require('../jschemer');
 
 describe('jschemer', function() {
 
-  const schemaPath = 'test/schema.json';
+  const schemaPath = 'test/test-schema.json';
   const deleteOutFolder = done => exec('rm -r out', done);
 
   beforeEach(deleteOutFolder);
