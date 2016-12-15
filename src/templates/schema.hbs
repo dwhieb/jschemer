@@ -187,12 +187,12 @@
 
     {{#if additionalProperties}}
       {{#if additionalProperties.boolean}}
-        <p class='additional-items object prop'>
+        <p class='additional-properties object prop'>
           <strong>Additional properties:</strong> {{additionalProperties.boolean}}
         </p>
       {{/if}}
       {{#if additionalProperties._object}}
-        <div class='additional-items object prop'>
+        <div class='additional-properties object prop'>
           <h2>Additional Properties</h2>
           {{> schemaTemplate additionalProperties}}
         </div>

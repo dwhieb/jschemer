@@ -1,5 +1,4 @@
 # jschemer
-A simple utility for generating clean HTML from JSON Schema data using Node.
 
 [![npm](https://img.shields.io/npm/v/jschemer.svg)](https://www.npmjs.com/package/jschemer)
 [![David](https://img.shields.io/david/dwhieb/jschemer.svg)](https://www.npmjs.com/package/jschemer)
@@ -7,6 +6,12 @@ A simple utility for generating clean HTML from JSON Schema data using Node.
 [![Travis](https://img.shields.io/travis/dwhieb/jschemer.svg)](https://travis-ci.org/dwhieb/jschemer)
 [![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star)](https://github.com/dwhieb/jschemer/)
 [![GitHub issues](https://img.shields.io/github/issues/dwhieb/jschemer.svg)](https://github.com/dwhieb/jschemer/issues)
+
+A simple utility for generating clean HTML documentation pages from JSON Schema data using Node.
+
+[View the live demo here]().
+
+![](screenshot.png)
 
 ## Install
 `npm install --save jschemer`
@@ -27,7 +32,7 @@ jschemer schemas --out docs
 Option             | Description
 ------------------ | -----------
 `-c`, `--css`      | The path to the CSS file to use for styling the documentation. Defaults to `out/jschemer.css`.
-`-i`, `--ignore`   | A list of filenames to ignore.
+`-i`, `--ignore`   | A comma-separated (no spaces) list of filenames to ignore.
 `-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
 `-r`, `--readme`   | A `README.md` file to include in the generated documentation.
 
@@ -61,11 +66,11 @@ jschemer comes with a default CSS file, `jschemer.css`. You can easily customize
 * HTML elements in the generated documentation are also given CSS classes labeling the data type they apply to: `array`, `numeric`, `object`, `string`. Attributes that apply to any data type, such as `type`, are given the class `any`. The metadata keywords such `title`, `description`, `default`, `id`, and `$schema` are given the class `meta` (as well as `any`). All properties are also given the `prop` class.
 
 An example of the outputted HTML, with CSS classes:
+
 ```html
-<div class='additional-items array prop'>
-  <h2>Additional Items</h2>
-  <code>true</code>
-</div>
+<p class='additional-properties object prop'>
+  <strong>Additional properties:</strong> true
+</p>
 ```
 
 ## Notes:
