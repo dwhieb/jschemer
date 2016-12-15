@@ -120,6 +120,13 @@ describe('jschemer', function() {
       });
     });
 
+    const checkLogo = () => new Promise((resolve, reject) => {
+      fs.stat('out/json-schema.svg', err => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
     const checkOutFolder = () => new Promise((resolve, reject) => {
       fs.stat('out', err => {
         if (err) reject(err);
@@ -146,6 +153,7 @@ describe('jschemer', function() {
     .then(checkOutFolder)
     .then(checkSchemasFolder)
     .then(checkCss)
+    .then(checkLogo)
     // .then(checkIndex) TODO: enable this
     .then(checkSchema)
     .then(done)

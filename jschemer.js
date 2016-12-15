@@ -58,8 +58,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   let schemaPath = path;
 
   // copy the CSS file into the /out directory
-  const copyCSS = () => new Promise((resolve, reject) => {
-
+  const copyCss = () => new Promise((resolve, reject) => {
     const rs = fs.createReadStream(cssPath);
     const ws = fs.createWriteStream(`${outPath}/${cssFilename}`);
 
@@ -67,8 +66,24 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     ws.on('error', err => reject(wrapError(err, `Unable to write to jschemer.css.`)));
     ws.on('finish', resolve);
     rs.pipe(ws);
-
   });
+
+  // copy the JSON Schema logo into the /out directory
+  const copyLogo = () => new Promise((resolve, reject) => {
+    const rs = fs.createReadStream('src/img/json-schema.svg');
+    const ws = fs.createWriteStream(`${outPath}/json-schema.svg`);
+
+    rs.on('error', err => reject(wrapError(err, 'Unable to read the json-schema.svg file.')));
+    ws.on('error', err => reject(wrapError(err, 'Unable to write the json-schema.svg file.')));
+    ws.on('finish', resolve);
+    rs.pipe(ws);
+  });
+
+  // copy the necessary source files into the /out directory
+  const copySourceFiles = () => Promise.all([
+    copyCss(),
+    copyLogo(),
+  ]);
 
   // creates the index.html page
   const createIndexPage = readme => new Promise((resolve, reject) => {
@@ -100,7 +115,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
       const convert = hbs.compile(pageTemplate);
 
       const html = convert({
-        css: cssFilename,
+        cssFilename,
         nav,
         schema,
       });
@@ -350,7 +365,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
   // run each task, in parallel if possible
   return Promise.all([
-    createOutFolder().then(createSchemasFolder).then(copyCSS),
+    createOutFolder().then(createSchemasFolder).then(copySourceFiles),
     getFileNames().then(readSchemaFiles).then(preprocessSchemas),
   ]).then(() => Promise.all([
     getReadme().then(createIndexPage),
