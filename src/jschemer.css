@@ -45,12 +45,6 @@ blockquote,
 br,
 code,
 em,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 hr,
 i,
 img,
@@ -122,6 +116,21 @@ thead {
 tr {
   display: table-row;
 }
+.inline-schema:before {
+  background-image: url('json-schema.svg');
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  content: '';
+  display: inline-block;
+  filter: drop-shadow(2px 2px #ccc);
+  height: 1.5rem;
+  margin-right: 0.5em;
+  width: 1.5rem;
+}
+.softBorder {
+  border: 1px solid #e8e8e8;
+  border-radius: 3px;
+}
 .schema {
   border: 1px solid #e8e8e8;
   border-radius: 3px;
@@ -134,12 +143,15 @@ tr {
   border-radius: 3px;
   background-color: #eef;
   font-family: 'Fira Sans Mono', monospace;
-  overflow-x: auto;
 }
 .schema div.prop > :not(h2) {
   padding-left: 0.5rem;
 }
-.schema h1 {
+.schema h1,
+.schema h2 {
+  display: inline;
+}
+.schema > h1 {
   font-size: 1.5rem;
   font-weight: bold;
   padding-bottom: 0.5em;
@@ -151,12 +163,85 @@ tr {
   word-wrap: break-word;
 }
 .schema pre {
+  overflow-x: scroll;
   padding: 0.5em 0.5em;
+}
+.schema .prop:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+.schema .prop > .schema {
+  margin-left: 2.5rem;
+  position: relative;
+}
+.schema .prop > .schema:before {
+  margin-left: -2.5rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .schema strong {
   font-weight: bold;
 }
-.softBorder {
-  border: 1px solid #e8e8e8;
-  border-radius: 3px;
+.schema .all-of > ul > li,
+.schema .any-of > ul > li,
+.schema .definitions > ul > li,
+.schema .dependencies > ul > li,
+.schema .items > ul > li,
+.schema .one-of > ul > li,
+.schema .pattern-properties > ul > li,
+.schema .properties > ul > li {
+  align-items: center;
+  flex-direction: row;
+}
+.schema .all-of > ul > li:before,
+.schema .any-of > ul > li:before,
+.schema .definitions > ul > li:before,
+.schema .dependencies > ul > li:before,
+.schema .items > ul > li:before,
+.schema .one-of > ul > li:before,
+.schema .pattern-properties > ul > li:before,
+.schema .properties > ul > li:before {
+  background-image: url('json-schema.svg');
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  content: '';
+  display: inline-block;
+  filter: drop-shadow(2px 2px #ccc);
+  height: 1.5rem;
+  margin-right: 0.5em;
+  width: 1.5rem;
+}
+.schema .all-of > ul > li > .schema,
+.schema .any-of > ul > li > .schema,
+.schema .definitions > ul > li > .schema,
+.schema .dependencies > ul > li > .schema,
+.schema .items > ul > li > .schema,
+.schema .one-of > ul > li > .schema,
+.schema .pattern-properties > ul > li > .schema,
+.schema .properties > ul > li > .schema {
+  flex-grow: 1;
+}
+.schema .additional-items > .schema:before,
+.schema .items > .schema:before,
+.schema .not > .schema:before {
+  background-image: url('json-schema.svg');
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  content: '';
+  display: inline-block;
+  filter: drop-shadow(2px 2px #ccc);
+  height: 1.5rem;
+  margin-right: 0.5em;
+  width: 1.5rem;
+}
+.schema .enum > ul > li {
+  margin: 0.25rem 0rem;
+}
+.schema .required > ul {
+  list-style: disc outside none;
+}
+.schema .required > ul > li {
+  align-items: flex-start;
+  display: list-item;
+  margin-left: 0.75rem;
 }
