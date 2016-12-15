@@ -135,7 +135,7 @@ describe('jschemer', function() {
     });
 
     const checkSchema = () => new Promise((resolve, reject) => {
-      fs.readFile('out/schemas/schema.html', 'utf8', (err, data) => {
+      fs.readFile('out/schemas/test-schema.html', 'utf8', (err, data) => {
         if (err) return reject(err);
         expect(data.includes('>Test Schema<')).toBe(true);
         resolve();
