@@ -9,9 +9,9 @@
 
 A simple utility for generating clean HTML documentation pages from JSON Schema data using Node.
 
-[View the live demo here]().
+[View the live demo here](http://dwhieb.github.io/jschemer/example/index.html).
 
-![](screenshot.png)
+![jschemer screenshot](screenshot.png)
 
 ## Install
 `npm install --save jschemer`
