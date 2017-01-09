@@ -17,7 +17,7 @@ const wrapError = (err, message) => {
 };
 
 // the jschemer function exported by this module
-const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
+const jschemer = (path, options = {}, cb = function() {}) => {
 
   // validate arguments
   if (typeof path !== 'string') {
@@ -47,6 +47,10 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     throw new TypeError(`The 'readme' option must be a string.`);
   }
 
+  if (typeof cb !== 'function') {
+    throw new TypeError(`The 'callback' argument must be a function.`);
+  }
+
   // initialize options and other function-scoped variables
   const cssPath = options.css || 'src/jschemer.css';
   const cssFilename = Path.parse(cssPath).base;
@@ -62,10 +66,21 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     const rs = fs.createReadStream(cssPath);
     const ws = fs.createWriteStream(`${outPath}/${cssFilename}`);
 
-    rs.on('error', err => reject(wrapError(err, `Unable to read from the CSS file.`)));
-    ws.on('error', err => reject(wrapError(err, `Unable to write to jschemer.css.`)));
+    rs.on('error', err => {
+      const e = wrapError(err, `Unable to read from the CSS file.`);
+      reject(e);
+      cb(e);
+    });
+
+    ws.on('error', err => {
+      const e = wrapError(err, `Unable to write to jschemer.css.`);
+      reject(e);
+      cb(e);
+    });
+
     ws.on('finish', resolve);
     rs.pipe(ws);
+
   });
 
   // copy the JSON Schema logo into the /out directory
@@ -73,10 +88,21 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     const rs = fs.createReadStream('src/img/json-schema.svg');
     const ws = fs.createWriteStream(`${outPath}/json-schema.svg`);
 
-    rs.on('error', err => reject(wrapError(err, 'Unable to read the json-schema.svg file.')));
-    ws.on('error', err => reject(wrapError(err, 'Unable to write the json-schema.svg file.')));
+    rs.on('error', err => {
+      const e = wrapError(err, 'Unable to read the json-schema.svg file.');
+      reject(e);
+      cb(e);
+    });
+
+    ws.on('error', err => {
+      const e = wrapError(err, 'Unable to write the json-schema.svg file.');
+      reject(e);
+      cb(e);
+    });
+
     ws.on('finish', resolve);
     rs.pipe(ws);
+
   });
 
   // copy the necessary source files into the /out directory
@@ -100,7 +126,9 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     fs.mkdir(outPath, err => {
 
       if (err && err.code !== 'EEXIST') {
-        reject(wrapError(err, `Unable to create the output directory, "${outPath}".`));
+        const e = wrapError(err, `Unable to create the output directory, "${outPath}".`);
+        reject(e);
+        return cb(e);
       }
 
       resolve();
@@ -109,7 +137,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   });
 
   // create a documentation page for each schema
-  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => { // eslint-disable-line arrow-body-style
+  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => {
     return new Promise((resolve, reject) => {
 
       const convert = hbs.compile(pageTemplate);
@@ -125,8 +153,15 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
         : `${schema._filename}.html`;
 
       fs.writeFile(Path.join(outPath, 'schemas', filename), html, err => {
-        if (err) reject(wrapError(err, `Unable to create documentation page for the "${schema.title}" schema.`));
-        else resolve();
+
+        if (err) {
+          const e = wrapError(err, `Unable to create documentation page for the "${schema.title}" schema.`);
+          reject(e);
+          return cb(e);
+        }
+
+        resolve();
+
       });
 
     });
@@ -138,7 +173,9 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     fs.mkdir(Path.join(outPath, 'schemas'), err => {
 
       if (err && !err.message.includes('EEXIST')) {
-        reject(wrapError(err, `Unable to create the /schemas directory.`));
+        const e = wrapError(err, `Unable to create the /schemas directory.`);
+        reject(e);
+        return cb(e);
       }
 
       resolve();
@@ -162,7 +199,9 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
       // reject on error
       if (err) {
 
-        reject(wrapError(err, `Unable to retrieve information about the path "${path}".`));
+        const e = wrapError(err, `Unable to retrieve information about the path "${path}".`);
+        reject(e);
+        return cb(e);
 
       // if the provided path is a file, add that path to filenames
       } else if (stats.isFile()) {
@@ -178,17 +217,23 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
       } else if (stats.isDirectory()) {
 
         fs.readdir(path, 'utf8', (err, files) => {
+
           if (err) {
-            reject(wrapError(err, 'Unable to list the files in the provided directory.'));
-          } else {
-            files.forEach(addFilename);
-            resolve(filenames);
+            const e = wrapError(err, 'Unable to list the files in the provided directory.');
+            reject(e);
+            return cb(e);
           }
+
+          files.forEach(addFilename);
+          resolve(filenames);
+
         });
 
       } else {
 
-        throw new Error('Unable to determine whether the "path" argument is a file or directory.');
+        const e = new Error('Unable to determine whether the "path" argument is a file or directory.');
+        reject(e);
+        return cb(e);
 
       }
 
@@ -199,15 +244,21 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   // read the contents of the readme file
   const getReadme = () => new Promise((resolve, reject) => {
     fs.readFile(readmePath, 'utf8', (err, readme) => {
-      if (err) reject(wrapError(err, 'Unable to read the contents of the readme.'));
-      else resolve(readme);
+
+      if (err) {
+        const e = wrapError(err, 'Unable to read the contents of the readme.');
+        reject(e);
+        return cb(e);
+      }
+
+      resolve(readme);
+
     });
   });
 
   // makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
   // (also populates the nav array)
-  /* eslint-disable no-param-reassign */
-  const preprocess = schema => { // eslint-disable-line max-statements
+  const preprocess = schema => {
 
     const setTitle = (key, sch) => {
       sch.title = sch.title || key;
@@ -316,7 +367,6 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
 
     return schema;
 
-    /* eslint-enable no-param-reassign */
   };
 
   const preprocessSchemas = () => schemas.forEach(schema => {
@@ -335,23 +385,25 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
     fs.readFile(Path.join(schemaPath, filename), 'utf8', (err, data) => {
 
       if (err) {
-        reject(wrapError(err, `Error reading the schema file "${filename}".`));
-      } else {
-
-        let schema = {};
-
-        try {
-          schema = JSON.parse(data);
-        } catch (err) {
-          throw new SyntaxError(`Could not parse JSON data for the schema file "${filename}".`);
-        }
-
-        schema._filename = filename;
-        schemas.push(schema);
-
-        resolve();
-
+        const e = wrapError(err, `Error reading the schema file "${filename}".`);
+        reject(e);
+        return cb(e);
       }
+
+      let schema = {};
+
+      try {
+        schema = JSON.parse(data);
+      } catch (err) {
+        const e = new SyntaxError(`Could not parse JSON data for the schema file "${filename}".`);
+        reject(e);
+        return cb(e);
+      }
+
+      schema._filename = filename;
+      schemas.push(schema);
+
+      resolve();
 
     });
   });
@@ -362,17 +414,32 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   // gets the contents of schema-page.hbs
   const readSchemaPageTemplate = () => new Promise((resolve, reject) => {
     fs.readFile('src/templates/schema-page.hbs', 'utf8', (err, pageTemplate) => {
-      if (err) reject(wrapError(err, 'Unable to read the contents of schema-page.hbs.'));
-      else resolve(pageTemplate);
+
+      if (err) {
+        const e = wrapError(err, 'Unable to read the contents of schema-page.hbs.');
+        reject(e);
+        return cb(e);
+
+      }
+
+      resolve(pageTemplate);
+
     });
   });
 
   // get the contents of schema.hbs and register its as a Handlebars partial
   const readSchemaTemplate = () => new Promise((resolve, reject) => {
     fs.readFile('src/templates/schema.hbs', 'utf8', (err, schemaTemplate) => {
-      if (err) return reject(wrapError(err, 'Unable to read contents of schema.hbs.'));
+
+      if (err) {
+        const e = wrapError(err, 'Unable to read contents of schema.hbs.');
+        reject(e);
+        return cb(e);
+
+      }
       hbs.registerPartial('schemaTemplate', schemaTemplate);
       resolve();
+
     });
   });
 
@@ -383,7 +450,7 @@ const jschemer = (path, options = {}) => { // eslint-disable-line max-statements
   ]).then(() => Promise.all([
     getReadme().then(createIndexPage),
     readSchemaTemplate().then(readSchemaPageTemplate).then(createSchemaPages),
-  ]));
+  ])).then(() => cb());
 
 };
 
@@ -393,8 +460,8 @@ if (require.main === module) {
   const list = val => val.replace(/ /g, '').split(',');
 
   program
-  .version(meta.version)     // set version
-  .arguments('<path>') // set required <path> argument
+  .version(meta.version) // set version
+  .arguments('<path>')   // set required <path> argument
 
   // set options
   .option('-c, --css <filename>', `The path to the CSS file to use for styling the documentation. Defaults to 'out/jschemer.css'.`)
@@ -414,7 +481,7 @@ if (require.main === module) {
     };
 
     // run jschemer using the passed options
-    jschemer(path, options).catch(console.err); // eslint-disable-line no-console
+    jschemer(path, options).catch(console.err);
 
   })
 

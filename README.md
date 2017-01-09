@@ -49,8 +49,14 @@ const opts = {
   readme: 'README.md'
 };
 
-// the jschemer object is a function which returns a Promise when called
+// the jschemer object is a function which returns a Promise
 jschemer(path, opts).then(/* code to run when documentation has finished generating */)
+
+// you can also call jschemer using a traditional error-first callback
+jschemer(path, opts, err => {
+  if (err) throw err;
+  else console.log('Done!');
+});
 ```
 
 ## HTML
