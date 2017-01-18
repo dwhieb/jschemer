@@ -7,6 +7,10 @@ const meta = require('./package.json');
 const Path = require('path');
 const program = require('commander');
 
+hbs.registerHelper('md', () => {
+  return '';
+});
+
 const wrapError = (err, message) => {
 
   const e = new Error(message);
@@ -112,13 +116,21 @@ const jschemer = (path, options = {}, cb = function() {}) => {
   ]);
 
   // creates the index.html page
+
+  const context = ({
+    css: cssPath,
+    nav: nav,
+    readme: readmePath,
+  });
+
   const createIndexPage = readme => new Promise((resolve, reject) => {
-    // TODO: Alyanna
-    // Context:
-    // - css
-    // - nav
-    // - readme
-    resolve();
+    fs.readFile("src/templates/index.hbs", 'utf8', (err, template) => {
+      const convert = hbs.compile(template);
+      const html = convert(context);
+      fs.writeFile(`${outPath}/index.html`, html, 'utf8', (err, html) => {
+        resolve();
+      });
+    });
   });
 
   // create the '/out' directory
