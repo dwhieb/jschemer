@@ -124,7 +124,7 @@ const jschemer = (path, options = {}, cb = function() {}) => {
   });
 
   const createIndexPage = readme => new Promise((resolve, reject) => {
-    fs.readFile("src/templates/index.hbs", 'utf8', (err, template) =>{
+    fs.readFile("src/templates/index.hbs", 'utf8', (err, template) => {
       const convert = hbs.compile(template);
       const html = convert(context);
       fs.writeFile(`${outPath}/index.html`, html, 'utf8', (err, html) => {
