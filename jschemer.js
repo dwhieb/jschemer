@@ -259,7 +259,7 @@ const jschemer = (path, options = {}, cb = done) => {
       const convert = hbs.compile(template);
 
       const context = {
-        css: cssPath,
+        css: cssFilename,
         nav,
         readme,
       };
