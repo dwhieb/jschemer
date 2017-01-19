@@ -138,23 +138,11 @@ tr {
   border: 1px solid #e8e8e8;
   border-radius: 3px;
 }
-a {
-  background: initial;
-  color: #2a7ae2;
-  border-bottom: 1px solid white;
-  text-decoration: none;
-}
-a:visited {
-  color: #1756a9;
-}
-a:hover {
-  border-bottom: 1px solid #2a7ae2;
-}
-a:hover:visited {
-  border-bottom: 1px solid #1756a9;
-}
-a:active {
+main > h1 {
+  align-self: center;
+  font-size: 2rem;
   font-weight: bold;
+  padding: 1rem;
 }
 nav {
   border: 1px solid #e8e8e8;
