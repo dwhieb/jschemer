@@ -30,7 +30,6 @@ a, b, blockquote, br, code, em, hr, i, img, p, strong, u {
   display: inline;
 }
 
-// TODO: adjust link style, rather than reset it
 a {
   background: initial;
   color: @lightblue;
@@ -93,6 +92,7 @@ tr {
   display: table-row;
 }
 
+// classes
 .bulleted {
   list-style: disc outside none;
   li {
@@ -120,21 +120,19 @@ tr {
   border-radius: 3px;
 }
 
-a {
-  background: initial;
-  color: @lightblue;
-  border-bottom: 1px solid white;
-  text-decoration: none;
-  &:visited { color: @darkblue; }
-  &:hover { border-bottom: 1px solid @lightblue; }
-  &:hover:visited { border-bottom: 1px solid @darkblue; }
-  &:active { font-weight: bold; }
+main > h1 {
+  align-self: center;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
 }
 
 nav {
+
   .softBorder;
   align-items: flex-start;
   padding: 1rem;
+
   h1 {
     font-weight: bold;
     a {
@@ -143,10 +141,12 @@ nav {
       &:hover:visited { border-bottom: 1px solid @darkblue; }
     }
   }
+
   ul {
     .bulleted;
     margin-left: 0.5rem;
   }
+
 }
 
 .schema {

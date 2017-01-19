@@ -8,6 +8,7 @@ const meta    = require('./package.json');
 const Path    = require('path');
 const program = require('commander');
 
+// register the markdown helper
 hbs.registerHelper('md', markdown => md.toHTML(markdown));
 
 // default callback function to run when jschemer completes
@@ -258,7 +259,7 @@ const jschemer = (path, options = {}, cb = done) => {
       const convert = hbs.compile(template);
 
       const context = {
-        css: cssPath,
+        css: cssFilename,
         nav,
         readme,
       };
@@ -418,7 +419,7 @@ const jschemer = (path, options = {}, cb = done) => {
   const preprocessSchemas = () => schemas.forEach(schema => {
 
     nav.push({
-      filename: schema._filename,
+      filename: schema._filename.replace('.json', '.html'),
       title:    schema.title,
     });
 
