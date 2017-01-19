@@ -154,7 +154,7 @@ describe('jschemer', function() {
     .then(checkSchemasFolder)
     .then(checkCss)
     .then(checkLogo)
-    // .then(checkIndex) TODO: enable this
+    .then(checkIndex)
     .then(checkSchema)
     .then(done)
     .catch(fail);
@@ -198,16 +198,16 @@ describe('jschemer', function() {
     });
 
     const checkLinkPath = () => new Promise((resolve, reject) => {
-      fs.readFile('out/index.hbs', 'utf8', (err, data) => {
+      fs.readFile('out/index.html', 'utf8', (err, data) => {
         if (err) return reject(err);
-        expect(data.includes('out/custom.css')).toBe(true);
+        expect(data.includes('rel=stylesheet href="test/custom.css"')).toBe(true);
         resolve();
       });
     });
 
     jschemer(schemaPath, { css: 'test/custom.css' })
     .then(checkCustomCss)
-    // .then(checkLinkPath) TODO: enable this
+    .then(checkLinkPath)
     .then(done)
     .catch(fail);
 
@@ -259,12 +259,12 @@ describe('jschemer', function() {
 
   });
 
-  xit('includes a custom readme', function(done) {
+  it('includes a custom readme', function(done) {
 
     const checkReadme = () => new Promise((resolve, reject) => {
       fs.readFile('out/index.html', 'utf8', (err, data) => {
         if (err) return reject(err);
-        expect(data.includes('>Custom Readme>')).toBe(true);
+        expect(data.includes('Custom Readme')).toBe(true);
         resolve();
       });
     });
