@@ -200,7 +200,7 @@ describe('jschemer', function() {
     const checkLinkPath = () => new Promise((resolve, reject) => {
       fs.readFile('out/index.html', 'utf8', (err, data) => {
         if (err) return reject(err);
-        expect(data.includes('rel=stylesheet href="test/custom.css"')).toBe(true);
+        expect(data.includes('rel=stylesheet href="custom.css"')).toBe(true);
         resolve();
       });
     });
