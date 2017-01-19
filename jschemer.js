@@ -1,29 +1,144 @@
 #!/usr/bin/env node
 
 // modules
-const fs = require('fs');
-const hbs = require('handlebars');
-const meta = require('./package.json');
-const Path = require('path');
+const fs      = require('fs');
+const hbs     = require('handlebars');
+const md      = require('markdown').markdown;
+const meta    = require('./package.json');
+const Path    = require('path');
 const program = require('commander');
 
-hbs.registerHelper('md', () => {
-  return '';
-});
+hbs.registerHelper('md', markdown => md.toHTML(markdown));
 
-const wrapError = (err, message) => {
+// default callback function to run when jschemer completes
+const done = () => console.log('jschemer finished creating documentation.'); // eslint-disable-line no-console
 
-  const e = new Error(message);
+// makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
+const preprocessSchema = schema => {
 
-  e.inner = err;
-  return e;
+  const setTitle = (key, sch) => {
+    const s = sch;
+    s.title = s.title || key;
+    s._key = key;
+  };
+
+  const setBooleanOrSchema = (prop, sch) => {
+
+    const s = sch;
+
+    if (typeof s[prop] === 'boolean') {
+
+      s[prop] = { boolean: s[prop] };
+
+    } else if (typeof s[prop] === 'object') {
+
+      preprocessSchema(s[prop]);
+      setTitle(prop, s[prop]);
+      s[prop]._object = true;
+
+    }
+
+  };
+
+  for (const prop in schema) {
+
+    const s = schema;
+
+    switch (prop) {
+
+      case '$ref': {
+        if (s.$ref.startsWith('#')) {
+          s.$ref = s.$ref.replace('#/definitions/', '');
+        }
+        break;
+      }
+
+      case 'additionalItems': {
+        setBooleanOrSchema(prop, s);
+        break;
+      }
+
+      case 'additionalProperties': {
+        setBooleanOrSchema(prop, s);
+        break;
+      }
+
+      case 'default': {
+        s.default = JSON.stringify(s.default, null, 2);
+        break;
+      }
+
+      case 'dependencies': {
+        for (const key in s.dependencies) {
+          if (
+            typeof s.dependencies[key] === 'object'
+            && !Array.isArray(s.dependencies[key])
+          ) {
+            preprocessSchema(s.dependencies[key]);
+            s.dependencies[key]._object = true;
+          }
+        }
+        break;
+      }
+
+      case 'definitions': {
+        for (const def in s.definitions) {
+          setTitle(def, s.definitions[def]);
+        }
+        break;
+      }
+
+      case 'enum': {
+        s.enum = s.enum.map(val => JSON.stringify(val, null, 2));
+        break;
+      }
+
+      case 'items': {
+        if (Array.isArray(s.items)) {
+          s.items.forEach(preprocessSchema);
+        } else if (typeof s.items === 'object') {
+          preprocessSchema(s.items);
+          s.items._object = true;
+        }
+        break;
+      }
+
+      case 'patternProperties': {
+        for (const patt in s.patternProperties) {
+          s.patternProperties[patt] = preprocessSchema(s.patternProperties[patt]);
+          s.patternProperties[patt]._pattern = patt;
+        }
+        break;
+      }
+
+      case 'properties': {
+        for (const key in s.properties) {
+          s.properties[key] = preprocessSchema(s.properties[key]);
+          setTitle(key, s.properties[key]);
+        }
+        break;
+      }
+
+      case 'uniqueItems': {
+        s.uniqueItems = { boolean: String(s.uniqueItems) };
+        break;
+      }
+
+      default: {
+        break;
+      }
+
+    }
+
+  }
+
+  return schema;
 
 };
 
-// the jschemer function exported by this module
-const jschemer = (path, options = {}, cb = function() {}) => {
+// validate arguments to jschemer function
+const validate = (path, options, cb) => {
 
-  // validate arguments
   if (typeof path !== 'string') {
     throw new TypeError(`The 'path' argument must be a string.`);
   }
@@ -54,6 +169,21 @@ const jschemer = (path, options = {}, cb = function() {}) => {
   if (typeof cb !== 'function') {
     throw new TypeError(`The 'callback' argument must be a function.`);
   }
+
+};
+
+// generic error wrapper
+const wrapError = (err, message) => {
+  const e = new Error(message);
+  e.inner = err;
+  return e;
+};
+
+// the jschemer function exported by this module
+const jschemer = (path, options = {}, cb = done) => {
+
+  // validate arguments
+  validate(path, options, cb);
 
   // initialize options and other function-scoped variables
   const cssPath = options.css || 'src/jschemer.css';
@@ -116,20 +246,37 @@ const jschemer = (path, options = {}, cb = function() {}) => {
   ]);
 
   // creates the index.html page
-
-  const context = ({
-    css: cssPath,
-    nav: nav,
-    readme: readmePath,
-  });
-
   const createIndexPage = readme => new Promise((resolve, reject) => {
-    fs.readFile("src/templates/index.hbs", 'utf8', (err, template) => {
+    fs.readFile('src/templates/index.hbs', 'utf8', (err, template) => {
+
+      if (err) {
+        const e = wrapError(err, 'Unable to read the contents of "index.hbs".');
+        reject(e);
+        return cb(e);
+      }
+
       const convert = hbs.compile(template);
+
+      const context = {
+        css: cssPath,
+        nav,
+        readme,
+      };
+
       const html = convert(context);
-      fs.writeFile(`${outPath}/index.html`, html, 'utf8', (err, html) => {
+
+      fs.writeFile(`${outPath}/index.html`, html, 'utf8', err => {
+
+        if (err) {
+          const e = wrapError(err, `Unable to write "index.html" file.`);
+          reject(e);
+          return cb(e);
+        }
+
         resolve();
+
       });
+
     });
   });
 
@@ -149,8 +296,8 @@ const jschemer = (path, options = {}, cb = function() {}) => {
   });
 
   // create a documentation page for each schema
-  const createSchemaPages = pageTemplate => Promise.all(schemas.map(schema => {
-    return new Promise((resolve, reject) => {
+  const createSchemaPages = pageTemplate => Promise.all(
+    schemas.map(schema => new Promise((resolve, reject) => {
 
       const convert = hbs.compile(pageTemplate);
 
@@ -161,8 +308,8 @@ const jschemer = (path, options = {}, cb = function() {}) => {
       });
 
       const filename = schema._filename.includes('.json') ?
-        schema._filename.replace('.json', '.html')
-        : `${schema._filename}.html`;
+        schema._filename.replace('.json', '.html') :
+        `${schema._filename}.html`;
 
       fs.writeFile(Path.join(outPath, 'schemas', filename), html, err => {
 
@@ -176,8 +323,8 @@ const jschemer = (path, options = {}, cb = function() {}) => {
 
       });
 
-    });
-  }));
+    }))
+  );
 
   // create the /out/schemas directory
   const createSchemasFolder = () => new Promise((resolve, reject) => {
@@ -268,119 +415,6 @@ const jschemer = (path, options = {}, cb = function() {}) => {
     });
   });
 
-  // makes minor changes to the JSON Schemas so that they are easier to render in Handlebars
-  // (also populates the nav array)
-  const preprocess = schema => {
-
-    const setTitle = (key, sch) => {
-      sch.title = sch.title || key;
-      sch._key = key;
-    };
-
-    const setBooleanOrSchema = (prop, sch) => {
-      if (typeof sch[prop] === 'boolean') {
-        sch[prop] = { boolean: sch[prop] };
-      } else if (typeof sch[prop] === 'object') {
-        preprocess(sch[prop]);
-        setTitle(prop, sch[prop]);
-        sch[prop]._object = true;
-      }
-    };
-
-    for (const prop in schema) {
-
-      switch (prop) {
-
-        case '$ref': {
-          if (schema.$ref.startsWith('#')) {
-            schema.$ref = schema.$ref.replace('#/definitions/', '');
-          }
-          break;
-        }
-
-        case 'additionalItems': {
-          setBooleanOrSchema(prop, schema);
-          break;
-        }
-
-        case 'additionalProperties': {
-          setBooleanOrSchema(prop, schema);
-          break;
-        }
-
-        case 'default': {
-          schema.default = JSON.stringify(schema.default, null, 2);
-          break;
-        }
-
-        case 'dependencies': {
-          for (const key in schema.dependencies) {
-            if (
-              typeof schema.dependencies[key] === 'object'
-              && !Array.isArray(schema.dependencies[key])
-            ) {
-              preprocess(schema.dependencies[key]);
-              schema.dependencies[key]._object = true;
-            }
-          }
-          break;
-        }
-
-        case 'definitions': {
-          for (const def in schema.definitions) {
-            setTitle(def, schema.definitions[def]);
-          }
-          break;
-        }
-
-        case 'enum': {
-          schema.enum = schema.enum.map(val => JSON.stringify(val, null, 2));
-          break;
-        }
-
-        case 'items': {
-          if (Array.isArray(schema.items)) {
-            schema.items.forEach(preprocess);
-          } else if (typeof schema.items === 'object') {
-            preprocess(schema.items);
-            schema.items._object = true;
-          }
-          break;
-        }
-
-        case 'patternProperties': {
-          for (const patt in schema.patternProperties) {
-            schema.patternProperties[patt] = preprocess(schema.patternProperties[patt]);
-            schema.patternProperties[patt]._pattern = patt;
-          }
-          break;
-        }
-
-        case 'properties': {
-          for (const key in schema.properties) {
-            schema.properties[key] = preprocess(schema.properties[key]);
-            setTitle(key, schema.properties[key]);
-          }
-          break;
-        }
-
-        case 'uniqueItems': {
-          schema.uniqueItems = { boolean: String(schema.uniqueItems) };
-          break;
-        }
-
-        default: {
-          break;
-        }
-
-      }
-
-    }
-
-    return schema;
-
-  };
-
   const preprocessSchemas = () => schemas.forEach(schema => {
 
     nav.push({
@@ -388,7 +422,7 @@ const jschemer = (path, options = {}, cb = function() {}) => {
       title:    schema.title,
     });
 
-    preprocess(schema);
+    preprocessSchema(schema);
 
   });
 
@@ -493,7 +527,7 @@ if (require.main === module) {
     };
 
     // run jschemer using the passed options
-    jschemer(path, options).catch(console.err);
+    jschemer(path, options).catch(console.err); // eslint-disable-line no-console
 
   })
 

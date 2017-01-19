@@ -5,6 +5,7 @@
     "consistent-return": "off",
     "guard-for-in": "off",
     "max-nested-callbacks": ["warn", 4],
+    "max-statements": "off",
     "no-catch-shadow": "off",
     "no-underscore-dangle": "off"
   }
