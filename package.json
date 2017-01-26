@@ -1,6 +1,6 @@
 {
   "name": "jschemer",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "description": "A simple utility that generates documentation for JSON Schema data using Handlebars.",
   "keywords": [
     "json schema",
@@ -33,7 +33,7 @@
   "bin": "./jschemer.js",
   "scripts": {
     "build": "lessc src/jschemer.less src/jschemer.css",
-    "example": "node jschemer.js test/test-schema.json -o example",
+    "example": "node jschemer.js test/test-schema.json -o example --dev",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   }
 }
