@@ -114,6 +114,14 @@ describe('jschemer', function() {
       });
     });
 
+    const checkGFM = () => new Promise((resolve, reject) => {
+      fs.readFile('out/gfm.css', 'utf8', (err, data) => {
+        if (err) return reject(err);
+        expect(data.includes('octicons')).toBe(true);
+        resolve();
+      });
+    });
+
     const checkIndex = () => new Promise((resolve, reject) => {
       fs.readFile('out/index.html', 'utf8', (err, data) => {
         if (err) return reject(err);
@@ -156,6 +164,7 @@ describe('jschemer', function() {
     .then(checkOutFolder)
     .then(checkSchemasFolder)
     .then(checkCss)
+    .then(checkGFM)
     .then(checkLogo)
     .then(checkIndex)
     .then(checkSchema)
