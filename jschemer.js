@@ -3,13 +3,13 @@
 // modules
 const fs      = require('fs');
 const hbs     = require('handlebars');
-const md      = require('markdown').markdown;
+const md      = require('markdown-it')();
 const meta    = require('./package.json');
 const Path    = require('path');
 const program = require('commander');
 
 // register the markdown helper
-hbs.registerHelper('md', markdown => md.toHTML(markdown));
+hbs.registerHelper('md', markdown => md.render(markdown));
 
 // default callback function to run when jschemer completes
 const done = () => console.log('jschemer finished creating documentation.'); // eslint-disable-line no-console
