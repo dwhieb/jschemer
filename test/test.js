@@ -3,7 +3,10 @@
   func-names,
   max-nested-callbacks,
   max-statements,
-  prefer-arrow-callback
+  object-curly-newline,
+  object-property-newline,
+  prefer-arrow-callback,
+  sort-keys,
 */
 
 const exec = require('child_process').exec;
@@ -20,7 +23,7 @@ describe('jschemer', function() {
 
   it('is a function that returns a Promise', function(done) {
 
-    const run = jschemer(schemaPath).then(done).catch(fail);
+    const run = jschemer(schemaPath, { dev: true }).then(done).catch(fail);
 
     expect(typeof jschemer).toBe('function');
     expect(run instanceof Promise).toBe(true);
@@ -28,15 +31,15 @@ describe('jschemer', function() {
   });
 
   it('can be run twice consecutively', function(done) {
-    jschemer(schemaPath)
-    .then(() => jschemer(schemaPath))
+    jschemer(schemaPath, { dev: true })
+    .then(() => jschemer(schemaPath, { dev: true }))
     .then(done)
     .catch(fail);
   });
 
   it('validates arguments correctly', function(done) {
 
-    const noOpts  = () => jschemer(schemaPath);
+    const noOpts  = () => jschemer(schemaPath, { dev: true });
 
     const badOpts = () => jschemer(schemaPath, 'string');
     const badPath = () => jschemer({});
@@ -55,32 +58,32 @@ describe('jschemer', function() {
   it('validates options correctly', function(done) {
 
     const emptyIgnore = () => new Promise((resolve, reject) => {
-      jschemer(schemaPath, { ignore: [] }).then(resolve).catch(reject);
+      jschemer(schemaPath, { ignore: [], dev: true }).then(resolve).catch(reject);
     });
 
     const emptyOpts = () => new Promise((resolve, reject) => {
-      jschemer(schemaPath, {}).then(resolve).catch(reject);
+      jschemer(schemaPath, { dev: true }).then(resolve).catch(reject);
     });
 
     const invalidCss = () => new Promise((resolve, reject) => {
-      jschemer(schemaPath, { css: 'does/not/exist' }).then(reject).catch(resolve);
+      jschemer(schemaPath, { css: 'does/not/exist', dev: true }).then(reject).catch(resolve);
     });
 
     const invalidIgnore = () => new Promise((resolve, reject) => {
-      jschemer(schemaPath, { ignore: ['notreal.json'] }).then(resolve).catch(reject);
+      jschemer(schemaPath, { ignore: ['notreal.json'], dev: true }).then(resolve).catch(reject);
     });
 
     const invalidReadme = () => new Promise((resolve, reject) => {
-      jschemer(schemaPath, { readme: 'notreal.md' }).then(reject).catch(resolve);
+      jschemer(schemaPath, { readme: 'notreal.md', dev: true }).then(reject).catch(resolve);
     });
 
-    const wrongTypeCss = () => jschemer(schemaPath, { css: true });
+    const wrongTypeCss = () => jschemer(schemaPath, { css: true, dev: true });
 
-    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true });
+    const wrongTypeIgnore = () => jschemer(schemaPath, { ignore: true, dev: true });
 
-    const wrongTypeOut = () => jschemer(schemaPath, { out: true });
+    const wrongTypeOut = () => jschemer(schemaPath, { out: true, dev: true });
 
-    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true });
+    const wrongTypeReadme = () => jschemer(schemaPath, { readme: true, dev: true });
 
     expect(wrongTypeCss).toThrow();
     expect(wrongTypeIgnore).toThrow();
@@ -149,7 +152,7 @@ describe('jschemer', function() {
       });
     });
 
-    jschemer(schemaPath)
+    jschemer(schemaPath, { dev: true })
     .then(checkOutFolder)
     .then(checkSchemasFolder)
     .then(checkCss)
@@ -179,7 +182,7 @@ describe('jschemer', function() {
       });
     });
 
-    jschemer('test/schemas')
+    jschemer('test/schemas', { dev: true })
     .then(checkSchema1)
     .then(checkSchema2)
     .then(done)
@@ -205,7 +208,7 @@ describe('jschemer', function() {
       });
     });
 
-    jschemer(schemaPath, { css: 'test/custom.css' })
+    jschemer(schemaPath, { css: 'test/custom.css', dev: true })
     .then(checkCustomCss)
     .then(checkLinkPath)
     .then(done)
@@ -230,7 +233,7 @@ describe('jschemer', function() {
       });
     });
 
-    jschemer('test/schemas', { ignore: ['schema-2.json'] })
+    jschemer('test/schemas', { ignore: ['schema-2.json'], dev: true })
     .then(checkSchema1)
     .then(checkSchema2)
     .then(done)
@@ -251,7 +254,7 @@ describe('jschemer', function() {
       exec('rm -r docs', resolve);
     });
 
-    jschemer(schemaPath, { out: 'docs' })
+    jschemer(schemaPath, { out: 'docs', dev: true })
     .then(checkOutFolder)
     .then(deleteDocsFolder)
     .then(done)
@@ -269,7 +272,7 @@ describe('jschemer', function() {
       });
     });
 
-    jschemer(schemaPath, { readme: 'test/custom-readme.md' })
+    jschemer(schemaPath, { readme: 'test/custom-readme.md', dev: true })
     .then(checkReadme)
     .then(done)
     .catch(fail);

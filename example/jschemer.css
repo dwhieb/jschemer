@@ -132,6 +132,7 @@ tr {
   filter: drop-shadow(2px 2px #ccc);
   height: 1.5rem;
   margin-right: 0.5em;
+  min-width: 1.5rem;
   width: 1.5rem;
 }
 .softBorder {
@@ -248,6 +249,7 @@ nav ul li {
   filter: drop-shadow(2px 2px #ccc);
   height: 1.5rem;
   margin-right: 0.5em;
+  min-width: 1.5rem;
   width: 1.5rem;
 }
 .schema .all-of > ul > li > .schema,
@@ -271,6 +273,7 @@ nav ul li {
   filter: drop-shadow(2px 2px #ccc);
   height: 1.5rem;
   margin-right: 0.5em;
+  min-width: 1.5rem;
   width: 1.5rem;
 }
 .schema .dependencies > ul > li > div {

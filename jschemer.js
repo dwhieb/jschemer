@@ -186,12 +186,15 @@ const jschemer = (path, options = {}, cb = done) => {
   // validate arguments
   validate(path, options, cb);
 
+  // changes base path for dev and testing
+  const base = options.dev ? '.' : 'node_modules/jschemer';
+
   // initialize options and other function-scoped variables
-  const cssPath = options.css || 'node_modules/jschemer/src/jschemer.css';
+  const cssPath = options.css || `${base}/src/jschemer.css`;
   const cssFilename = Path.parse(cssPath).base;
   const ignore = options.ignore || [];
   const outPath = options.out || 'out';
-  const readmePath = options.readme || 'node_modules/jschemer/src/readme.md';
+  const readmePath = options.readme || `${base}/src/readme.md`;
   const nav = [];
   const schemas = [];
   let schemaPath = path;
@@ -220,7 +223,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // copy the JSON Schema logo into the /out directory
   const copyLogo = () => new Promise((resolve, reject) => {
-    const rs = fs.createReadStream('node_modules/jschemer/src/img/json-schema.svg');
+    const rs = fs.createReadStream(`${base}/src/img/json-schema.svg`);
     const ws = fs.createWriteStream(`${outPath}/json-schema.svg`);
 
     rs.on('error', err => {
@@ -248,7 +251,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // creates the index.html page
   const createIndexPage = readme => new Promise((resolve, reject) => {
-    fs.readFile('node_modules/jschemer/src/templates/index.hbs', 'utf8', (err, template) => {
+    fs.readFile(`${base}/src/templates/index.hbs`, 'utf8', (err, template) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read the contents of "index.hbs".');
@@ -460,7 +463,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // gets the contents of schema-page.hbs
   const readSchemaPageTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('node_modules/jschemer/src/templates/schema-page.hbs', 'utf8', (err, pageTemplate) => {
+    fs.readFile(`${base}/src/templates/schema-page.hbs`, 'utf8', (err, pageTemplate) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read the contents of schema-page.hbs.');
@@ -476,7 +479,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // get the contents of schema.hbs and register its as a Handlebars partial
   const readSchemaTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('node_modules/jschemer/src/templates/schema.hbs', 'utf8', (err, schemaTemplate) => {
+    fs.readFile(`${base}/src/templates/schema.hbs`, 'utf8', (err, schemaTemplate) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read contents of schema.hbs.');
@@ -515,6 +518,7 @@ if (require.main === module) {
   .option('-i, --ignore <filenames>', `A comma-separated (no spaces) list of filenames to ignore.`, list)
   .option('-o, --out <directory>', `The name of the directory to output files to. Defaults to 'out'.`)
   .option('-r, --readme <filename>', `A readme file (in Markdown) to include in the generated documentation.`)
+  .option('--dev', `Allows jschemer to be run and tested within its own directory.`)
 
   // run this once the arguments are parsed
   .action(path => {
@@ -522,6 +526,7 @@ if (require.main === module) {
     // collect the options passed to the command line
     const options = {
       css:    program.css,
+      dev:    program.dev,
       ignore: program.ignore,
       out:    program.out,
       readme: program.readme,
