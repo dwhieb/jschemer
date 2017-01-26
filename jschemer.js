@@ -3,13 +3,13 @@
 // modules
 const fs      = require('fs');
 const hbs     = require('handlebars');
-const md      = require('markdown').markdown;
+const md      = require('markdown-it')();
 const meta    = require('./package.json');
 const Path    = require('path');
 const program = require('commander');
 
 // register the markdown helper
-hbs.registerHelper('md', markdown => md.toHTML(markdown));
+hbs.registerHelper('md', markdown => md.render(markdown));
 
 // default callback function to run when jschemer completes
 const done = () => console.log('jschemer finished creating documentation.'); // eslint-disable-line no-console
@@ -202,6 +202,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // copy the CSS file into the /out directory
   const copyCss = () => new Promise((resolve, reject) => {
+
     const rs = fs.createReadStream(cssPath);
     const ws = fs.createWriteStream(`${outPath}/${cssFilename}`);
 
@@ -213,6 +214,29 @@ const jschemer = (path, options = {}, cb = done) => {
 
     ws.on('error', err => {
       const e = wrapError(err, `Unable to write to jschemer.css.`);
+      reject(e);
+      cb(e);
+    });
+
+    ws.on('finish', resolve);
+    rs.pipe(ws);
+
+  });
+
+  // copy the gfm.css file into the /out directory
+  const copyGFM = () => new Promise((resolve, reject) => {
+
+    const rs = fs.createReadStream(`${base}/src/gfm.css`);
+    const ws = fs.createWriteStream(`${outPath}/gfm.css`);
+
+    rs.on('error', err => {
+      const e = wrapError(err, `Unable to read from the GFM CSS file.`);
+      reject(e);
+      cb(e);
+    });
+
+    ws.on('error', err => {
+      const e = wrapError(err, `Unable to write to gfm.css.`);
       reject(e);
       cb(e);
     });
@@ -247,6 +271,7 @@ const jschemer = (path, options = {}, cb = done) => {
   // copy the necessary source files into the /out directory
   const copySourceFiles = () => Promise.all([
     copyCss(),
+    copyGFM(),
     copyLogo(),
   ]);
 
