@@ -84,6 +84,7 @@ const preprocessSchema = schema => {
 
       case 'definitions': {
         for (const def in s.definitions) {
+          s.definitions[def] = preprocessSchema(s.definitions[def]);
           setTitle(def, s.definitions[def]);
         }
         break;
