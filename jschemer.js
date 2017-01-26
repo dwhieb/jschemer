@@ -187,11 +187,11 @@ const jschemer = (path, options = {}, cb = done) => {
   validate(path, options, cb);
 
   // initialize options and other function-scoped variables
-  const cssPath = options.css || 'src/jschemer.css';
+  const cssPath = options.css || 'node_modules/jschemer/src/jschemer.css';
   const cssFilename = Path.parse(cssPath).base;
   const ignore = options.ignore || [];
   const outPath = options.out || 'out';
-  const readmePath = options.readme || 'src/readme.md';
+  const readmePath = options.readme || 'node_modules/jschemer/src/readme.md';
   const nav = [];
   const schemas = [];
   let schemaPath = path;
@@ -220,7 +220,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // copy the JSON Schema logo into the /out directory
   const copyLogo = () => new Promise((resolve, reject) => {
-    const rs = fs.createReadStream('src/img/json-schema.svg');
+    const rs = fs.createReadStream('node_modules/jschemer/src/img/json-schema.svg');
     const ws = fs.createWriteStream(`${outPath}/json-schema.svg`);
 
     rs.on('error', err => {
@@ -248,7 +248,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // creates the index.html page
   const createIndexPage = readme => new Promise((resolve, reject) => {
-    fs.readFile('src/templates/index.hbs', 'utf8', (err, template) => {
+    fs.readFile('node_modules/jschemer/src/templates/index.hbs', 'utf8', (err, template) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read the contents of "index.hbs".');
@@ -460,7 +460,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // gets the contents of schema-page.hbs
   const readSchemaPageTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('src/templates/schema-page.hbs', 'utf8', (err, pageTemplate) => {
+    fs.readFile('node_modules/jschemer/src/templates/schema-page.hbs', 'utf8', (err, pageTemplate) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read the contents of schema-page.hbs.');
@@ -476,7 +476,7 @@ const jschemer = (path, options = {}, cb = done) => {
 
   // get the contents of schema.hbs and register its as a Handlebars partial
   const readSchemaTemplate = () => new Promise((resolve, reject) => {
-    fs.readFile('src/templates/schema.hbs', 'utf8', (err, schemaTemplate) => {
+    fs.readFile('node_modules/jschemer/src/templates/schema.hbs', 'utf8', (err, schemaTemplate) => {
 
       if (err) {
         const e = wrapError(err, 'Unable to read contents of schema.hbs.');
