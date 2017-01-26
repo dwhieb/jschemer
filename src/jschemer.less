@@ -5,13 +5,13 @@
 @softblueconstrast: #e8e8e8;
 
 // CSS reset
-html, body, div,                  // general elements
-h1, h2, h3, h4, h5, h6,           // heading elements
-p, blockquote, pre,               // text elements
-a, br, code, em, hr, img, strong, // inline elements
-b, i, u,                          // styling elements
-ol, ul, li,                       // lists
-main, nav, section                // sectioning elements
+html, body, div,                     // general elements
+h1, h2, h3, h4, h5, h6,              // heading elements
+p, blockquote, pre,                  // text elements
+a, br, code, em, hr, img, strong,    // inline elements
+b, i, u,                             // styling elements
+ol, ul, li,                          // lists
+main, nav, section, summary, details // sectioning elements
 {
   border: none;
   border-collapse: collapse;
@@ -26,8 +26,12 @@ main, nav, section                // sectioning elements
   vertical-align: baseline;
 }
 
-a, b, blockquote, br, code, em, hr, i, img, p, strong, u {
+a, b, blockquote, br, code, em, hr, i, img, strong, u {
   display: inline;
+}
+
+p {
+  display: block;
 }
 
 a {
@@ -65,6 +69,11 @@ blockquote {
 
 ol, ul {
   list-style: none;
+}
+
+summary {
+  align-items: center;
+  flex-direction: row;
 }
 
 table {
@@ -170,10 +179,12 @@ nav {
     display: inline;
   }
 
-  > h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding-bottom: 0.5em;
+  summary {
+    padding-bottom: 0.5rem;
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
   }
 
   h2 {

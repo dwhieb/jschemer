@@ -2,8 +2,12 @@
 
 <section class=schema>
 
+  <details open>
+
   {{#if title}}
-    <h1 class='title meta any prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
+    <summary>
+      <h1 class='title meta any prop'>{{title}}{{#if _key}}: <code>"{{_key}}"</code>{{/if}}</h1>
+    </summary>
   {{/if}}
 
   {{#if $ref}}
@@ -281,5 +285,7 @@
     {{/if}}
 
   {{/if}}
+
+  </details>
 
 </section>
