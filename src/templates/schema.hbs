@@ -11,7 +11,16 @@
   {{/if}}
 
   {{#if $ref}}
+
+    {{#if description}}
+      <div class='description meta any prop'>
+        <h2>Description</h2>
+        <p>{{{md description}}}</p>
+      </div>
+    {{/if}}
+
     <p class='$ref any prop'>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
+
   {{else}}
 
     {{#if $schema}}
@@ -39,7 +48,7 @@
         <p>The following schema definitions may be used by this schema:</p>
         <ul>
           {{#each definitions}}
-            <li>{{> schemaTemplate this}}</li>
+            <li id="{{_key}}">{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>
@@ -155,40 +164,6 @@
       </div>
     {{/if}}
 
-    {{#if enum}}
-      <div class='enum any prop'>
-        <h2>Allowed Values (<code>enum</code>)</h2>
-        <ul>
-          {{#each enum}}
-            <li><pre>{{this}}</pre></li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/if}}
-
-    {{#if properties}}
-      <div class='properties object prop'>
-        <h2>Properties</h2>
-        <ul>
-          {{#each properties}}
-            <li>{{> schemaTemplate this}}</li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/if}}
-
-    {{#if patternProperties}}
-      <div class='pattern-properties object prop'>
-        <h2>Custom Properties (<code>patternProperties</code>)</h2>
-        <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
-        <ul>
-          {{#each patternProperties}}
-            <li>{{> schemaTemplate this}}</li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/if}}
-
     {{#if additionalProperties}}
       {{#if additionalProperties.boolean}}
         <p class='additional-properties object prop'>
@@ -225,6 +200,40 @@
                 </div>
               {{/if}}
             </li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if enum}}
+      <div class='enum any prop'>
+        <h2>Allowed Values (<code>enum</code>)</h2>
+        <ul>
+          {{#each enum}}
+            <li><pre>{{this}}</pre></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if properties}}
+      <div class='properties object prop'>
+        <h2>Properties</h2>
+        <ul>
+          {{#each properties}}
+            <li>{{> schemaTemplate this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
+    {{#if patternProperties}}
+      <div class='pattern-properties object prop'>
+        <h2>Custom Properties (<code>patternProperties</code>)</h2>
+        <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
+        <ul>
+          {{#each patternProperties}}
+            <li>{{> schemaTemplate this}}</li>
           {{/each}}
         </ul>
       </div>

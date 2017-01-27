@@ -39,7 +39,7 @@
         <h2>Definitions</h2>
         <p>The following schema definitions may be used by this schema:</p>
         <ul>
-            <li>
+            <li id="definedProp">
 <section class=schema>
 
   <details open>
@@ -129,6 +129,8 @@
       </div>
 
 
+
+
       <div class='properties object prop'>
         <h2>Properties</h2>
         <ul>
@@ -179,8 +181,6 @@
 </li>
         </ul>
       </div>
-
-
 
 
 
@@ -229,6 +229,8 @@
       </div>
 
 
+
+
       <div class='properties object prop'>
         <h2>Properties</h2>
         <ul>
@@ -279,8 +281,6 @@
 </li>
         </ul>
       </div>
-
-
 
 
 
@@ -336,6 +336,8 @@
       </div>
 
 
+
+
       <div class='properties object prop'>
         <h2>Properties</h2>
         <ul>
@@ -386,8 +388,6 @@
 </li>
         </ul>
       </div>
-
-
 
 
 
@@ -436,6 +436,8 @@
       </div>
 
 
+
+
       <div class='properties object prop'>
         <h2>Properties</h2>
         <ul>
@@ -486,8 +488,6 @@
 </li>
         </ul>
       </div>
-
-
 
 
 
@@ -541,6 +541,8 @@
             <li><code>oneOf1</code></li>
         </ul>
       </div>
+
+
 
 
       <div class='properties object prop'>
@@ -602,8 +604,6 @@
 
 
 
-
-
   </details>
 
 </section>
@@ -641,6 +641,8 @@
             <li><code>oneOf2</code></li>
         </ul>
       </div>
+
+
 
 
       <div class='properties object prop'>
@@ -702,8 +704,6 @@
 
 
 
-
-
   </details>
 
 </section>
@@ -747,6 +747,8 @@
                     <li><code>cid</code></li>
                 </ul>
               </div>
+        
+        
         
         
               <div class='properties object prop'>
@@ -808,8 +810,6 @@
         
         
         
-        
-        
           </details>
         
         </section>
@@ -836,6 +836,78 @@
         <h2>Required Properties</h2>
         <ul>
             <li><code>num</code></li>
+        </ul>
+      </div>
+
+        <p class='additional-properties object prop'>
+          <strong>Additional properties:</strong> true
+        </p>
+
+      <div class='dependencies object prop'>
+        <h2>Dependencies</h2>
+        <ul>
+            <li>
+                <div>
+                  <p>If the property <code>obj</code> is present, the following schema also applies:</p>
+                  
+                  <section class=schema>
+                  
+                    <details open>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                        <div class='required object prop'>
+                          <h2>Required Properties</h2>
+                          <ul>
+                              <li><code>str</code></li>
+                          </ul>
+                        </div>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                    </details>
+                  
+                  </section>
+                </div>
+            </li>
+            <li>
+                <div>
+                  <p>If the property <code>arr1</code> is present, the following properties must also be present:</p>
+                  <ul class=dependencies-list>
+                      <li><code>arr2</code></li>
+                  </ul>
+                </div>
+            </li>
         </ul>
       </div>
 
@@ -939,7 +1011,10 @@
   <details open>
 
 
-    <p class='$ref any prop'>Must be an instance of the schema at <a href=definedProp>definedProp</a></p>
+
+
+    <p class='$ref any prop'>Must be an instance of the schema at <a href=#definedProp>#definedProp</a></p>
+
 
   </details>
 
@@ -1341,9 +1416,6 @@
 
 
 
-
-
-
         <div class='additional-properties object prop'>
           <h2>Additional Properties</h2>
           
@@ -1404,6 +1476,9 @@
 
 
 
+
+
+
   </details>
 
 </section>
@@ -1443,6 +1518,8 @@
 
 
 
+
+
       <div class='enum any prop'>
         <h2>Allowed Values (<code>enum</code>)</h2>
         <ul>
@@ -1452,8 +1529,6 @@
             <li><pre>&quot;ddddddd&quot;</pre></li>
         </ul>
       </div>
-
-
 
 
 
@@ -1520,78 +1595,6 @@
 
 </section>
 </li>
-        </ul>
-      </div>
-
-        <p class='additional-properties object prop'>
-          <strong>Additional properties:</strong> true
-        </p>
-
-      <div class='dependencies object prop'>
-        <h2>Dependencies</h2>
-        <ul>
-            <li>
-                <div>
-                  <p>If the property <code>obj</code> is present, the following schema also applies:</p>
-                  
-                  <section class=schema>
-                  
-                    <details open>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                        <div class='required object prop'>
-                          <h2>Required Properties</h2>
-                          <ul>
-                              <li><code>str</code></li>
-                          </ul>
-                        </div>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                    </details>
-                  
-                  </section>
-                </div>
-            </li>
-            <li>
-                <div>
-                  <p>If the property <code>arr1</code> is present, the following properties must also be present:</p>
-                  <ul class=dependencies-list>
-                      <li><code>arr2</code></li>
-                  </ul>
-                </div>
-            </li>
         </ul>
       </div>
 

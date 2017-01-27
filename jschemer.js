@@ -49,7 +49,7 @@ const preprocessSchema = schema => {
 
       case '$ref': {
         if (s.$ref.startsWith('#')) {
-          s.$ref = s.$ref.replace('#/definitions/', '');
+          s.$ref = s.$ref.replace('#/definitions/', '#');
         }
         break;
       }
