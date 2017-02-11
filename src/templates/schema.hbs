@@ -19,7 +19,6 @@
       </div>
     {{/if}}
 
-    <p class='$ref any prop'>Must be an instance of the schema at <a href={{$ref}}>{{$ref}}</a></p>
 
   {{else}}
 
@@ -29,6 +28,10 @@
 
     {{#if id}}
       <p class='id meta any prop'><strong>Schema ID:</strong> <code>{{id}}</code></p>
+    {{/if}}
+
+    {{#if _pattern}}
+      <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
     {{/if}}
 
     {{#if description}}
@@ -230,7 +233,6 @@
     {{#if patternProperties}}
       <div class='pattern-properties object prop'>
         <h2>Custom Properties (<code>patternProperties</code>)</h2>
-        <p>Property name must match the regular expression: <code>{{_pattern}}</code></p>
         <ul>
           {{#each patternProperties}}
             <li>{{> schemaTemplate this}}</li>
