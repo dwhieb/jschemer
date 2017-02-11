@@ -29,7 +29,7 @@ const preprocessSchema = schema => {
 
     if (typeof s[prop] === 'boolean') {
 
-      s[prop] = { boolean: s[prop] };
+      s[prop] = { boolean: String(s[prop]) };
 
     } else if (typeof s[prop] === 'object') {
 
