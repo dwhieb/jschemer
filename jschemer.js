@@ -48,10 +48,15 @@ const preprocessSchema = schema => {
     switch (prop) {
 
       case '$ref': {
+
         if (s.$ref.startsWith('#')) {
           s.$ref = s.$ref.replace('#/definitions/', '#');
         }
+
+        s._ref = Path.parse(s.$ref).base.replace('.json', '');
+
         break;
+
       }
 
       case 'additionalItems': {
