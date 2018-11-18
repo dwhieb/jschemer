@@ -33,9 +33,12 @@
     "node": "10.x"
   },
   "scripts": {
+    "build": "node build/index.js",
     "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
-  "dependencies": {},
+  "dependencies": {
+    "ora": "^3.0.0"
+  },
   "devDependencies": {
     "eslint": "^5.9.0",
     "jasmine": "^3.3.0",
