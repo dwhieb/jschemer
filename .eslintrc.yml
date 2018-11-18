@@ -3,6 +3,7 @@ parserOptions:
   ecmaVersion: 10
 env:
   browser: false
+  es6:     true
   jasmine: true
   node:    true
 rules:

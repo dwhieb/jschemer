@@ -24,9 +24,9 @@
 
 <!-- basic usage -->
 
-## Customizing
+## Customizing the Generated Documentation
 
-To customize the HTML used to generate the documentation, edit the `src/index.html` file.
+To customize the HTML used to generate the documentation, edit the `templates/index.html` file.
 
 <!-- API options -->
 
