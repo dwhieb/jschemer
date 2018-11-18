@@ -24,6 +24,10 @@
 
 <!-- basic usage -->
 
+## Customizing
+
+To customize the HTML used to generate the documentation, edit the `src/index.html` file.
+
 <!-- API options -->
 
 [1]: https://github.com/dwhieb/jschemer#readme
