@@ -1,6 +1,5 @@
 - [ ] [Open an issue][1]
 - [ ] Install latest Node 10.x release using [nvm-windows][2]
-- [ ] Switch to the latest Node 10.x release: `nvm use 10.0.0`
 - [ ] Switch to Node 10.x
 - [ ] Fork the repo
 - [ ] Create an issue branch from `master`
