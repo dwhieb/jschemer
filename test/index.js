@@ -1,30 +1,46 @@
-const { deleteOutFolder } = require(`./utilities`);
-const jschemer            = require(`../src`);
-const { readFile }        = require(`fs`).promises;
+const jschemer = require(`../src`);
+
+const {
+  readFile,
+  stat,
+} = require(`fs`).promises;
+
+const {
+  deleteOutFolder,
+  removeDir,
+} = require(`./utilities`);
 
 describe(`jschemer`, function() {
 
-  // SETUP
-  beforeAll(async () => {
+  describe(`defaults`, () => {
 
-    // Remove /out folder before each test
-    await deleteOutFolder();
+    beforeAll(async () => {
+      await deleteOutFolder();
+      await jschemer();
+    });
 
-    // Run jschemer
-    await jschemer();
+    afterAll(deleteOutFolder);
+
+    it(`generates a landing page`, async () => {
+      const landingPage = await readFile(`out/index.html`, `utf8`);
+      expect(landingPage).toBeDefined();
+    });
 
   });
 
-  // TEARDOWN
+  describe(`options`, () => {
 
-  // Remove /out folder after all tests are run
-  afterAll(deleteOutFolder);
+    beforeAll(deleteOutFolder);
+    afterAll(deleteOutFolder);
 
-  // TESTS
+    it(`out`, async () => {
+      const out = `custom`;
+      await jschemer({ out });
+      const info = await stat(out);
+      expect(info.isDirectory()).toBe(true);
+      await removeDir(out);
+    });
 
-  it(`generates a landing page`, async function() {
-    const index = await readFile(`out/index.html`, `utf8`);
-    expect(index).toBeDefined();
   });
 
 });

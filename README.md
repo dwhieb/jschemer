@@ -37,16 +37,14 @@ Use in Node:
 ```js
 const jschemer = require(`jschemer`);
 
-// path to your schemas directory
-const schemasPath = `/schemas`;
-
 // options
 const opts = {
-  out: `/docs`,
+  out:     `/docs`,
+  schemas: `/schemas`,
 };
 
 // generate the documentation
-jschemer(schemasPath, opts)
+jschemer(opts)
 .then(/* code to run after documentation is generated */)
 .catch(/* catch any errors */);
 
@@ -60,9 +58,10 @@ The `jschemer` module exposes a single function which accepts two arguments: the
 
 ## Options
 
-Option | Default | Description
------- | ------- | -----------
-`out`  | `/out`  | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
+Option    | Default    | Description
+--------- | ---------- | -----------
+`out`     | `/out`     | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
+`schemas` | `/schemas` | The path to the folder where the JSON schemas are located.
 
 ## Customizing
 

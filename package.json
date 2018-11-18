@@ -33,7 +33,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
+    "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {},
   "devDependencies": {

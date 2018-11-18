@@ -5,10 +5,12 @@ const landingPagePath = path.join(__dirname, `../templates/index.html`);
 
 /**
  * Creates the landing page for the generated documentation
- * @return {Promise} Returns a Promise that resolves when the landing page is generated
+ * @param  {String}  outDir The path to the directory where the landing page should be generated in
+ * @return {Promise}        Returns a Promise that resolves when the landing page is generated
  */
-async function createLandingPage() {
-  await copyFile(landingPagePath, `out/index.html`);
+async function createLandingPage(outDir) {
+  const outPath = path.join(outDir, `index.html`);
+  await copyFile(landingPagePath, outPath);
 }
 
 module.exports = createLandingPage;
