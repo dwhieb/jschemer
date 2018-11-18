@@ -1,17 +1,5 @@
-const jschemer      = require(`../src`);
-const createSpinner = require(`ora`);
+const jschemer = require(`../src`);
 
 void async function build() {
-
-  const docsSpinner = createSpinner(`Generating jschemer documentation`);
-
-  docsSpinner.start();
-
-  try {
-    await jschemer({ out: `docs` });
-    docsSpinner.succeed();
-  } catch (e) {
-    docsSpinner.fail(e);
-  }
-
+  await jschemer({ out: `docs` });
 }();
