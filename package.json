@@ -1,39 +1,37 @@
 {
   "name": "jschemer",
-  "version": "2.0.0-alpha.10",
-  "description": "A simple utility that generates documentation for JSON Schema data using Handlebars.",
+  "version": "3.0.0",
+  "description": "A documentation generator for JSON Schemas",
   "keywords": [
-    "json schema",
+    "JSON Schema",
     "json-schema",
-    "handlebars",
+    "Handlebars",
     "documentation",
-    "json"
+    "JSON"
   ],
   "homepage": "https://github.com/dwhieb/jschemer#readme",
   "bugs": "https://github.com/dwhieb/jschemer/issues",
   "license": "MIT",
   "contributors": [
     {
-      "name": "Alyanna Landayan",
-      "email": "alyanna.landayan@gmail.com"
-    },
-    {
       "name": "Daniel W. Hieber",
       "email": "dhieber@umail.ucsb.edu",
       "url": "http://danielhieber.com"
+    },
+    {
+      "name": "Alyanna Landayan",
+      "email": "alyanna.landayan@gmail.com"
     }
   ],
-  "main": "jschemer.js",
-  "repository": "https://github.com/dwhieb/jschemer.git",
-  "dependencies": {
-    "commander": "^2.9.0",
-    "handlebars": "^4.0.6",
-    "markdown-it": "^8.2.2"
+  "main": "dist/index.js",
+  "bin": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwhieb/jschemer.git"
   },
-  "bin": "./jschemer.js",
-  "scripts": {
-    "build": "lessc src/jschemer.less src/jschemer.css",
-    "example": "node jschemer.js test/test-schema.json -o example --dev",
-    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
-  }
+  "engines": {
+    "node": "10.x"
+  },
+  "dependencies": {},
+  "scripts": {}
 }
