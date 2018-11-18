@@ -1,0 +1,3 @@
+- [ ] Install latest Node 10.x release
+- [ ] Switch to Node 10.x
+- [ ] Run tests and fix issues that arise
