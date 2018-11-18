@@ -4,23 +4,26 @@ const { readFile }        = require(`fs`).promises;
 
 describe(`jschemer`, function() {
 
-  // Setup
+  // SETUP
   beforeAll(async () => {
 
     // Remove /out folder before each test
-    // await deleteOutFolder();
+    await deleteOutFolder();
 
     // Run jschemer
     await jschemer();
 
   });
 
-  // Teardown
+  // TEARDOWN
+
   // Remove /out folder after all tests are run
   afterAll(deleteOutFolder);
 
+  // TESTS
+
   it(`generates a landing page`, async function() {
-    const index = await readFile(`../out/index.html`, `utf8`);
+    const index = await readFile(`out/index.html`, `utf8`);
     expect(index).toBeDefined();
   });
 

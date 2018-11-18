@@ -1,7 +1,7 @@
 const path      = require(`path`);
 const removeDir = require(`./removeDir`);
 
-const outDir = path.join(__dirname, `../out`);
+const outDir = path.join(__dirname, `../../out`);
 
 /**
  * Removes the /out folder from the project root

@@ -1,4 +1,5 @@
-const createOutDir = require(`./createOutDir`);
+const createLandingPage = require(`./createLandingPage`);
+const createOutDir      = require(`./createOutDir`);
 
 /**
  * The top-level jschemer function
@@ -6,7 +7,7 @@ const createOutDir = require(`./createOutDir`);
  */
 async function jschemer() {
   await createOutDir();
-  // await createLandingPage();
+  await createLandingPage();
 }
 
 module.exports = jschemer;
