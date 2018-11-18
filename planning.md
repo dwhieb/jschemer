@@ -1,8 +1,9 @@
 # Chores
-- setup Travis
 - update package.json
 - organize labels
 - create project board
+- setup workflow (PR template)
+- setup Travis
 - setup project page (docs folder, as demo)
 
 # Features
