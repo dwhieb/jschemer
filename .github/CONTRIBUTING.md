@@ -7,11 +7,12 @@
 - [ ] Update user-facing documentation with planned changes (`README.md`)
 - [ ] Write or update (failing) tests
 - [ ] Write code to pass tests
-- [ ] Run tests and fix issues that arise (this also runs the build process)
-- [ ] Visually inspect the generated documentation in the `/docs` folder
+- [ ] Run tests (`npm test`) and fix issues that arise
 - [ ] Update any developer-facing documentation (code commenting), if needed
 - [ ] Revise user-facing documentation (`README.md`), if needed
-- [ ] Rerun tests and fix issues that arise (this also runs the build process)
+- [ ] Rerun tests (`npm test`) and fix issues that arise
+- [ ] Run build process: `npm run build`
+- [ ] Visually inspect generated documentation in `/docs` folder
 - [ ] Create a Pull Request from your issue branch into `master`
 
 [1]: https://github.com/dwhieb/jschemer/issues

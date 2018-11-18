@@ -35,7 +35,10 @@
   "scripts": {
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   },
-  "dependencies": {
-    "jasmine": "^3.3.0"
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "jasmine": "^3.3.0",
+    "rimraf": "^2.6.2"
   }
 }
