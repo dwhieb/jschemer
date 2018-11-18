@@ -1,0 +1,18 @@
+- [ ] [Open an issue][1]
+- [ ] Install latest Node 10.x release (install [nvm-windows][2] to manage Node versions, if needed)
+- [ ] Switch to Node 10.x
+- [ ] Fork the repo
+- [ ] Create an issue branch from `master`
+- [ ] Update outdated dependencies
+- [ ] Update user-facing documentation with planned changes (`README.md`)
+- [ ] Write or update (failing) tests
+- [ ] Write code to pass tests
+- [ ] Run tests and fix issues that arise (this also runs the build process)
+- [ ] Visually inspect the generated documentation in the `/docs` folder
+- [ ] Update any developer-facing documentation (code commenting), if needed
+- [ ] Revise user-facing documentation (`README.md`), if needed
+- [ ] Rerun tests and fix issues that arise (this also runs the build process)
+- [ ] Create a Pull Request from your issue branch into `master`
+
+[1]: https://github.com/dwhieb/jschemer/issues
+[2]: https://github.com/coreybutler/nvm-windows
