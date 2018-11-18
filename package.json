@@ -32,8 +32,10 @@
   "engines": {
     "node": "10.x"
   },
+  "scripts": {
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
+  },
   "dependencies": {
     "jasmine": "^3.3.0"
-  },
-  "scripts": {}
+  }
 }
