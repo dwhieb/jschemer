@@ -25,15 +25,44 @@
 
 ## Installation & Usage
 
+Install with npm:
 
+```sh
+npm i -D jschemer # if installing as a dev dependency
+npm i jschemer    # if installing as a core dependency
+```
+
+Use in Node:
+
+```js
+const jschemer = require(`jschemer`);
+
+// path to your schemas directory
+const schemasPath = `/schemas`;
+
+// options
+const opts = {
+  out: `/docs`,
+};
+
+// generate the documentation
+jschemer(schemasPath, opts)
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
+
+// jschemer may also be run with defaults
+jschemer()
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
+```
+
+The `jschemer` module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to `/schemas`), and an options Object (see the [Options](#options) below). `jschemer` returns a Promise that resolves when the documentation is done being generated.
 
 ## Options
 
-Below are the options that may be passed to `jschemer`.
-
-Option | Description
------- | -----------
-`out`  | The path the folder where the documentation will be generated. The folder will be created if it does not already exist.
+Option | Default | Description
+------ | ------- | -----------
+`out`  | `/out`  | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
 
 ## Customizing
 
