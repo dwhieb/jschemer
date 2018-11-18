@@ -13,22 +13,31 @@
 
 *Maintained by [Daniel W. Hieber][3]*
 
-<!-- TOC here, with links -->
-<!-- include a link to reporting an issue -->
-
 [View a demo of documentation generated with `jschemer`.][2]
 
 <!-- screenshot here -->
 
-<!-- installation -->
+## Contents
+* [Report an Issue][9]
+* [Installation & Usage](#installation--usage)
+* [Options](#options)
+* [Customizing](#customizing)
 
-<!-- basic usage -->
+## Installation & Usage
 
-## Customizing the Generated Documentation
+
+
+## Options
+
+Below are the options that may be passed to `jschemer`.
+
+Option | Description
+------ | -----------
+`out`  | The path the folder where the documentation will be generated. The folder will be created if it does not already exist.
+
+## Customizing
 
 To customize the HTML used to generate the documentation, edit the `templates/index.html` file.
-
-<!-- API options -->
 
 [1]: https://github.com/dwhieb/jschemer#readme
 [2]: http://dwhieb.github.io/jschemer/
@@ -38,3 +47,4 @@ To customize the HTML used to generate the documentation, edit the `templates/in
 [6]: https://github.com/dwhieb/jschemer/issues
 [7]: https://opensource.org/licenses/MIT
 [8]: https://github.com/dwhieb/jschemer
+[9]: https://github.com/dwhieb/jschemer/issues/new
