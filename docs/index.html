@@ -8,8 +8,92 @@
 
   <body>
 
-    <main><h1>Schemas</h1>
-<p>This is a jschemer project.</p>
+    <main><h1><a href="https://github.com/dwhieb/jschemer#readme">jschemer</a></h1>
+<p><a href="https://www.npmjs.com/package/jschemer"><img src="https://img.shields.io/npm/v/jschemer.svg" alt="npm version"></a>
+<a href="https://travis-ci.org/dwhieb/jschemer"><img src="https://img.shields.io/travis/dwhieb/jschemer/master.svg" alt="Travis status"></a>
+<a href="https://www.npmjs.com/package/jschemer"><img src="https://img.shields.io/npm/dt/jschemer.svg" alt="npm downloads"></a>
+<a href="https://github.com/dwhieb/jschemer/issues"><img src="https://img.shields.io/github/issues/dwhieb/jschemer.svg" alt="GitHub issues"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/dwhieb/jschemer.svg" alt="GitHub"></a></p>
+<p><a href="https://github.com/dwhieb/jschemer"><img src="https://img.shields.io/github/stars/dwhieb/jschemer.svg?label=Stars&amp;style=social" alt="GitHub stars"></a>
+<a href="https://github.com/dwhieb/jschemer"><img src="https://img.shields.io/github/forks/dwhieb/jschemer.svg?label=Fork&amp;style=social" alt="GitHub forks"></a></p>
+<p><code>jschemer</code> is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. <a href="http://dwhieb.github.io/jschemer/">See an example of generated <code>jschemer</code> documentation here</a>. <code>jschemer</code> accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It can be run as a Node module or from the command line.</p>
+<p><em>Maintained by <a href="https://github.com/dwhieb">Daniel W. Hieber</a></em></p>
+<p><a href="http://dwhieb.github.io/jschemer/">View a demo of documentation generated with <code>jschemer</code>.</a></p>
+<!-- screenshot here -->
+<h2>Contents</h2>
+<ul>
+<li><a href="https://github.com/dwhieb/jschemer/issues/new">Report an Issue</a></li>
+<li><a href="#installation--usage">Installation &amp; Usage</a></li>
+<li><a href="#options">Options</a></li>
+<li><a href="#customizing">Customizing</a></li>
+</ul>
+<h2>Installation &amp; Usage</h2>
+<h3>Installation</h3>
+<pre><code class="language-sh">npm i -D jschemer # if installing as a dev dependency
+npm i jschemer    # if installing as a core dependency
+</code></pre>
+<h3>Command Line Usage</h3>
+<pre><code class="language-sh"># This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
+jschemer --schemas json --out docs --readme README.md
+
+# You can also just run jschemer with its defaults (/schemas -&gt; /out)
+jschemer
+</code></pre>
+<h3>Usage in Node</h3>
+<pre><code class="language-js">const jschemer = require(`jschemer`);
+
+// options (see additional options below)
+const opts = {
+  out:     `docs`,
+  readme:  `README.md`,
+  schemas: `schemas`,
+};
+
+// generate the documentation
+jschemer(opts)
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
+
+// jschemer may also be run with defaults
+jschemer()
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
+</code></pre>
+<p>The <code>jschemer</code> module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to <code>/schemas</code>), and an options object (see the <a href="#options">Options</a> below). The <code>jschemer</code> function returns a promise that resolves when the documentation is done being generated.</p>
+<h2>Options</h2>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Command Line</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>out</code></td>
+<td><code>-o</code>, <code>--out</code></td>
+<td><code>out</code></td>
+<td>The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.</td>
+</tr>
+<tr>
+<td><code>readme</code></td>
+<td><code>-r</code>, <code>--readme</code></td>
+<td>—</td>
+<td>The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (<code>index.html</code>). If no readme is provided, a placeholder readme is used.</td>
+</tr>
+<tr>
+<td><code>schemas</code></td>
+<td><code>-s</code>, <code>--schemas</code></td>
+<td><code>schemas</code></td>
+<td>The path to the folder where the JSON schemas are located.</td>
+</tr>
+</tbody>
+</table>
+<h2>Customizing</h2>
+<p>To customize the HTML used to generate the documentation, edit the <code>templates/index.hbs</code> file.</p>
+<p>To customize the readme used on the landing page of the documentation, use the <code>readme</code> option.</p>
 </main>
 
   </body>

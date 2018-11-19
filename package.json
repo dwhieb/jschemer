@@ -33,11 +33,12 @@
     "node": "10.x"
   },
   "scripts": {
-    "build": "jschemer -o docs",
+    "build": "jschemer -o docs -r README.md",
     "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {
     "commander": "^2.19.0",
+    "github-markdown-css": "^2.10.0",
     "handlebars": "^4.0.12",
     "markdown-it": "^8.4.2",
     "ora": "^3.0.0"
