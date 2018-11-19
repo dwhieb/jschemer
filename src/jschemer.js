@@ -5,7 +5,7 @@ const createSpinner     = require(`ora`);
 /**
  * The top-level jschemer function
  * @param  {Object}  [options] An options Object
- * @return {Promise}           Returns a Promise that resolves when the documentation is complete
+ * @return {Promise}           Returns a promise that resolves when the documentation is complete
  */
 async function jschemer({
   out = `out`,

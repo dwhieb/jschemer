@@ -32,7 +32,7 @@ npm i -D jschemer # if installing as a dev dependency
 npm i jschemer    # if installing as a core dependency
 ```
 
-### Command Line
+### Command Line Usage
 
 ```sh
 # This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
@@ -42,12 +42,12 @@ jschemer --schemas json --out docs
 jschemer
 ```
 
-### Node
+### Usage in Node
 
 ```js
 const jschemer = require(`jschemer`);
 
-// options
+// options (see additional options below)
 const opts = {
   out:     `/docs`,
   schemas: `/schemas`,
@@ -64,18 +64,19 @@ jschemer()
 .catch(/* catch any errors */);
 ```
 
-The `jschemer` module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to `/schemas`), and an options Object (see the [Options](#options) below). `jschemer` returns a Promise that resolves when the documentation is done being generated.
+The `jschemer` module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to `/schemas`), and an options object (see the [Options](#options) below). The `jschemer` function returns a promise that resolves when the documentation is done being generated.
 
 ## Options
 
-Node      | Command Line      | Default   | Description
---------- | ----------------- | --------- | -----------
-`out`     | `-o`, `--out`     | `out`     | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
-`schemas` | `-s`, `--schemas` | `schemas` | The path to the folder where the JSON schemas are located.
+Node      | Command Line      | Default     | Description
+--------- | ----------------- | ----------- | -----------
+`out`     | `-o`, `--out`     | `out`       | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
+`readme`  | `-r`, `--readme`  | `README.md` | The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (`index.html`).
+`schemas` | `-s`, `--schemas` | `schemas`   | The path to the folder where the JSON schemas are located.
 
 ## Customizing
 
-To customize the HTML used to generate the documentation, edit the `templates/index.html` file.
+To customize the HTML used to generate the documentation, edit the `templates/index.hbs` file.
 
 [1]: https://github.com/dwhieb/jschemer#readme
 [2]: http://dwhieb.github.io/jschemer/

@@ -2,7 +2,7 @@ const meta    = require(`../package.json`);
 const program = require(`commander`);
 
 /**
- * Reads the options passed to jschmer from the command line and returns them as an options Object
+ * Reads the options passed to jschmer from the command line and returns them as an options object
  * @return {Object} Returns the options Object for use with the jschemer method
  */
 function parseOptions() {

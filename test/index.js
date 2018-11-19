@@ -12,7 +12,7 @@ const {
 
 describe(`jschemer`, function() {
 
-  describe(`defaults`, () => {
+  fdescribe(`defaults`, function() {
 
     beforeAll(async () => {
       await deleteOutFolder();
@@ -21,9 +21,9 @@ describe(`jschemer`, function() {
 
     afterAll(deleteOutFolder);
 
-    it(`generates a landing page`, async () => {
-      const landingPage = await readFile(`out/index.html`, `utf8`);
-      expect(landingPage).toBeDefined();
+    it(`generates a landing page`, async function() {
+      const landingPage = await readFile(`out/index.html`, `utf8`); // landing page exists
+      expect(landingPage.includes(`Installation`)).toBe(true);      // landing page contains the readme file
     });
 
   });
