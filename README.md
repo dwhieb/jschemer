@@ -9,7 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?label=Stars&style=social)][8]
 [![GitHub forks](https://img.shields.io/github/forks/dwhieb/jschemer.svg?label=Fork&style=social)][8]
 
-`jschemer` is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. [See an example of generated `jschemer` documentation here][2]. `jschemer` accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It runs on the Node LTS line.
+`jschemer` is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. [See an example of generated `jschemer` documentation here][2]. `jschemer` accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It can be run as a Node module or from the command line.
 
 *Maintained by [Daniel W. Hieber][3]*
 
@@ -25,14 +25,24 @@
 
 ## Installation & Usage
 
-Install with npm:
+### Installation
 
 ```sh
 npm i -D jschemer # if installing as a dev dependency
 npm i jschemer    # if installing as a core dependency
 ```
 
-Use in Node:
+### Command Line
+
+```sh
+# This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
+jschemer --schemas json --out docs
+
+# You can also just run jschemer with its defaults (/schemas -> /out)
+jschemer
+```
+
+### Node
 
 ```js
 const jschemer = require(`jschemer`);
@@ -58,10 +68,10 @@ The `jschemer` module exposes a single function which accepts two arguments: the
 
 ## Options
 
-Option    | Default    | Description
---------- | ---------- | -----------
-`out`     | `/out`     | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
-`schemas` | `/schemas` | The path to the folder where the JSON schemas are located.
+Node      | Command Line      | Default   | Description
+--------- | ----------------- | --------- | -----------
+`out`     | `-o`, `--out`     | `out`     | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
+`schemas` | `-s`, `--schemas` | `schemas` | The path to the folder where the JSON schemas are located.
 
 ## Customizing
 

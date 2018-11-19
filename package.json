@@ -23,8 +23,8 @@
       "email": "alyanna.landayan@gmail.com"
     }
   ],
-  "main": "dist/index.js",
-  "bin": "./dist/index.js",
+  "main": "src/index.js",
+  "bin": "./src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dwhieb/jschemer.git"
@@ -37,6 +37,7 @@
     "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {
+    "commander": "^2.19.0",
     "ora": "^3.0.0"
   },
   "devDependencies": {
