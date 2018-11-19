@@ -36,7 +36,7 @@ npm i jschemer    # if installing as a core dependency
 
 ```sh
 # This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
-jschemer --schemas json --out docs
+jschemer --schemas json --out docs --readme README.md
 
 # You can also just run jschemer with its defaults (/schemas -> /out)
 jschemer
@@ -49,8 +49,9 @@ const jschemer = require(`jschemer`);
 
 // options (see additional options below)
 const opts = {
-  out:     `/docs`,
-  schemas: `/schemas`,
+  out:     `docs`,
+  readme:  `README.md`,
+  schemas: `schemas`,
 };
 
 // generate the documentation
