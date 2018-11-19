@@ -11,8 +11,10 @@
 - [ ] Update any developer-facing documentation (code commenting), if needed
 - [ ] Revise user-facing documentation (`README.md`), if needed
 - [ ] Rerun tests (`npm test`) and fix issues that arise
+- [ ] Create symlink for testing on the command line: `npm link`
 - [ ] Run build process: `npm run build`
 - [ ] Visually inspect generated documentation in `/docs` folder
+- [ ] Test installation: `npm install . -g`
 - [ ] Create a Pull Request from your issue branch into `master`
 
 [1]: https://github.com/dwhieb/jschemer/issues

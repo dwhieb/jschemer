@@ -33,7 +33,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "build": "node build/index.js",
+    "build": "jschemer -o docs",
     "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {
