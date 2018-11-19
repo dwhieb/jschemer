@@ -12,26 +12,21 @@ const {
 
 describe(`jschemer`, function() {
 
-  fdescribe(`defaults`, function() {
+  beforeAll(deleteOutFolder);
+  afterEach(deleteOutFolder);
 
-    beforeAll(async () => {
-      await deleteOutFolder();
-      await jschemer();
-    });
+  describe(`defaults`, function() {
 
-    afterAll(deleteOutFolder);
+    beforeAll(jschemer);
 
     it(`generates a landing page`, async function() {
-      const landingPage = await readFile(`out/index.html`, `utf8`); // landing page exists
-      expect(landingPage.includes(`Installation`)).toBe(true);      // landing page contains the readme file
+      const landingPage = await readFile(`out/index.html`, `utf8`);           // landing page exists
+      expect(landingPage.includes(`This is a jschemer project.`)).toBe(true); // landing page contains the readme file
     });
 
   });
 
   describe(`options`, () => {
-
-    beforeAll(deleteOutFolder);
-    afterAll(deleteOutFolder);
 
     it(`out`, async () => {
       const out = `custom`;

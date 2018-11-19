@@ -71,12 +71,14 @@ The `jschemer` module exposes a single function which accepts two arguments: the
 Node      | Command Line      | Default     | Description
 --------- | ----------------- | ----------- | -----------
 `out`     | `-o`, `--out`     | `out`       | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
-`readme`  | `-r`, `--readme`  | `README.md` | The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (`index.html`).
+`readme`  | `-r`, `--readme`  | —           | The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (`index.html`). If no readme is provided, a placeholder readme is used.
 `schemas` | `-s`, `--schemas` | `schemas`   | The path to the folder where the JSON schemas are located.
 
 ## Customizing
 
 To customize the HTML used to generate the documentation, edit the `templates/index.hbs` file.
+
+To customize the readme used on the landing page of the documentation, use the `readme` option.
 
 [1]: https://github.com/dwhieb/jschemer#readme
 [2]: http://dwhieb.github.io/jschemer/

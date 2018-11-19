@@ -39,6 +39,7 @@
   "dependencies": {
     "commander": "^2.19.0",
     "handlebars": "^4.0.12",
+    "markdown-it": "^8.4.2",
     "ora": "^3.0.0"
   },
   "devDependencies": {
