@@ -10,12 +10,12 @@ const {
   removeDir,
 } = require(`./utilities`);
 
-describe(`jschemer`, function() {
+describe(`jschemer`, () => {
 
   beforeAll(deleteOutFolder);
   afterAll(deleteOutFolder);
 
-  describe(`defaults`, function() {
+  describe(`defaults`, () => {
 
     it(`generates a landing page`, async () => {
       await jschemer();
@@ -44,6 +44,12 @@ describe(`jschemer`, function() {
       await removeDir(out);
     });
 
+  });
+
+  it(`can be run twice consecutively`, async () => {
+    await jschemer();
+    await jschemer();
+    await removeDir(`out`);
   });
 
 });
