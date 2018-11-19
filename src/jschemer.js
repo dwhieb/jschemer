@@ -1,4 +1,4 @@
-const copyCSS           = require(`./copyCSS`);
+const copyFiles         = require(`./copyFiles`);
 const createLandingPage = require(`./createLandingPage`);
 const createOutDir      = require(`./createOutDir`);
 const createSpinner     = require(`ora`);
@@ -23,8 +23,8 @@ async function jschemer({
   // Create /out directory
   await createOutDir(out);
 
-  // Copy markdown.css to /out folder
-  await copyCSS(out);
+  // Copy files to /out folder
+  await copyFiles(out);
 
   // Create documentation landing page, with readme
   await createLandingPage({

@@ -8,6 +8,7 @@
     <meta name=viewport content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
     <link rel=stylesheet href=markdown.css>
+    <link rel=stylesheet href=atom-one-light.css>
 
     <style>
 
@@ -63,24 +64,24 @@ jschemer --schemas json --out docs --readme README.md
 jschemer
 </code></pre>
 <h3>Usage in Node</h3>
-<pre><code class="language-js">const jschemer = require(`jschemer`);
+<pre><code class="language-js"><span class="hljs-keyword">const</span> jschemer = <span class="hljs-built_in">require</span>(<span class="hljs-string">`jschemer`</span>);
 
-// options (see additional options below)
-const opts = {
-  out:     `docs`,
-  readme:  `README.md`,
-  schemas: `schemas`,
+<span class="hljs-comment">// options (see additional options below)</span>
+<span class="hljs-keyword">const</span> opts = {
+  <span class="hljs-attr">out</span>:     <span class="hljs-string">`docs`</span>,
+  <span class="hljs-attr">readme</span>:  <span class="hljs-string">`README.md`</span>,
+  <span class="hljs-attr">schemas</span>: <span class="hljs-string">`schemas`</span>,
 };
 
-// generate the documentation
+<span class="hljs-comment">// generate the documentation</span>
 jschemer(opts)
-.then(/* code to run after documentation is generated */)
-.catch(/* catch any errors */);
+.then(<span class="hljs-comment">/* code to run after documentation is generated */</span>)
+.catch(<span class="hljs-comment">/* catch any errors */</span>);
 
-// jschemer may also be run with defaults
+<span class="hljs-comment">// jschemer may also be run with defaults</span>
 jschemer()
-.then(/* code to run after documentation is generated */)
-.catch(/* catch any errors */);
+.then(<span class="hljs-comment">/* code to run after documentation is generated */</span>)
+.catch(<span class="hljs-comment">/* catch any errors */</span>);
 </code></pre>
 <p>The <code>jschemer</code> module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to <code>/schemas</code>), and an options object (see the <a href="#options">Options</a> below). The <code>jschemer</code> function returns a promise that resolves when the documentation is done being generated.</p>
 <h2>Options</h2>
