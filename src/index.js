@@ -3,7 +3,7 @@
 const jschemer     = require(`./jschemer`);
 const parseOptions = require(`./parseOptions`);
 
-if (require.main) {
+if (require.main === module) {
   const opts = parseOptions();
   jschemer(opts);
 }

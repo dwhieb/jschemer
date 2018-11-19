@@ -1,3 +1,4 @@
+const copyCSS           = require(`./copyCSS`);
 const createLandingPage = require(`./createLandingPage`);
 const createOutDir      = require(`./createOutDir`);
 const createSpinner     = require(`ora`);
@@ -13,7 +14,6 @@ const defaultReadmePath = path.join(__dirname, `../templates/README.md`);
 async function jschemer({
   out = `out`,
   readme,
-  schemas = `schemas`,
 } = {}) {
 
   // Start spinner in console
@@ -22,6 +22,9 @@ async function jschemer({
 
   // Create /out directory
   await createOutDir(out);
+
+  // Copy markdown.css to /out folder
+  await copyCSS(out);
 
   // Create documentation landing page, with readme
   await createLandingPage({
