@@ -1,0 +1,161 @@
+$schema:  http://json-schema.org/draft-07/schema#
+$id:      https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema-1.json
+$comment: This is a test comment, aimed at readers or maintainers of the schema. This should not be presented to end users, and should not be visible in the generated jschemer documentation.
+
+title:       Sample Schema
+type:        object
+description: This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML<em>, as well as *simple* _Markdown_ **styling**.
+
+properties:
+
+  any:
+    title:       Keywords for Any Instance Type
+    description: This schema shows how keywords that apply to any instance type are displayed in jschemer documentation.
+    properties:
+
+      const:
+        title:       '"const" Keyword'
+        const:       'This is a constant value.'
+        description: This schema shows how the "const" keyword appears in jschemer documentation.
+
+      enum:
+        title:       '"enum" Keyword'
+        description: This schema shows how the "enum" keyword appears in jschemer documentation.
+        enum:
+          - 1
+          - []
+          - {}
+          - true
+
+      type:
+        title:       '"type" Keyword'
+        type:        string
+        description: This schema shows how the "type" keyword appears in jschemer documentation.
+
+  arrays:
+    title:       Keywords for Array Instance Types
+    description: This schema shows how keywords that apply to array instance types are displayed in jschemer documentation.
+    properties:
+
+      additionalItems:
+        title: '"additionalItems" Keyword'
+        description: This schema shows how the "additionalItems" keyword appears in jschemer documentation. This keyword only applies when the "items" keyword is also present, and consists of an array of schemas. In this example, the first item in the array must be a string, and any additional items in the array must be numbers.
+        items:
+          - type: string
+        additionalItems:
+          type: number
+
+      contains:
+        title:       '"contains" Keyword'
+        description: This schema shows how the "contains" keyword appears in jschemer documentation. In this example, at least one item in the array must be a string.
+        contains:
+          type: string
+
+      itemsSchema:
+        title:       '"items" Keyword as a Schema'
+        description: This schema shows how the "items" keyword appears in jschemer documentation when the value of "items" is a single schema. In this example, each item must be a string with a minimum length of 1.
+        items:
+          type:      string
+          minLength: 1
+
+      itemsArray:
+        title: '"items" Keyword as an Array'
+        description: This schema shows how the "items" keyword appears in jschemer documentation when the value of "items" is an array of schemas. In this example, the first item in the array must be `null`, and the second item in the array must be a string.
+        items:
+          - type: null
+          - type: string
+
+      maxItems:
+        title:       '"maxItems" Keyword'
+        description: This schema shows how the "maxItems" keyword appears in jschemer documentation.
+        maxItems:    10
+
+      minItems:
+        title:       '"minItems" Keyword'
+        description: This schema shows how the "minItems" keyword appears in jschemer documentation.
+        minItems:    1
+
+      uniqueItems:
+        title:       '"uniqueItems" Keyword'
+        description: This schema show show the "uniqueItems" keyword appears in jschemer documentation.
+        uniqueItems: true
+
+  numeric:
+    title:       Keywords for Numeric Instance Types
+    description: This schema shows how keywords that apply to numeric instance types are displayed in jschemer documentation.
+    properties:
+
+      exclusiveMaximum:
+        title:            '"exclusiveMaximum" Keyword'
+        description:      This schema shows how the "exclusiveMaximum" keyword appears in jschemer documentation.
+        exclusiveMaximum: 10
+
+      exclusiveMinimum:
+        title:            '"exclusiveMinimum" Keyword'
+        description:      This schema shows how the "exclusiveMinimum" keyword appears in jschemer documentation.
+        exclusiveMinimum: -10
+
+      maximum:
+        title:       '"maximum" Keyword'
+        description: This schema shows how the "maximum" keyword appears in jschemer documentation.
+        maximum:     9.99
+
+      minimum:
+        title:       '"minimum" Keyword'
+        description: This schema shows how the "minimum" keyword appears in jschemer documentation.
+        minimum:     -9.99
+
+      multipleOf:
+        title:       '"multipleOf" Keyword'
+        description: This schema shows how the "multipleOf" keyword appears in jschemer documentation.
+        multipleOf:  2
+
+  objects:
+    title:       Keywords for Object Instances
+    description: This schema shows how keywords that apply to object instances are displayed in jschemer documentation.
+    properties:
+
+      maxProperties:
+        title:         '"maxProperties" Keyword'
+        description:   This schema shows how the "maxProperties" keyword appears in jschemer documentation.
+        maxProperties: 5
+
+      minProperties:
+        title:         '"minProperties" Keyword'
+        description:   This schema shows how the "minProperties" keyword appears in jschemer documentation.
+        minProperties: 1
+
+      properties:
+        title:       '"properties" Keyword'
+        description: 'This schema shows how the "properties" keyword appears in jschemer documentation. In this example, the schema specifies two properties for the object: "id" and "name", both of which must be strings.'
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+
+      required:
+        title:       '"required" Keyword'
+        description: This schema shows how the "required" keyword appears in jschemer documentation. In this example, the object must have an "id" property.
+        required:
+          - id
+
+  strings:
+    title:       Keywords for String Instances
+    description: This schema shows how keywords that apply to string instances are displayed in jschemer documentation.
+    properties:
+
+      maxLength:
+        title:       '"maxLength" Keyword'
+        description: This schema shows how the "maxLength" keyword appears in jschemer documentation.
+        maxLength:   100
+
+      minLength:
+        title:       '"minLength" Keyword'
+        description: This schema shows how the "minLength" keyword appears in jschemer documentation.
+        minLength:   1
+
+      pattern:
+        title:       '"pattern" Keyword'
+        description: This schema shows how the "pattern" keyword appears in jschemer documentation.
+        pattern:     '[A-Za-z]{4}'
