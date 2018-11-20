@@ -1,10 +1,10 @@
 $schema:  http://json-schema.org/draft-07/schema#
-$id:      https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema-1.json
+$id:      https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema.json
 $comment: This is a test comment, aimed at readers or maintainers of the schema. This should not be presented to end users, and should not be visible in the generated jschemer documentation.
 
 title:       Sample Schema
 type:        object
-description: This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML<em>, as well as *simple* _Markdown_ **styling**.
+description: This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML<em>, as well as *simple* _Markdown_ **styling**. This schema shows how each JSON Schema keyword appears on its own.
 
 definitions:
   key:
