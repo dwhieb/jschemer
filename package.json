@@ -1,7 +1,7 @@
 {
   "name": "jschemer",
   "version": "3.0.0",
-  "description": "A documentation generator for JSON Schemas",
+  "description": "A Node.js library to generate documentation for JSON Schemas",
   "keywords": [
     "JSON Schema",
     "json-schema",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "build": "node build/index.js",
-    "test": "cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
+    "test": "yaml2json test/schema.yml -p -s & cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {
     "commander": "^2.19.0",
@@ -44,9 +44,11 @@
     "ora": "^3.0.0"
   },
   "devDependencies": {
+    "ajv": "^6.5.5",
     "eslint": "^5.9.0",
     "github-markdown-css": "^2.10.0",
     "jasmine": "^3.3.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "yamljs": "^0.3.0"
   }
 }

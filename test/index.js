@@ -1,4 +1,6 @@
+const AJV      = require(`ajv`);
 const jschemer = require(`../src`);
+const schema   = require(`./schema`);
 
 const {
   readFile,
@@ -9,6 +11,8 @@ const {
   deleteOutFolder,
   removeDir,
 } = require(`./utilities`);
+
+const ajv = new AJV();
 
 describe(`jschemer`, () => {
 
@@ -50,6 +54,21 @@ describe(`jschemer`, () => {
     await jschemer();
     await jschemer();
     await removeDir(`out`);
+  });
+
+});
+
+describe(`sample data`, () => {
+
+  it(`is a valid JSON schema`, () => {
+
+    try {
+      ajv.addSchema(schema);
+    } finally {
+      if (ajv.errors) console.error(ajv.errors);
+      expect(ajv.errors).toBe(null);
+    }
+
   });
 
 });

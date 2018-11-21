@@ -1,5 +1,6 @@
 - [ ] [Open an issue][1]
 - [ ] Install latest Node 10.x release using [nvm-windows][2]
+- [ ] Install [yamljs][3] globally: `npm i -g yamljs`
 - [ ] Switch to Node 10.x
 - [ ] Fork the repo
 - [ ] Create an issue branch from `master`
@@ -19,3 +20,4 @@
 
 [1]: https://github.com/dwhieb/jschemer/issues
 [2]: https://github.com/coreybutler/nvm-windows
+[3]: https://www.npmjs.com/package/yamljs
