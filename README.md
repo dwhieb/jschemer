@@ -81,6 +81,10 @@ To customize the HTML used to generate the documentation, edit the `templates/in
 
 To customize the readme used on the landing page of the documentation, use the `readme` option.
 
+## Notes
+
+* When using the `$ref` keyword, you may provide additional keywords in the referencing schema as well, and jschemer will include them in the documentation. This is useful so that your end users don't need to visit the referenced schema to see information about it. If both the referencing schema and the referenced schema have the same keyword, the value of the referencing schema will be used. This is most useful when you would like to provide specific notes (usually in the `description` property) about how an external schema should be used or interpreted in the context of the current schema.
+
 [1]: https://github.com/dwhieb/jschemer#readme
 [2]: http://dwhieb.github.io/jschemer/
 [3]: https://github.com/dwhieb
