@@ -32,6 +32,18 @@
 
   <body>
 
+    <nav id=jschemer-nav aria-labelledby=jschemer-schemas-list-heading role=navigation>
+    
+      
+    
+      <h2 id=jschemer-schemas-list-heading>Schemas</h1>
+    
+      <ul>
+          <li><p><a href='schema.html'>Sample Schema</a></p></li>
+      </ul>
+    
+    </nav>
+
     <main class=markdown-body><h1><a href="https://github.com/dwhieb/jschemer#readme">jschemer</a></h1>
 <p><a href="https://www.npmjs.com/package/jschemer"><img src="https://img.shields.io/npm/v/jschemer.svg" alt="npm version"></a>
 <a href="https://travis-ci.org/dwhieb/jschemer"><img src="https://img.shields.io/travis/dwhieb/jschemer/master.svg" alt="Travis status"></a>
@@ -43,7 +55,7 @@
 <p><code>jschemer</code> is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. <a href="http://dwhieb.github.io/jschemer/">See an example of generated <code>jschemer</code> documentation here</a>. <code>jschemer</code> accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It can be run as a Node module or from the command line.</p>
 <p><em>Maintained by <a href="https://github.com/dwhieb">Daniel W. Hieber</a></em></p>
 <p><a href="http://dwhieb.github.io/jschemer/">View a demo of documentation generated with <code>jschemer</code>.</a></p>
-<!-- screenshot here -->
+<!-- TODO: screenshot here -->
 <h2>Contents</h2>
 <ul>
 <li><a href="https://github.com/dwhieb/jschemer/issues/new">Report an Issue</a></li>
@@ -116,8 +128,8 @@ jschemer()
 </tbody>
 </table>
 <h2>Customizing</h2>
-<p>To customize the HTML used to generate the documentation, edit the <code>templates/index.hbs</code> file.</p>
-<p>To customize the readme used on the landing page of the documentation, use the <code>readme</code> option.</p>
+<p>To customize the readme used on the landing page of the documentation, use the <code>readme</code> option to specify the path to a different readme.</p>
+<p>To customize the HTML used to generate the documentation, edit the Handlebars templates in the <code>/templates</code> folder.</p>
 <h2>Notes</h2>
 <ul>
 <li>
@@ -128,18 +140,6 @@ jschemer()
 </li>
 </ul>
 </main>
-
-    <nav>
-    
-      
-    
-      <h2>Schemas</h1>
-    
-      <ol>
-          <li><p><a href='schema.html'>Sample Schema</a></p></li>
-      </ol>
-    
-    </nav>
 
   </body>
 

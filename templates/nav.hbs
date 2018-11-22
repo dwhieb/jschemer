@@ -1,13 +1,13 @@
-<nav>
+<nav id=jschemer-nav aria-labelledby=jschemer-schemas-list-heading role=navigation>
 
   {{#unless home}}<p><a href=../index.html>Home</a></p>{{/unless}}
 
-  <h2>Schemas</h1>
+  <h2 id=jschemer-schemas-list-heading>Schemas</h1>
 
-  <ol>
+  <ul>
     {{#each schemas}}
       <li><p><a href='{{_jschemerFilename}}'>{{md title 'inline'}}</a></p></li>
     {{/each}}
-  </ol>
+  </ul>
 
 </nav>
