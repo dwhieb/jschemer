@@ -8,16 +8,16 @@ const {
 
 /**
  * Creates the landing page for the generated documentation
- * @param  {String}  outDir The path to the directory where the landing page should be generated in
- * @return {Promise}        Returns a promise that resolves when the landing page is generated
+ * @param  {Object}  An arguments hash
+ * @return {Promise} Resolves when the landing page is generated
  */
-async function createLandingPage({ outDir, readmePath }) {
+async function createLandingPage({ outDir, readmePath, schemas }) {
 
   const readme          = await readFile(readmePath, `utf8`);
   const templatePath    = path.join(__dirname, `../templates/index.hbs`);
   const template        = await readFile(templatePath, `utf8`);
   const convertTemplate = hbs.compile(template);
-  const html            = convertTemplate({ readme });
+  const html            = convertTemplate({ home: true, readme, schemas });
   const outPath         = path.join(outDir, `index.html`);
 
   await writeFile(outPath, html, `utf8`);

@@ -1,8 +1,9 @@
 const jschemer = require(`../src`);
 
 const opts = {
-  out:    `docs`,
-  readme: `README.md`,
+  out:     `docs`,
+  readme:  `README.md`,
+  schemas: `test/schemas`,
 };
 
 /**

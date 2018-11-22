@@ -1,6 +1,6 @@
 const AJV      = require(`ajv`);
 const jschemer = require(`../src`);
-const schema   = require(`./schema`);
+const schema   = require(`./schemas/schema`);
 
 const {
   readFile,

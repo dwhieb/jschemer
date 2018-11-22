@@ -15,7 +15,7 @@
 
 [View a demo of documentation generated with `jschemer`.][2]
 
-<!-- screenshot here -->
+<!-- TODO: screenshot here -->
 
 ## Contents
 * [Report an Issue][9]
@@ -77,11 +77,13 @@ Node      | Command Line      | Default     | Description
 
 ## Customizing
 
-To customize the HTML used to generate the documentation, edit the `templates/index.hbs` file.
+To customize the readme used on the landing page of the documentation, use the `readme` option to specify the path to a different readme.
 
-To customize the readme used on the landing page of the documentation, use the `readme` option.
+To customize the HTML used to generate the documentation, edit the Handlebars templates in the `/templates` folder.
 
 ## Notes
+
+* Each schema is validated using [ajv][10] when the documentation is generated. If a schema cannot be parsed as JSON, or is not a valid schema, it will be ignored, and a warning will be shown in the console.
 
 * When using the `$ref` keyword, you may provide additional keywords in the referencing schema as well, and jschemer will include them in the documentation. This is useful so that your end users don't need to visit the referenced schema to see information about it. If both the referencing schema and the referenced schema have the same keyword, the value of the referencing schema will be used. This is most useful when you would like to provide specific notes (usually in the `description` property) about how an external schema should be used or interpreted in the context of the current schema.
 
@@ -94,3 +96,4 @@ To customize the readme used on the landing page of the documentation, use the `
 [7]: https://opensource.org/licenses/MIT
 [8]: https://github.com/dwhieb/jschemer
 [9]: https://github.com/dwhieb/jschemer/issues/new
+[10]: https://www.npmjs.com/package/ajv

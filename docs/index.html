@@ -118,7 +118,28 @@ jschemer()
 <h2>Customizing</h2>
 <p>To customize the HTML used to generate the documentation, edit the <code>templates/index.hbs</code> file.</p>
 <p>To customize the readme used on the landing page of the documentation, use the <code>readme</code> option.</p>
+<h2>Notes</h2>
+<ul>
+<li>
+<p>Each schema is validated using <a href="https://www.npmjs.com/package/ajv">ajv</a> when the documentation is generated. If a schema cannot be parsed as JSON, or is not a valid schema, it will be ignored, and a warning will be shown in the console.</p>
+</li>
+<li>
+<p>When using the <code>$ref</code> keyword, you may provide additional keywords in the referencing schema as well, and jschemer will include them in the documentation. This is useful so that your end users don’t need to visit the referenced schema to see information about it. If both the referencing schema and the referenced schema have the same keyword, the value of the referencing schema will be used. This is most useful when you would like to provide specific notes (usually in the <code>description</code> property) about how an external schema should be used or interpreted in the context of the current schema.</p>
+</li>
+</ul>
 </main>
+
+    <nav>
+    
+      
+    
+      <h2>Schemas</h1>
+    
+      <ol>
+          <li><p><a href='schema.html'>Sample Schema</a></p></li>
+      </ol>
+    
+    </nav>
 
   </body>
 

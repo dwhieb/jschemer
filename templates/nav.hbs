@@ -1,0 +1,13 @@
+<nav>
+
+  {{#unless home}}<p><a href=../index.html>Home</a></p>{{/unless}}
+
+  <h2>Schemas</h1>
+
+  <ol>
+    {{#each schemas}}
+      <li><p><a href='{{_jschemerFilename}}'>{{md title 'inline'}}</a></p></li>
+    {{/each}}
+  </ol>
+
+</nav>
