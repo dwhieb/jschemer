@@ -3,8 +3,9 @@
   no-underscore-dangle,
 */
 
-const AJV  = require(`ajv`);
-const path = require(`path`);
+const AJV     = require(`ajv`);
+const compare = require(`./compare`);
+const path    = require(`path`);
 
 const {
   readdir: readDir,
@@ -77,7 +78,9 @@ async function getSchemas(schemasPath) {
   const promises = filenames.map(filename => parseSchema(schemasPath, filename));
   const schemas  = await Promise.all(promises);
 
-  return schemas.filter(schema => schema);
+  return schemas
+  .filter(schema => schema)
+  .sort((a, b) => compare(a.title, b.title));
 
 }
 
