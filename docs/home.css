@@ -664,6 +664,9 @@ hue-6-2: #c18401
 .hljs-link {
   text-decoration: underline;
 }
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
 @media (min-width: 700px) {
   body {
     display: flex;
