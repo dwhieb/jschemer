@@ -664,3 +664,9 @@ hue-6-2: #c18401
 .hljs-link {
   text-decoration: underline;
 }
+@media (min-width: 700px) {
+  body {
+    display: flex;
+    flex-direction: row;
+  }
+}
