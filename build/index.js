@@ -7,8 +7,13 @@ void async function build() {
   const spinner = createSpinner(`Building project`);
   spinner.start();
 
-  await copyFiles();
-  await createDocs();
+  try {
+    await copyFiles();
+    await createDocs();
+  } catch (e) {
+    spinner.fail(e.message);
+    return console.error(e);
+  }
 
   spinner.succeed(`Project built successfully`);
 
