@@ -1,6 +1,5 @@
 - [ ] [Open an issue][1]
 - [ ] Install latest Node 10.x release using [nvm-windows][2]
-- [ ] Install [yamljs][3] globally: `npm i -g yamljs`
 - [ ] Switch to Node 10.x
 - [ ] Fork the repo
 - [ ] Create an issue branch from `master`

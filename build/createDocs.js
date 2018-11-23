@@ -1,4 +1,4 @@
-const jschemer = require(`../src`);
+const jschemer = require(`../lib/jschemer`);
 
 const opts = {
   out:     `docs`,

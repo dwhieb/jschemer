@@ -123,9 +123,9 @@ rules:
   key-spacing:
   - error
   - beforeColon: false
-    afterColon: true
-    mode: minimum
-    align: value
+    afterColon:  true
+    mode:        minimum
+    align:       value
   keyword-spacing:
   - error
   - before: true

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const jschemer     = require(`./jschemer`);
-const parseOptions = require(`./parseOptions`);
+const jschemer                    = require(`./lib/jschemer`);
+const { commander: parseOptions } = require(`./lib/helpers`);
 
 if (require.main === module) {
   const opts = parseOptions();

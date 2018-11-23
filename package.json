@@ -23,8 +23,8 @@
       "email": "alyanna.landayan@gmail.com"
     }
   ],
-  "main": "src/index.js",
-  "bin": "./src/index.js",
+  "main": "index.js",
+  "bin": "./index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dwhieb/jschemer.git"
@@ -40,6 +40,7 @@
     "commander": "^2.19.0",
     "handlebars": "^4.0.12",
     "highlight.js": "^9.13.1",
+    "less": "^3.8.1",
     "markdown-it": "^8.4.2",
     "ora": "^3.0.0"
   },

@@ -79,7 +79,7 @@ Node      | Command Line      | Default     | Description
 
 To customize the readme used on the landing page of the documentation, use the `readme` option to specify the path to a different readme.
 
-To customize the HTML used to generate the documentation, edit the Handlebars templates in the `/templates` folder.
+To customize the HTML or CSS used to generate the documentation, edit the files in the `/components` folder. The CSS is generated from the LESS files in those folders.
 
 ## Notes
 

@@ -1,5 +1,5 @@
 const AJV      = require(`ajv`);
-const jschemer = require(`../src`);
+const jschemer = require(`../lib/jschemer`);
 const schema   = require(`./schemas/schema`);
 
 const {
@@ -61,14 +61,12 @@ describe(`jschemer`, () => {
 describe(`sample data`, () => {
 
   it(`is a valid JSON schema`, () => {
-
     try {
       ajv.addSchema(schema);
     } finally {
       if (ajv.errors) console.error(ajv.errors);
       expect(ajv.errors).toBe(null);
     }
-
   });
 
 });
