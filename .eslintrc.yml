@@ -385,8 +385,9 @@ rules:
   no-underscore-dangle:
   - warn
   - allow:
-    - _ts
     - _etag
+    - _jschemerFilename
+    - _ts
   no-unexpected-multiline: error
   no-unmodified-loop-condition: warn
   no-unneeded-ternary:
