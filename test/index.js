@@ -3,6 +3,7 @@ const jschemer = require(`../lib/jschemer`);
 const schema   = require(`./schemas/schema`);
 
 const {
+  readdir: readDir,
   readFile,
   stat,
 } = require(`fs`).promises;
@@ -27,6 +28,16 @@ describe(`jschemer`, () => {
       expect(landingPage.includes(`This is a jschemer project.`)).toBe(true); // landing page contains the readme file
     });
 
+    it(`generates a page for each schema`, async () => {
+      const files = await readDir(`out/schemas`);
+      expect(files[0]).toBe(`schema.html`);
+    });
+
+    it(`can be run twice consecutively`, async () => {
+      await jschemer();
+      await removeDir(`out`);
+    });
+
   });
 
   describe(`options`, () => {
@@ -48,12 +59,6 @@ describe(`jschemer`, () => {
       await removeDir(out);
     });
 
-  });
-
-  it(`can be run twice consecutively`, async () => {
-    await jschemer();
-    await jschemer();
-    await removeDir(`out`);
   });
 
 });
