@@ -1,9 +1,0 @@
-body {
-  font-family: 'Fira Sans', 'Noto Sans', 'Source Sans Pro', 'Segoe UI', Roboto, 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-}
-@media (min-width: 700px) {
-  body {
-    display: flex;
-    flex-direction: row;
-  }
-}

@@ -26,14 +26,18 @@ describe(`jschemer`, () => {
       await jschemer();
       const landingPage = await readFile(`out/index.html`, `utf8`);           // landing page exists
       expect(landingPage.includes(`This is a jschemer project.`)).toBe(true); // landing page contains the readme file
+      await removeDir(`out`);
     });
 
     it(`generates a page for each schema`, async () => {
+      await jschemer();
       const files = await readDir(`out/schemas`);
       expect(files[0]).toBe(`schema.html`);
+      await removeDir(`out`);
     });
 
     it(`can be run twice consecutively`, async () => {
+      await jschemer();
       await jschemer();
       await removeDir(`out`);
     });
