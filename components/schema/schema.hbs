@@ -88,9 +88,21 @@
 
     {{!-- String --}}
 
+    {{#if minLength}}
+      <p class='minLength prop'>
+        <b>Minimum length:</b> <code>{{json minLength}}</code>
+      </p>
+    {{/if}}
+
     {{#if maxLength}}
       <p class='maxLength prop'>
         <b>Maximum length:</b> <code>{{json maxLength}}</code>
+      </p>
+    {{/if}}
+
+    {{#if pattern}}
+      <p class='pattern prop'>
+        <b>Regular expression to match:</b> <code>{{pattern}}</code>
       </p>
     {{/if}}
 
