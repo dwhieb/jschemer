@@ -33,7 +33,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "build": "node build/index.js",
+    "build": "yaml2json test/schema.yml > test/schemas/schema.json -p & node build/index.js",
     "test": "yaml2json test/schema.yml > test/schemas/schema.json -p & cd test & jasmine JASMINE_CONFIG_PATH=jasmine.json & cd .."
   },
   "dependencies": {

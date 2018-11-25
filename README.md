@@ -79,7 +79,17 @@ Node      | Command Line      | Default     | Description
 
 To customize the readme used on the landing page of the documentation, use the `readme` option to specify the path to a different readme.
 
-To customize the HTML or CSS used to generate the documentation, edit the files in the `/components` folder. The CSS is generated from the LESS files in those folders.
+To customize the HTML or CSS used to generate the documentation, edit the files in the `/components` folder. The HTML templates are written using [Handlebars][11]. The CSS for the documentation is written in [LESS][12].
+
+In the HTML, each schema and subschema is wrapped in a `<section class=schema>` element. Each keyword in the JSON Schema is wrapped in a single element (typically a `<div>` or `<p>`) with two CSS classes: the name of the keyword (e.g. `minimum`, `additional-items`, etc.) and `prop`. Keywords are converted from camelCase to param-case using the [param-case][13] package.
+
+For example, here is the HTML for JSON Schema's `minimum` keyword. If a JSON Schema has the `minimum` keyword in it, it will use the following Handlebars code.
+
+```hbs
+{{#if minimum}}
+  <p class='minimum prop'><strong>Minimum:</strong> <code>{{minimum}}</code></p>
+{{/if}}
+```
 
 ## Notes
 
@@ -97,3 +107,6 @@ To customize the HTML or CSS used to generate the documentation, edit the files 
 [8]: https://github.com/dwhieb/jschemer
 [9]: https://github.com/dwhieb/jschemer/issues/new
 [10]: https://www.npmjs.com/package/ajv
+[11]: http://handlebarsjs.com/
+[12]: http://lesscss.org/
+[13]: https://www.npmjs.com/package/param-case

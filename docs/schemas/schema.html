@@ -7,7 +7,7 @@
     <title>Sample Schema</title>
     <meta name=viewport content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
-    <link href=schema-page.css rel=stylesheet>
+    <link href=../schema-page.css rel=stylesheet>
 
   </head>
 
@@ -32,13 +32,24 @@
     </nav>
 
     <main>
-      <section class=jschemer-schema>
+      <section id=https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema.json class=jschemer-schema>
       
         <details open>
       
             <summary>
-              <h1>Sample Schema</h1>
+              <h1 class='title prop'>Sample Schema (<code>title</code>)</h1>
             </summary>
+      
+            <p class='$schema prop'><b>Validate against (<code>$schema</code>):</b> <a href='http://json-schema.org/draft-07/schema#'>http://json-schema.org/draft-07/schema#</a></p>
+      
+            <p class='$id prop'><b>Schema ID (<code>$id</code>):</b> <code>https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema.json</code></p>
+      
+            <div class='$comment prop'>
+              <h2>Developer Notes (<code>$comment</code>)</h2>
+              <div><p>This is a test comment, aimed at readers or maintainers of the schema. This will be displayed as “Developer Notes”.</p>
+      </div>
+            </div>
+      
       
         </details>
       
