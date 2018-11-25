@@ -9,16 +9,20 @@
     {{/if}}
 
     {{#if $schema}}
-      <p class='$schema prop'><b>Validate against (<code>$schema</code>):</b> <a href='{{$schema}}'>{{$schema}}</a></p>
+      <p class='$schema prop'><b>Validate against:</b> <a href='{{$schema}}'>{{$schema}}</a></p>
     {{/if}}
 
     {{#if $id}}
-      <p class='$id prop'><b>Schema ID (<code>$id</code>):</b> <code>{{$id}}</code></p>
+      <p class='$id prop'><b>Schema ID:</b> <code>{{$id}}</code></p>
+    {{/if}}
+
+    {{#if type}}
+      <p class='type prop'><b>Type:</b> <code>{{type}}</code></p>
     {{/if}}
 
     {{#if $comment}}
       <div class='$comment prop'>
-        <h2>Developer Notes (<code>$comment</code>)</h2>
+        <h2>Developer Notes</h2>
         <div>{{md $comment}}</div>
       </div>
     {{/if}}
