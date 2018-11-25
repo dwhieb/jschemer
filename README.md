@@ -81,7 +81,7 @@ To customize the readme used on the landing page of the documentation, use the `
 
 To customize the HTML or CSS used to generate the documentation, edit the files in the `/components` folder. The HTML templates are written using [Handlebars][11]. The CSS for the documentation is written in [LESS][12].
 
-In the HTML, each schema and subschema is wrapped in a `<section class=schema>` element. Each keyword in the JSON Schema is wrapped in a single element (typically a `<div>` or `<p>`) with two CSS classes: the name of the keyword (e.g. `minimum`, `additional-items`, etc.) and `prop`. Keywords are converted from camelCase to param-case for class names.
+In the HTML, each schema and subschema is wrapped in a `<section class=schema>` element. Each keyword in the JSON Schema is wrapped in a single element (typically a `<div>` or `<p>`) with two CSS classes: the name of the keyword (e.g. `minimum`, `additionalItems`, etc.) and `prop`.
 
 For example, here is the HTML for JSON Schema's `minimum` keyword. If a JSON Schema has the `minimum` keyword in it, it will use the following Handlebars code.
 

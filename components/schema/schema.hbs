@@ -2,6 +2,8 @@
 
   <details open>
 
+    {{!-- Meta --}}
+
     {{#if title}}
       <summary>
         <h1 class='title prop'>{{md title 'inline'}}</h1>
@@ -29,9 +31,16 @@
 
     {{#if $ref}}
       <div class='$ref prop'>
-        <p>Must be an instance of the following schema:</p>
+        <p>This item must validate against the following schema:</p>
         <p><a href='{{$ref}}'>{{$ref}}</a></p>
       </div>
+    {{/if}}
+
+    {{!-- Any --}}
+
+    {{#if const}}
+      <p>This item must have the following value:</p>
+      <code><pre>{{json const}}</pre></code>
     {{/if}}
 
     {{#if enum}}
@@ -43,6 +52,26 @@
           {{/each}}
         </ul>
       </div>
+    {{/if}}
+
+    {{!-- Numeric --}}
+
+    {{#if maximum}}
+      <p class='maximum prop'>
+        <b>Maximum:</b> <code>{{json maximum}}</code>
+      </p>
+    {{/if}}
+
+    {{#if exclusiveMaximum}}
+      <p class='exclusiveMaximum prop'>
+        <b>Exclusive maximum:</b> <code>{{json exclusiveMaximum}}</code>
+      </p>
+    {{/if}}
+
+    {{#if multipleOf}}
+      <p class='multipleOf prop'>
+        <b>Multiple of:</b> <code>{{json multipleOf}}</code>
+      </p>
     {{/if}}
 
   </details>
