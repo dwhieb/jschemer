@@ -6,7 +6,7 @@
 
   <ul>
     {{#each schemas}}
-      <li><p><a href='{{#if ../home}}schemas/{{_jschemerFilename}}{{else}}{{_jschemerFilename}}{{/if}}'>{{md title 'inline'}}</a></p></li>
+      <li><p><a href='{{#if ../home}}schemas/{{filename}}{{else}}{{filename}}{{/if}}'>{{md schema.title 'inline'}}</a></p></li>
     {{/each}}
   </ul>
 

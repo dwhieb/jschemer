@@ -386,7 +386,6 @@ rules:
   - warn
   - allow:
     - _etag
-    - _jschemerFilename
     - _ts
   no-unexpected-multiline: error
   no-unmodified-loop-condition: warn
