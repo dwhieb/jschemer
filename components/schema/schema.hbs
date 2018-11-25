@@ -34,6 +34,17 @@
       </div>
     {{/if}}
 
+    {{#if enum}}
+      <div class='enum prop'>
+        <h2>Allowed Values</h2>
+        <ul>
+          {{#each enum}}
+            <li><pre>{{this}}</pre></li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+
   </details>
 
 </section>
