@@ -56,6 +56,12 @@
 
     {{!-- Numeric --}}
 
+    {{#if minimum}}
+      <p class='minimum prop'>
+        <b>Minimum: <code>{{json minimum}}</code></b>
+      </p>
+    {{/if}}
+
     {{#if maximum}}
       <p class='maximum prop'>
         <b>Maximum:</b> <code>{{json maximum}}</code>
