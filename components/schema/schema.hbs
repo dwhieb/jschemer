@@ -58,7 +58,13 @@
 
     {{#if minimum}}
       <p class='minimum prop'>
-        <b>Minimum: <code>{{json minimum}}</code></b>
+        <b>Minimum:</b> <code>{{json minimum}}</code>
+      </p>
+    {{/if}}
+
+    {{#if exclusiveMinimum}}
+      <p class='exclusiveMinimum prop'>
+        <b>Exclusive minimum:</b> <code>{{json exclusiveMinimum}}</code>
       </p>
     {{/if}}
 
