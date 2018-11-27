@@ -1,111 +1,278 @@
 <section {{#if $id}}id={{$id}}{{/if}} class=jschemer-schema>
 
-  <details open>
+  {{!-- If the schema is a boolean --}}
+  {{#isBoolean this}}
 
-    {{!-- Meta --}}
+    {{#isTrue this}}
+      <p>This schema imposes no restrictions. All values are valid.</p>
+    {{else}}
+      <p>No values are valid for this schema.</p>
+    {{/isTrue}}
 
-    {{#if title}}
-      <summary>
-        <h1 class='title prop'>{{md title 'inline'}}</h1>
-      </summary>
-    {{/if}}
+  {{!-- If the schema is an object --}}
+  {{else}}
 
-    {{#if $schema}}
-      <p class='$schema prop'><b>Validate against:</b> <a href='{{$schema}}'>{{$schema}}</a></p>
-    {{/if}}
+    <details open>
 
-    {{#if $id}}
-      <p class='$id prop'><b>Schema ID:</b> <code>{{$id}}</code></p>
-    {{/if}}
+      {{!-- Meta --}}
 
-    {{#if type}}
-      <p class='type prop'><b>Type:</b> <code>{{type}}</code></p>
-    {{/if}}
+      {{#if title}}
+        <summary>
+          <h1 class='title prop'>{{md title 'inline'}}{{#if @key}}: <code>{{@key}}</code>{{/if}}</h1>
+        </summary>
+      {{else if @key}}
+        <summary>
+          <h1 class='key prop'><code>{{@key}}</code></h1>
+        </summary>
+      {{/if}}
 
-    {{#if $comment}}
-      <div class='$comment prop'>
-        <h2>Developer Notes</h2>
-        <div>{{md $comment}}</div>
-      </div>
-    {{/if}}
+      {{#if $schema}}
+        <p class='$schema prop'><b>Validate against:</b> <a href='{{$schema}}'>{{$schema}}</a></p>
+      {{/if}}
 
-    {{#if $ref}}
-      <div class='$ref prop'>
-        <p>This item must validate against the following schema:</p>
-        <p><a href='{{$ref}}'>{{$ref}}</a></p>
-      </div>
-    {{/if}}
+      {{#if $id}}
+        <p class='$id prop'><b>Schema ID:</b> <code>{{$id}}</code></p>
+      {{/if}}
 
-    {{!-- Any --}}
+      {{#if type}}
+        <p class='type prop'><b>Type:</b> <code>{{type}}</code></p>
+      {{/if}}
 
-    {{#if const}}
-      <p>This item must have the following value:</p>
-      <code><pre>{{json const}}</pre></code>
-    {{/if}}
+      {{#if $comment}}
+        <div class='$comment prop'>
+          <h2>Developer Notes</h2>
+          <div>{{md $comment}}</div>
+        </div>
+      {{/if}}
 
-    {{#if enum}}
-      <div class='enum prop'>
-        <h2>Allowed Values</h2>
-        <ul>
-          {{#each enum}}
-            <li><pre>{{json this}}</pre></li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/if}}
+      {{!-- If the schema is an empty schema --}}
+      {{#emptySchema this}}
 
-    {{!-- Numeric --}}
+        <p>This schema imposes no restrictions. All values are valid.</p>
 
-    {{#if minimum}}
-      <p class='minimum prop'>
-        <b>Minimum:</b> <code>{{json minimum}}</code>
-      </p>
-    {{/if}}
+      {{else}}
 
-    {{#if exclusiveMinimum}}
-      <p class='exclusiveMinimum prop'>
-        <b>Exclusive minimum:</b> <code>{{json exclusiveMinimum}}</code>
-      </p>
-    {{/if}}
+        {{!-- Any --}}
 
-    {{#if maximum}}
-      <p class='maximum prop'>
-        <b>Maximum:</b> <code>{{json maximum}}</code>
-      </p>
-    {{/if}}
+        {{#if $ref}}
+          <div class='$ref prop'>
+            <p>This item must validate against the following schema:</p>
+            <p><a href='{{$ref}}'>{{$ref}}</a></p>
+          </div>
+        {{/if}}
 
-    {{#if exclusiveMaximum}}
-      <p class='exclusiveMaximum prop'>
-        <b>Exclusive maximum:</b> <code>{{json exclusiveMaximum}}</code>
-      </p>
-    {{/if}}
+        {{#isDefined const}}
+          <p>This item must have the following value:</p>
+          <code><pre>{{json const}}</pre></code>
+        {{/isDefined}}
 
-    {{#if multipleOf}}
-      <p class='multipleOf prop'>
-        <b>Multiple of:</b> <code>{{json multipleOf}}</code>
-      </p>
-    {{/if}}
+        {{#if enum}}
+          <div class='enum prop'>
+            <h2>Allowed Values</h2>
+            <ul>
+              {{#each enum}}
+                <li><pre>{{json this}}</pre></li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/if}}
 
-    {{!-- String --}}
+        {{!-- Array --}}
 
-    {{#if minLength}}
-      <p class='minLength prop'>
-        <b>Minimum length:</b> <code>{{json minLength}}</code>
-      </p>
-    {{/if}}
+        {{#isDefined minItems}}
+          <p class='minItems prop'>
+            <b>Minimum number of items:</b> <code>{{minItems}}</code>
+          </p>
+        {{/isDefined}}
 
-    {{#if maxLength}}
-      <p class='maxLength prop'>
-        <b>Maximum length:</b> <code>{{json maxLength}}</code>
-      </p>
-    {{/if}}
+        {{#isDefined maxItems}}
+          <p class='maxItems prop'>
+            <b>Maximum number of items:</b> <code>{{maxItems}}</code>
+          </p>
+        {{/isDefined}}
 
-    {{#if pattern}}
-      <p class='pattern prop'>
-        <b>Regular expression to match:</b> <code>{{pattern}}</code>
-      </p>
-    {{/if}}
+        {{#isDefined uniqueItems}}
+          <p class='uniqueItems prop'>
+            <b>Items must be unique:</b> <code>{{uniqueItems}}</code>
+          </p>
+        {{/isDefined}}
 
-  </details>
+        {{#isDefined contains}}
+          <div class='contains prop'>
+
+            <h2>Contains</h2>
+
+            <p>The array must contain at least one element that adheres to the following schema:</p>
+
+            {{> schema contains}}
+
+          </div>
+        {{/isDefined}}
+
+        {{#if items}}
+          <div class='items prop'>
+
+            <h2>Items</h2>
+
+            {{#isArray items}}
+
+              <p>The items in this array must adhere to the following schemas, in order:</p>
+
+              <ul>
+                {{#each items}}
+                  <li>{{> schema this}}</li>
+                {{/each}}
+              </ul>
+
+            {{else}}
+
+              <p>Each item in this array must adhere to the following schema:</p>
+
+              {{> schema items}}
+
+            {{/isArray}}
+
+          </div>
+        {{/if}}
+
+        {{#isDefined additionalItems}}
+          <div class='additionalItems prop'>
+
+            <h2>Additional Items</h2>
+
+            <p>If there are additional items in the array, they must adhere to the following schema:</p>
+
+            {{>schema additionalItems}}
+
+          </div>
+        {{/isDefined}}
+
+        {{!-- Numeric --}}
+
+        {{#isDefined minimum}}
+          <p class='minimum prop'>
+            <b>Minimum:</b> <code>{{minimum}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined exclusiveMinimum}}
+          <p class='exclusiveMinimum prop'>
+            <b>Exclusive minimum:</b> <code>{{exclusiveMinimum}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined maximum}}
+          <p class='maximum prop'>
+            <b>Maximum:</b> <code>{{maximum}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined exclusiveMaximum}}
+          <p class='exclusiveMaximum prop'>
+            <b>Exclusive maximum:</b> <code>{{exclusiveMaximum}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined multipleOf}}
+          <p class='multipleOf prop'>
+            <b>Multiple of:</b> <code>{{multipleOf}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{!-- Object --}}
+
+        {{#isDefined minProperties}}
+          <p class='minProperties prop'>
+            <b>Minimum number of properties:</b> <code>{{minProperties}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined maxProperties}}
+          <p class='maxProperties prop'>
+            <b>Maximum number of properties:</b> <code>{{maxProperties}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#if required}}
+          <div class='required prop'>
+
+            <h2>Required Properties</h2>
+
+            <ul>
+              {{#each required}}
+                <li><code>{{this}}</code></li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
+        {{#if patternProperties}}
+          <div class='patternProperties prop'>
+
+            <h2>Regular Expression Properties</h2>
+
+            <p>Property names which match one of the following regular expressions must validate against the associated schema.</p>
+
+            <ul>
+              {{#each patternProperties}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
+        {{#if properties}}
+          <div class='properties prop'>
+
+            <h2>Properties</h2>
+
+            <p>The following properties are defined for this object:</p>
+
+            {{#each properties}}
+              <li>{{> schema this}}</li>
+            {{/each}}
+
+          </div>
+        {{/if}}
+
+        {{#isDefined additionalProperties}}
+          <div class='additionalProperties prop'>
+
+            <h2>Additional Properties</h2>
+
+            <p>Any additional properties must adhere to the following schema:</p>
+
+            {{> schema additionalProperties}}
+
+          </div>
+        {{/isDefined}}
+
+        {{!-- String --}}
+
+        {{#isDefined minLength}}
+          <p class='minLength prop'>
+            <b>Minimum length:</b> <code>{{minLength}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#isDefined maxLength}}
+          <p class='maxLength prop'>
+            <b>Maximum length:</b> <code>{{maxLength}}</code>
+          </p>
+        {{/isDefined}}
+
+        {{#if pattern}}
+          <p class='pattern prop'>
+            <b>Regular expression to match:</b> <code>{{pattern}}</code>
+          </p>
+        {{/if}}
+
+      {{/emptySchema}}
+
+    </details>
+
+  {{/isBoolean}}
 
 </section>
