@@ -38,6 +38,14 @@
         <p class='type prop'><b>Type:</b> <code>{{type}}</code></p>
       {{/if}}
 
+      {{#isDefined readOnly}}
+        <p class='readOnly prop'><b>Read-only:</b> <code>{{readOnly}}</code></p>
+      {{/isDefined}}
+
+      {{#isDefined writeOnly}}
+        <p class='writeOnly prop'><b>Read-only:</b> <code>{{writeOnly}}</code></p>
+      {{/isDefined}}
+
       {{#if $comment}}
         <div class='$comment prop'>
           <h2>Developer Notes</h2>
@@ -51,6 +59,24 @@
         <p>This schema imposes no restrictions. All values are valid.</p>
 
       {{else}}
+
+        {{!-- Definitions --}}
+
+        {{#if definitions}}
+          <div class='definitions prop'>
+
+            <h2>Schema Definitions</h2>
+
+            <p>This schema defines the following subschemas for reuse:</p>
+
+            <ul>
+              {{#each definitions}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
 
         {{!-- Any --}}
 
@@ -426,6 +452,34 @@
         {{/isDefined}}
 
       {{/emptySchema}}
+
+      {{#isDefined default}}
+        <div class='default prop'>
+
+          <h2>Default Value</h2>
+
+          <p>The default value for this item is:</p>
+
+          {{json default}}
+
+        </div>
+      {{/isDefined}}
+
+      {{#if examples}}
+        <div class='examples prop'>
+
+          <h2>Examples</h2>
+
+          <p>The following are example values for this schema:</p>
+
+          <ul>
+            {{#each examples}}
+              <li>{{> schema this}}</li>
+            {{/each}}
+          </ul>
+
+        </div>
+      {{/if}}
 
     </details>
 
