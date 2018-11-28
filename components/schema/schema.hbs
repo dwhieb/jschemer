@@ -18,12 +18,14 @@
 
       {{#if title}}
         <summary>
-          <h1 class='title keyword'>{{md title 'inline'}}{{#if @key}}: <code>{{@key}}</code>{{/if}}</h1>
+          <h1 class='title keyword'>
+            {{md title 'inline'}}{{#if @key}}: <code>{{@key}}</code>{{/if}}
+          </h1>
         </summary>
-      {{else if @key}}
-        <summary>
-          <h1 class='key keyword'><code>{{@key}}</code></h1>
-        </summary>
+      {{else isString @key}}
+        <h1 class='key keyword'>
+          <code>{{@key}}</code>
+        </h1>
       {{/if}}
 
       {{#if $schema}}

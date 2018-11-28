@@ -4,7 +4,7 @@
   "$comment": "This is a test comment, aimed at readers or maintainers of the schema. This will be displayed as \"Developer Notes\".",
   "title": "Sample Schema",
   "type": "object",
-  "description": "This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML<em>, as well as *simple* _Markdown_ **styling**. This schema shows how each JSON Schema keyword appears on its own.",
+  "description": "This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML</em>, as well as *simple* _Markdown_ **styling**. This schema shows how each JSON Schema keyword appears on its own.",
   "definitions": {
     "key": {
       "pattern": "[A-Za-z]+"
