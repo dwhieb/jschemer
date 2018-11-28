@@ -1,0 +1,10 @@
+{
+  "exec": "npm run build",
+  "ext": "hbs,js,less",
+  "ignore": [
+    "docs/*",
+    "test/*",
+    "markdown.less",
+    "atom-one-light.less"
+  ]
+}
