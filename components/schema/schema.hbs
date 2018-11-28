@@ -460,7 +460,11 @@
 
           <p>The default value for this item is:</p>
 
-          {{json default}}
+          <code>
+            <pre>
+{{json default}}
+            </pre>
+          </code>
 
         </div>
       {{/isDefined}}
@@ -474,7 +478,13 @@
 
           <ul>
             {{#each examples}}
-              <li>{{> schema this}}</li>
+              <li>
+                <code>
+                  <pre>
+{{json this}}
+                  </pre>
+                </code>
+              </li>
             {{/each}}
           </ul>
 
