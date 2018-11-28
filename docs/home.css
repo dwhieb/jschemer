@@ -7,6 +7,10 @@ body {
     flex-direction: row;
   }
 }
+#jschemer-nav {
+  min-width: 15rem;
+  padding: 1em;
+}
 .markdown-body {
   box-sizing: border-box;
   margin: 0 auto;

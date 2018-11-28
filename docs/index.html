@@ -119,11 +119,11 @@ jschemer()
 <p>To customize the HTML or CSS used to generate the documentation, edit the files in the <code>/components</code> folder. The HTML templates are written using <a href="http://handlebarsjs.com/">Handlebars</a>. The CSS for the documentation is written in <a href="http://lesscss.org/">LESS</a>.</p>
 <p>In the HTML, each schema and subschema is wrapped in a <code>&lt;section class=schema&gt;</code> element. Each keyword in the JSON Schema is wrapped in a single element (typically a <code>&lt;section&gt;</code> or <code>&lt;p&gt;</code>) with two CSS classes: the name of the keyword (e.g. <code>minimum</code>, <code>additionalItems</code>, etc.) and <code>keyword</code>.</p>
 <p>For example, here is the HTML for JSON Schema’s <code>minimum</code> keyword. If a JSON Schema has the <code>minimum</code> keyword in it, it will use the following Handlebars code.</p>
-<pre><code class="language-hbs">{{#if minimum}}
+<pre><code class="language-hbs"><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">if</span></span> minimum}}</span>
   &lt;p class='minimum keyword'&gt;
-    &lt;strong&gt;Minimum:&lt;/strong&gt; &lt;code&gt;{{minimum}}&lt;/code&gt;
+    &lt;strong&gt;Minimum:&lt;/strong&gt; &lt;code&gt;<span class="hljs-template-variable">{{minimum}}</span>&lt;/code&gt;
   &lt;/p&gt;
-{{/if}}
+<span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">if</span></span>}}</span>
 </code></pre>
 <h2>Notes</h2>
 <ul>

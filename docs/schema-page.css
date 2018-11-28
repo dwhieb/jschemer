@@ -7,3 +7,7 @@ body {
     flex-direction: row;
   }
 }
+#jschemer-nav {
+  min-width: 15rem;
+  padding: 1em;
+}
