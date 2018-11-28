@@ -18,39 +18,56 @@
 
       {{#if title}}
         <summary>
-          <h1 class='title prop'>{{md title 'inline'}}{{#if @key}}: <code>{{@key}}</code>{{/if}}</h1>
+          <h1 class='title keyword'>{{md title 'inline'}}{{#if @key}}: <code>{{@key}}</code>{{/if}}</h1>
         </summary>
       {{else if @key}}
         <summary>
-          <h1 class='key prop'><code>{{@key}}</code></h1>
+          <h1 class='key keyword'><code>{{@key}}</code></h1>
         </summary>
       {{/if}}
 
       {{#if $schema}}
-        <p class='$schema prop'><b>Validate against:</b> <a href='{{$schema}}'>{{$schema}}</a></p>
+        <p class='$schema keyword'>
+          <b>Validate against:</b> <a href='{{$schema}}'>{{$schema}}</a>
+        </p>
       {{/if}}
 
       {{#if $id}}
-        <p class='$id prop'><b>Schema ID:</b> <code>{{$id}}</code></p>
+        <p class='$id keyword'>
+          <b>Schema ID:</b> <code>{{$id}}</code>
+        </p>
       {{/if}}
 
       {{#if type}}
-        <p class='type prop'><b>Type:</b> <code>{{type}}</code></p>
+        <p class='type keyword'>
+          <b>Type:</b> <code>{{type}}</code>
+        </p>
       {{/if}}
 
       {{#isDefined readOnly}}
-        <p class='readOnly prop'><b>Read-only:</b> <code>{{readOnly}}</code></p>
+        <p class='readOnly keyword'>
+          <b>Read-only:</b> <code>{{readOnly}}</code>
+        </p>
       {{/isDefined}}
 
       {{#isDefined writeOnly}}
-        <p class='writeOnly prop'><b>Read-only:</b> <code>{{writeOnly}}</code></p>
+        <p class='writeOnly keyword'>
+          <b>Read-only:</b> <code>{{writeOnly}}</code>
+        </p>
       {{/isDefined}}
 
+      {{#if description}}
+        <section class='description keyword'>
+          <h2>Description</h2>
+          <div>{{md description}}</div>
+        </section>
+      {{/if}}
+
       {{#if $comment}}
-        <div class='$comment prop'>
+        <section class='$comment keyword'>
           <h2>Developer Notes</h2>
           <div>{{md $comment}}</div>
-        </div>
+        </section>
       {{/if}}
 
       {{!-- If the schema is an empty schema --}}
@@ -63,7 +80,7 @@
         {{!-- Definitions --}}
 
         {{#if definitions}}
-          <div class='definitions prop'>
+          <section class='definitions keyword'>
 
             <h2>Schema Definitions</h2>
 
@@ -75,16 +92,17 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{!-- Any --}}
 
         {{#if $ref}}
-          <div class='$ref prop'>
+          <section class='$ref keyword'>
+            <h2>Referenced Schema</h2>
             <p>This item must validate against the following schema:</p>
             <p><a href='{{$ref}}'>{{$ref}}</a></p>
-          </div>
+          </section>
         {{/if}}
 
         {{#isDefined const}}
@@ -93,38 +111,38 @@
         {{/isDefined}}
 
         {{#if enum}}
-          <div class='enum prop'>
+          <section class='enum keyword'>
             <h2>Allowed Values</h2>
             <ul>
               {{#each enum}}
                 <li><pre>{{json this}}</pre></li>
               {{/each}}
             </ul>
-          </div>
+          </section>
         {{/if}}
 
         {{!-- Array --}}
 
         {{#isDefined minItems}}
-          <p class='minItems prop'>
+          <p class='minItems keyword'>
             <b>Minimum number of items:</b> <code>{{minItems}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined maxItems}}
-          <p class='maxItems prop'>
+          <p class='maxItems keyword'>
             <b>Maximum number of items:</b> <code>{{maxItems}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined uniqueItems}}
-          <p class='uniqueItems prop'>
+          <p class='uniqueItems keyword'>
             <b>Items must be unique:</b> <code>{{uniqueItems}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined contains}}
-          <div class='contains prop'>
+          <section class='contains keyword'>
 
             <h2>Contains</h2>
 
@@ -132,11 +150,11 @@
 
             {{> schema contains}}
 
-          </div>
+          </section>
         {{/isDefined}}
 
         {{#if items}}
-          <div class='items prop'>
+          <section class='items keyword'>
 
             <h2>Items</h2>
 
@@ -158,11 +176,11 @@
 
             {{/isArray}}
 
-          </div>
+          </section>
         {{/if}}
 
         {{#isDefined additionalItems}}
-          <div class='additionalItems prop'>
+          <section class='additionalItems keyword'>
 
             <h2>Additional Items</h2>
 
@@ -170,37 +188,37 @@
 
             {{>schema additionalItems}}
 
-          </div>
+          </section>
         {{/isDefined}}
 
         {{!-- Numeric --}}
 
         {{#isDefined minimum}}
-          <p class='minimum prop'>
+          <p class='minimum keyword'>
             <b>Minimum:</b> <code>{{minimum}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined exclusiveMinimum}}
-          <p class='exclusiveMinimum prop'>
+          <p class='exclusiveMinimum keyword'>
             <b>Exclusive minimum:</b> <code>{{exclusiveMinimum}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined maximum}}
-          <p class='maximum prop'>
+          <p class='maximum keyword'>
             <b>Maximum:</b> <code>{{maximum}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined exclusiveMaximum}}
-          <p class='exclusiveMaximum prop'>
+          <p class='exclusiveMaximum keyword'>
             <b>Exclusive maximum:</b> <code>{{exclusiveMaximum}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined multipleOf}}
-          <p class='multipleOf prop'>
+          <p class='multipleOf keyword'>
             <b>Multiple of:</b> <code>{{multipleOf}}</code>
           </p>
         {{/isDefined}}
@@ -208,19 +226,19 @@
         {{!-- Object --}}
 
         {{#isDefined minProperties}}
-          <p class='minProperties prop'>
+          <p class='minProperties keyword'>
             <b>Minimum number of properties:</b> <code>{{minProperties}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined maxProperties}}
-          <p class='maxProperties prop'>
+          <p class='maxProperties keyword'>
             <b>Maximum number of properties:</b> <code>{{maxProperties}}</code>
           </p>
         {{/isDefined}}
 
         {{#if required}}
-          <div class='required prop'>
+          <section class='required keyword'>
 
             <h2>Required Properties</h2>
 
@@ -230,11 +248,11 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#isDefined propertyNames}}
-          <div class='propertyNames prop'>
+          <section class='propertyNames keyword'>
 
             <h2>Property Names</h2>
 
@@ -242,11 +260,11 @@
 
             {{> schema propertyNames}}
 
-          </div>
+          </section>
         {{/isDefined}}
 
         {{#if dependencies}}
-          <div class='dependencies prop'>
+          <section class='dependencies keyword'>
 
             <h2>Dependencies</h2>
 
@@ -276,11 +294,11 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#if patternProperties}}
-          <div class='patternProperties prop'>
+          <section class='patternProperties keyword'>
 
             <h2>Regular Expression Properties</h2>
 
@@ -292,11 +310,11 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#if properties}}
-          <div class='properties prop'>
+          <section class='properties keyword'>
 
             <h2>Properties</h2>
 
@@ -306,11 +324,11 @@
               <li>{{> schema this}}</li>
             {{/each}}
 
-          </div>
+          </section>
         {{/if}}
 
         {{#isDefined additionalProperties}}
-          <div class='additionalProperties prop'>
+          <section class='additionalProperties keyword'>
 
             <h2>Additional Properties</h2>
 
@@ -318,31 +336,31 @@
 
             {{> schema additionalProperties}}
 
-          </div>
+          </section>
         {{/isDefined}}
 
         {{!-- String --}}
 
         {{#if format}}
-          <p class='format prop'>
+          <p class='format keyword'>
             <b>Format:</b> <code>{{format}}</code>
           </p>
         {{/if}}
 
         {{#isDefined minLength}}
-          <p class='minLength prop'>
+          <p class='minLength keyword'>
             <b>Minimum length:</b> <code>{{minLength}}</code>
           </p>
         {{/isDefined}}
 
         {{#isDefined maxLength}}
-          <p class='maxLength prop'>
+          <p class='maxLength keyword'>
             <b>Maximum length:</b> <code>{{maxLength}}</code>
           </p>
         {{/isDefined}}
 
         {{#if pattern}}
-          <p class='pattern prop'>
+          <p class='pattern keyword'>
             <b>Regular expression to match:</b> <code>{{pattern}}</code>
           </p>
         {{/if}}
@@ -350,13 +368,13 @@
         {{!-- Non-JSON --}}
 
         {{#if contentEncoding}}
-          <p class='contentEncoding prop'>
+          <p class='contentEncoding keyword'>
             <b>Content encoding:</b> <code>{{contentEncoding}}</code>
           </p>
         {{/if}}
 
         {{#if contentMediaType}}
-          <p class='contentMediaType prop'>
+          <p class='contentMediaType keyword'>
             <b>Content media type:</b> <code>{{contentMediaType}}</code>
           </p>
         {{/if}}
@@ -364,45 +382,45 @@
         {{!-- Conditional --}}
 
         {{#isDefined if}}
-          <div class='conditionals'>
+          <section class='conditionals'>
 
             <h2>Conditional Valiation Rules</h2>
 
-            <div class='if prop'>
+            <section class='if keyword'>
 
               <p>The following schema is used for conditional validation:</p>
 
               {{> schema if}}
 
-            </div>
+            </section>
 
             {{#isDefined then}}
-              <div class='then prop'>
+              <section class='then keyword'>
 
                 <p>If this item validates aginst the conditional schema shown above, it must also validate against the following schema:</p>
 
                 {{> schema then}}
 
-              </div>
+              </section>
             {{/isDefined}}
 
             {{#isDefined else}}
-              <div class='else prop'>
+              <section class='else keyword'>
 
                 <p>If this item does not validate against the conditional schema shown aboe, it must validate against the following schema instead:</p>
 
                 {{> schema else}}
 
-              </div>
+              </section>
             {{/isDefined}}
 
-          </div>
+          </section>
         {{/isDefined}}
 
         {{!-- Logical --}}
 
         {{#if allOf}}
-          <div class='allOf prop'>
+          <section class='allOf keyword'>
 
             <p>This item must also validate against all of the following schemas:</p>
 
@@ -412,11 +430,11 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#if anyOf}}
-          <div class='anyOf prop'>
+          <section class='anyOf keyword'>
 
             <p>This item must also validate against at least one of the following schemas:</p>
 
@@ -426,11 +444,11 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#if oneOf}}
-          <div class='oneOf'>
+          <section class='oneOf'>
 
             <p>This item must also validate against exactly one of the following schemas:</p>
 
@@ -440,7 +458,7 @@
               {{/each}}
             </ul>
 
-          </div>
+          </section>
         {{/if}}
 
         {{#isDefined not}}
@@ -454,7 +472,7 @@
       {{/emptySchema}}
 
       {{#isDefined default}}
-        <div class='default prop'>
+        <section class='default keyword'>
 
           <h2>Default Value</h2>
 
@@ -466,11 +484,11 @@
             </pre>
           </code>
 
-        </div>
+        </section>
       {{/isDefined}}
 
       {{#if examples}}
-        <div class='examples prop'>
+        <section class='examples keyword'>
 
           <h2>Examples</h2>
 
@@ -488,7 +506,7 @@
             {{/each}}
           </ul>
 
-        </div>
+        </section>
       {{/if}}
 
     </details>
