@@ -207,6 +207,40 @@
           </div>
         {{/if}}
 
+        {{#if dependencies}}
+          <div class='dependencies prop'>
+
+            <h2>Dependencies</h2>
+
+            <p>This object has the following dependencies between properties:</p>
+
+            <ul>
+              {{#each dependencies}}
+                <li>
+                  {{#isArray this}}
+
+                    <p>If this object has the <code>{{@key}}</code> property, it must have the following properties as well:</p>
+
+                    <ul>
+                      {{#each this}}
+                        <li>{{this}}</li>
+                      {{/each}}
+                    </ul>
+
+                  {{else}}
+
+                    <p>If the object has the <code>{{@key}}</code> property, the object must also match the following schema:</p>
+
+                    {{> schema this}}
+
+                  {{/isArray}}
+                </li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
         {{#if patternProperties}}
           <div class='patternProperties prop'>
 
