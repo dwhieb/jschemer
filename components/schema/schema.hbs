@@ -207,6 +207,18 @@
           </div>
         {{/if}}
 
+        {{#isDefined propertyNames}}
+          <div class='propertyNames prop'>
+
+            <h2>Property Names</h2>
+
+            <p>Each property name in this object must adhere to the following schema:</p>
+
+            {{> schema propertyNames}}
+
+          </div>
+        {{/isDefined}}
+
         {{#if dependencies}}
           <div class='dependencies prop'>
 
@@ -285,6 +297,12 @@
 
         {{!-- String --}}
 
+        {{#if format}}
+          <p class='format prop'>
+            <b>Format:</b> <code>{{format}}</code>
+          </p>
+        {{/if}}
+
         {{#isDefined minLength}}
           <p class='minLength prop'>
             <b>Minimum length:</b> <code>{{minLength}}</code>
@@ -302,6 +320,110 @@
             <b>Regular expression to match:</b> <code>{{pattern}}</code>
           </p>
         {{/if}}
+
+        {{!-- Non-JSON --}}
+
+        {{#if contentEncoding}}
+          <p class='contentEncoding prop'>
+            <b>Content encoding:</b> <code>{{contentEncoding}}</code>
+          </p>
+        {{/if}}
+
+        {{#if contentMediaType}}
+          <p class='contentMediaType prop'>
+            <b>Content media type:</b> <code>{{contentMediaType}}</code>
+          </p>
+        {{/if}}
+
+        {{!-- Conditional --}}
+
+        {{#isDefined if}}
+          <div class='conditionals'>
+
+            <h2>Conditional Valiation Rules</h2>
+
+            <div class='if prop'>
+
+              <p>The following schema is used for conditional validation:</p>
+
+              {{> schema if}}
+
+            </div>
+
+            {{#isDefined then}}
+              <div class='then prop'>
+
+                <p>If this item validates aginst the conditional schema shown above, it must also validate against the following schema:</p>
+
+                {{> schema then}}
+
+              </div>
+            {{/isDefined}}
+
+            {{#isDefined else}}
+              <div class='else prop'>
+
+                <p>If this item does not validate against the conditional schema shown aboe, it must validate against the following schema instead:</p>
+
+                {{> schema else}}
+
+              </div>
+            {{/isDefined}}
+
+          </div>
+        {{/isDefined}}
+
+        {{!-- Logical --}}
+
+        {{#if allOf}}
+          <div class='allOf prop'>
+
+            <p>This item must also validate against all of the following schemas:</p>
+
+            <ul>
+              {{#each allOf}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
+        {{#if anyOf}}
+          <div class='anyOf prop'>
+
+            <p>This item must also validate against at least one of the following schemas:</p>
+
+            <ul>
+              {{#each anyOf}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
+        {{#if oneOf}}
+          <div class='oneOf'>
+
+            <p>This item must also validate against exactly one of the following schemas:</p>
+
+            <ul>
+              {{#each oneOf}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
+
+          </div>
+        {{/if}}
+
+        {{#isDefined not}}
+
+          <p>This item must <strong>not</strong> validate against the following schema:</p>
+
+          {{> schema not}}
+
+        {{/isDefined}}
 
       {{/emptySchema}}
 
