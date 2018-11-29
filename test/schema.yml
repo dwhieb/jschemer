@@ -18,7 +18,7 @@ properties:
     properties:
 
       title:
-        title:       '`"title"` Keyword'
+        title:       '`title` Keyword'
         description: This schema shows how the "title" keyword appears in jschemer documentation. Titles should also support basic Markdown syntax.
 
       default:
@@ -330,3 +330,18 @@ properties:
         title:       '"pattern" Keyword'
         description: This schema shows how the "pattern" keyword appears in jschemer documentation.
         pattern:     '[A-Za-z]{4}'
+
+  misc:
+    title:       Miscellaneous Tests
+    description: This schema provides a space to test other miscellaneous aspects of JSON Schema.
+    properties:
+
+      trueSchema:
+        title:       'True Schema'
+        description: This schema shows how a schema whose value is `true` appears in jschemer documentation.
+        items:       true
+
+      falseSchema:
+        title:       'False Schema'
+        description: This schema shows how a schema whose value is `false` appears in jschemer documentation.
+        items:       false

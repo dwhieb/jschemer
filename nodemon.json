@@ -1,6 +1,6 @@
 {
   "exec": "npm run build",
-  "ext": "hbs,js,less",
+  "ext": "hbs,js,less,yml",
   "ignore": [
     "docs/*",
     "test/*",

@@ -23,9 +23,11 @@
           </h1>
         </summary>
       {{else isString @key}}
-        <h1 class='key keyword'>
-          <code>{{@key}}</code>
-        </h1>
+        <summary>
+          <h1 class='key keyword'>
+            <code>{{@key}}</code>
+          </h1>
+        </summary>
       {{/if}}
 
       {{#if $schema}}
@@ -109,7 +111,7 @@
 
         {{#isDefined const}}
           <p>This item must have the following value:</p>
-          <code><pre>{{json const}}</pre></code>
+          <pre><code>{{json const}}</code></pre>
         {{/isDefined}}
 
         {{#if enum}}
@@ -117,7 +119,7 @@
             <h2>Allowed Values</h2>
             <ul>
               {{#each enum}}
-                <li><pre>{{json this}}</pre></li>
+                <li><pre><code>{{json this}}</code></pre></li>
               {{/each}}
             </ul>
           </section>
@@ -155,7 +157,7 @@
           </section>
         {{/isDefined}}
 
-        {{#if items}}
+        {{#isDefined items}}
           <section class='items keyword'>
 
             <h2>Items</h2>
@@ -179,7 +181,7 @@
             {{/isArray}}
 
           </section>
-        {{/if}}
+        {{/isDefined}}
 
         {{#isDefined additionalItems}}
           <section class='additionalItems keyword'>
@@ -322,9 +324,11 @@
 
             <p>The following properties are defined for this object:</p>
 
-            {{#each properties}}
-              <li>{{> schema this}}</li>
-            {{/each}}
+            <ul>
+              {{#each properties}}
+                <li>{{> schema this}}</li>
+              {{/each}}
+            </ul>
 
           </section>
         {{/if}}
@@ -480,11 +484,7 @@
 
           <p>The default value for this item is:</p>
 
-          <code>
-            <pre>
-{{json default}}
-            </pre>
-          </code>
+          <pre><code>{{json default}}</code></pre>
 
         </section>
       {{/isDefined}}
@@ -499,11 +499,7 @@
           <ul>
             {{#each examples}}
               <li>
-                <code>
-                  <pre>
-{{json this}}
-                  </pre>
-                </code>
+                <pre><code>{{json this}}</code></pre>
               </li>
             {{/each}}
           </ul>
