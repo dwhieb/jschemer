@@ -1,86 +1,115 @@
-# jschemer
+# [jschemer][1]
 
-[![npm](https://img.shields.io/npm/v/jschemer.svg)](https://www.npmjs.com/package/jschemer)
-[![David](https://img.shields.io/david/dwhieb/jschemer.svg)](https://www.npmjs.com/package/jschemer)
-[![npm](https://img.shields.io/npm/dt/jschemer.svg)](https://www.npmjs.com/package/jschemer)
-[![Travis](https://img.shields.io/travis/dwhieb/jschemer.svg)](https://travis-ci.org/dwhieb/jschemer)
-[![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?style=social&label=Star)](https://github.com/dwhieb/jschemer/)
-[![GitHub issues](https://img.shields.io/github/issues/dwhieb/jschemer.svg)](https://github.com/dwhieb/jschemer/issues)
+[![npm version](https://img.shields.io/npm/v/jschemer.svg)][4]
+[![Travis status](https://img.shields.io/travis/dwhieb/jschemer/master.svg)][5]
+[![npm downloads](https://img.shields.io/npm/dt/jschemer.svg)][4]
+[![GitHub issues](https://img.shields.io/github/issues/dwhieb/jschemer.svg)][6]
+[![GitHub](https://img.shields.io/github/license/dwhieb/jschemer.svg)][7]
 
-A simple utility for generating clean HTML documentation pages from JSON Schema data using Node.
+[![GitHub stars](https://img.shields.io/github/stars/dwhieb/jschemer.svg?label=Stars&style=social)][8]
+[![GitHub forks](https://img.shields.io/github/forks/dwhieb/jschemer.svg?label=Fork&style=social)][8]
 
-[View the live demo here](http://dwhieb.github.io/jschemer/example/index.html).
+`jschemer` is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. [See an example of generated `jschemer` documentation here][2]. `jschemer` accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It can be run as a Node module or from the command line.
 
-![jschemer screenshot](screenshot.png)
+*Maintained by [Daniel W. Hieber][3]*
 
-## Install
-`npm install --save jschemer`
+[View a demo of documentation generated with `jschemer`.][2]
 
-## Usage
+[![Screenshot of sample jschemer documentation](https://raw.githubusercontent.com/dwhieb/jschemer/master/img/screenshot.png)][2]
 
-### Command Line
+## Contents
+* [Report an Issue][9]
+* [Installation & Usage](#installation--usage)
+* [Options](#options)
+* [Customizing](#customizing)
+
+## Installation & Usage
+
+### Installation
+
 ```sh
-
-# Compile a single file to the /out folder (default)
-jschemer schema.json
-
-# Compile the /schemas directory to the /docs folder
-# NB: jschemer does not create documentation for items in subfolders/subdirectories
-jschemer schemas --out docs
+npm i -D jschemer # if installing as a dev dependency
+npm i jschemer    # if installing as a core dependency
 ```
 
-Option             | Description
------------------- | -----------
-`-c`, `--css`      | The path to the CSS file to use for styling the documentation. Defaults to `out/jschemer.css`.
-`-i`, `--ignore`   | A comma-separated (no spaces) list of filenames to ignore.
-`-o`, `--out`      | The name of the directory to output files to. Defaults to `out`.
-`-r`, `--readme`   | A `README.md` file to include in the generated documentation.
+### Command Line Usage
 
-### Node
+```sh
+# This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
+jschemer --schemas json --out docs --readme README.md
+
+# You can also just run jschemer with its defaults (/schemas -> /out)
+jschemer
+```
+
+### Usage in Node
+
 ```js
-const jschemer = require('jschemer');
+const jschemer = require(`jschemer`);
 
-const path = 'schemas'; // may be a directory or single file (NB: jschemer does not create documentation for items in subfolders/subdirectories)
-
+// options (see additional options below)
 const opts = {
-  css:    'css/custom.css',
-  ignore: ['ignored.json'],
-  out:    '/docs',
-  readme: 'README.md'
+  out:     `docs`,
+  readme:  `README.md`,
+  schemas: `schemas`,
 };
 
-// the jschemer object is a function which returns a Promise
-jschemer(path, opts).then(/* code to run when documentation has finished generating */)
+// generate the documentation
+jschemer(opts)
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
 
-// you can also call jschemer using a traditional error-first callback
-jschemer(path, opts, err => {
-  if (err) throw err;
-  else console.log('Done!');
-});
+// jschemer may also be run with defaults
+jschemer()
+.then(/* code to run after documentation is generated */)
+.catch(/* catch any errors */);
 ```
 
-## HTML
-The HTML can be customized by changing the `index.hbs` file within the `/src` folder of the jschemer package.
+The `jschemer` module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to `/schemas`), and an options object (see the [Options](#options) below). The `jschemer` function returns a promise that resolves when the documentation is done being generated.
 
-## CSS
-jschemer comes with a default CSS file, `jschemer.css`. You can easily customize this file, or use your own CSS file by passing a `css` option to jschemer. The HTML generated by jschemer is designed to be easy to style: each type of object and property is given an easily-identifiable class, such as `additional-items` or `description`. jschemer's default CSS is structured as follows:
+## Options
 
-* Each JSON Schema keyword/attribute is associated with exactly one CSS class in the generated documentation (e.g. `class=max-length`).
+Node      | Command Line      | Default     | Description
+--------- | :---------------: | ----------- | -----------
+`out`     | `‑o`, `‑‑out`     | `out`       | The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.
+`readme`  | `‑r`, `‑‑readme`  | —           | The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (`index.html`). If no readme is provided, a placeholder readme is used.
+`schemas` | `‑s`, `‑‑schemas` | `schemas`   | The path to the folder where the JSON schemas are located.
 
-* camelCase keywords in JSON Schema are given a hyphen-separated CSS class name, e.g. `max-items`.
+## Customizing
 
-* HTML elements in the generated documentation are also given CSS classes labeling the data type they apply to: `array`, `numeric`, `object`, `string`. Attributes that apply to any data type, such as `type`, are given the class `any`. The metadata keywords such `title`, `description`, `default`, `id`, and `$schema` are given the class `meta` (as well as `any`). All properties are also given the `prop` class.
+To customize the readme used on the landing page of the documentation, use the `readme` option to specify the path to a different readme.
 
-An example of the outputted HTML, with CSS classes:
+To customize the HTML or CSS used to generate the documentation, edit the files in the `/components` folder. The HTML templates are written using [Handlebars][11]. The CSS for the documentation is written in [LESS][12].
 
-```html
-<p class='additional-properties object prop'>
-  <strong>Additional properties:</strong> true
-</p>
+In the HTML, each schema and subschema is wrapped in a `<section class=schema>` element. Each keyword in the JSON Schema is wrapped in a single element (typically a `<section>` or `<p>`) with two CSS classes: the name of the keyword (e.g. `minimum`, `additionalItems`, etc.) and `keyword`.
+
+For example, here is the HTML for JSON Schema's `minimum` keyword. If a JSON Schema has the `minimum` keyword in it, it will use the following Handlebars code.
+
+```hbs
+{{#if minimum}}
+  <p class='minimum keyword'>
+    <strong>Minimum:</strong> <code>{{minimum}}</code>
+  </p>
+{{/if}}
 ```
 
-## Notes:
+If you would like to embed the schema template in your own site, without using the accompanying pages generated by `jschemer`, simply copy the files in `components/schema` into your project. Then use [LESS][12] to compile `schema.less` to a CSS file, and use [Handlebars][11] to compile the `schema.hbs` template with your schema data. You can then insert the HTML generated by Handlebars into your webpage, and link to the CSS file to apply styling.
 
-* If you would prefer the properties of a schema to display in a different order, I recommend using CSS3 Flexbox's `order` property to change their order. Note that this must then be set on all the sibling elements as well.
+## Notes
 
-* jschemer assumes your JSON data is valid according to v4 of the JSON Schema specification. You should validate your JSON Schema data before running jschemer.
+* Each schema is validated using [ajv][10] when the documentation is generated. If a schema cannot be parsed as JSON, or is not a valid schema, it will be ignored, and a warning will be shown in the console.
+
+* When using the `$ref` keyword, you may provide additional keywords in the referencing schema as well, and jschemer will include them in the documentation. This is useful so that your end users don't need to visit the referenced schema to see information about it. If both the referencing schema and the referenced schema have the same keyword, the value of the referencing schema will be used. This is most useful when you would like to provide specific notes (usually in the `description` property) about how an external schema should be used or interpreted in the context of the current schema.
+
+[1]: https://github.com/dwhieb/jschemer#readme
+[2]: http://dwhieb.github.io/jschemer/
+[3]: https://github.com/dwhieb
+[4]: https://www.npmjs.com/package/jschemer
+[5]: https://travis-ci.org/dwhieb/jschemer
+[6]: https://github.com/dwhieb/jschemer/issues
+[7]: https://opensource.org/licenses/MIT
+[8]: https://github.com/dwhieb/jschemer
+[9]: https://github.com/dwhieb/jschemer/issues/new
+[10]: https://www.npmjs.com/package/ajv
+[11]: http://handlebarsjs.com/
+[12]: http://lesscss.org/

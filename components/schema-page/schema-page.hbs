@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang=en dir=ltr>
+
+  <head>
+
+    <meta charset=utf-8>
+    <title>{{schema.title}}</title>
+    <meta name=viewport content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+    <link href=../schema-page.css rel=stylesheet>
+
+  </head>
+
+  <body>
+
+    {{!-- List of links to individual schema pages --}}
+    {{> nav}}
+
+    {{!-- The top-level schema for this page --}}
+    <main>
+      {{> schema schema}}
+    </main>
+
+  </body>
+
+</html>

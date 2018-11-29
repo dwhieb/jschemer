@@ -1,6 +1,6 @@
 {
-  "spec_dir": "test",
-  "spec_files": ["test.js"],
-  "stopSpecOnExpectationFailure": false,
-  "random": false
+  "spec_dir": ".",
+  "spec_files": [
+    "*.js"
+  ]
 }

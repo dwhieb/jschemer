@@ -1,0 +1,416 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/dwhieb/jschemer/master/test/schemas/schema.json",
+  "$comment": "This is a test comment, aimed at readers or maintainers of the schema. This will be displayed as \"Developer Notes\".",
+  "title": "Sample Schema",
+  "type": "object",
+  "description": "This is a description of this schema. It should support <i>basic</i> <sup>inline</sup> <em>HTML</em>, as well as *simple* _Markdown_ **styling**. This schema shows how each JSON Schema keyword appears on its own.",
+  "definitions": {
+    "key": {
+      "pattern": "[A-Za-z]+"
+    }
+  },
+  "properties": {
+    "annotations": {
+      "title": "Annotation Keywords",
+      "description": "This schema shows how annotation keywords are displayed in jschemer documentation.",
+      "properties": {
+        "title": {
+          "title": "`title` Keyword",
+          "description": "This schema shows how the \"title\" keyword appears in jschemer documentation. Titles should also support basic Markdown syntax."
+        },
+        "default": {
+          "title": "\"default\" Keyword",
+          "description": "This schema shows how the \"default\" keyword appears in jschemer documentation. The value of the \"default\" keyword should appear as an indented JSON string in a code block.",
+          "default": {
+            "id": "532708fd-b48e-48cb-9f3c-219f7aa53f80",
+            "key": "LANG",
+            "name": "language"
+          }
+        },
+        "description": {
+          "title": "\"description\" Keyword",
+          "description": "This schema shows how the `\"description\"` keyword appears in jschemer documentation. Descriptions should also support *Markdown* syntax."
+        },
+        "examples": {
+          "title": "\"examples\" Keyword",
+          "description": "This schema shows how the \"examples\" keyword appears in jschemer documentation. Each example should be displayed as an indented JSON string in a code block.",
+          "examples": [
+            {
+              "id": "532708fd-b48e-48cb-9f3c-219f7aa53f80",
+              "key": "LANG",
+              "name": "language"
+            },
+            {
+              "id": "1830a856-e826-418e-a6cb-782d207b1bae",
+              "key": "MORPH",
+              "name": "morpheme"
+            }
+          ]
+        },
+        "readOnly": {
+          "title": "\"readOnly\" Keyword",
+          "description": "This schema shows how the \"readOnly\" keyword appears in jschemer documentation.",
+          "readOnly": true
+        },
+        "writeOnly": {
+          "title": "\"writeOnly\" Keyword",
+          "description": "This schema shows how the \"writeOnly\" keyword appears in jschemer documentation.",
+          "writOnly": true
+        }
+      }
+    },
+    "any": {
+      "title": "Keywords for Any Instance Type",
+      "description": "This schema shows how keywords that apply to any instance type are displayed in jschemer documentation.",
+      "properties": {
+        "const": {
+          "title": "\"const\" Keyword",
+          "const": "This is a constant value.",
+          "description": "This schema shows how the \"const\" keyword appears in jschemer documentation."
+        },
+        "enum": {
+          "title": "\"enum\" Keyword",
+          "description": "This schema shows how the \"enum\" keyword appears in jschemer documentation.",
+          "enum": [
+            1,
+            [],
+            {},
+            true
+          ]
+        },
+        "type": {
+          "title": "\"type\" Keyword",
+          "type": "string",
+          "description": "This schema shows how the \"type\" keyword appears in jschemer documentation."
+        }
+      }
+    },
+    "arrays": {
+      "title": "Keywords for Array Instance Types",
+      "description": "This schema shows how keywords that apply to array instance types are displayed in jschemer documentation.",
+      "properties": {
+        "additionalItems": {
+          "title": "\"additionalItems\" Keyword",
+          "description": "This schema shows how the \"additionalItems\" keyword appears in jschemer documentation. This keyword only applies when the \"items\" keyword is also present, and consists of an array of schemas. In this example, the first item in the array must be a string, and any additional items in the array must be numbers.",
+          "items": [
+            {
+              "type": "string"
+            }
+          ],
+          "additionalItems": {
+            "type": "number"
+          }
+        },
+        "contains": {
+          "title": "\"contains\" Keyword",
+          "description": "This schema shows how the \"contains\" keyword appears in jschemer documentation. In this example, at least one item in the array must be a string.",
+          "contains": {
+            "type": "string"
+          }
+        },
+        "itemsSchema": {
+          "title": "\"items\" Keyword as a Schema",
+          "description": "This schema shows how the \"items\" keyword appears in jschemer documentation when the value of \"items\" is a single schema. In this example, each item must be a string with a minimum length of 1.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "itemsArray": {
+          "title": "\"items\" Keyword as an Array",
+          "description": "This schema shows how the \"items\" keyword appears in jschemer documentation when the value of \"items\" is an array of schemas. In this example, the first item in the array must be `null`, and the second item in the array must be a string.",
+          "items": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "maxItems": {
+          "title": "\"maxItems\" Keyword",
+          "description": "This schema shows how the \"maxItems\" keyword appears in jschemer documentation.",
+          "maxItems": 10
+        },
+        "minItems": {
+          "title": "\"minItems\" Keyword",
+          "description": "This schema shows how the \"minItems\" keyword appears in jschemer documentation.",
+          "minItems": 1
+        },
+        "uniqueItems": {
+          "title": "\"uniqueItems\" Keyword",
+          "description": "This schema show how the \"uniqueItems\" keyword appears in jschemer documentation.",
+          "uniqueItems": true
+        }
+      }
+    },
+    "booleans": {
+      "title": "Keywords for Boolean Logic",
+      "description": "This schema shows how keywords that apply subschemas with boolean logic are displayed in jschemer documentation.",
+      "properties": {
+        "allOf": {
+          "title": "\"allOf\" Keyword",
+          "description": "This schema shows how the \"allOf\" keyword appears in jschemer documentation. In this example, the instance must validate against both subschemas — it must have an \"id\" property and it must be an object.",
+          "allOf": [
+            {
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "anyOf": {
+          "title": "\"anyOf\" Keyword",
+          "description": "This schema shows how the \"anyOf\" keyword appears in jschemer documentation. In this example, the instance can validate against any of the subschemas — it may be either an object or an array.",
+          "anyOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
+        },
+        "not": {
+          "title": "\"not\" Keyword",
+          "description": "This schema shows how the \"not\" keyword appears in jschemer documentation. In this example, the instance must not be null.",
+          "not": {
+            "type": "null"
+          }
+        },
+        "oneOf": {
+          "title": "\"oneOf\" Keyword",
+          "description": "This schema shows how the \"oneOf\" keyword appears in jschemer documentation. In this example, the instance may be either an object or a string.",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "conditionals": {
+      "title": "Keywords for Conditional Validation",
+      "description": "This schema shows how keywords that apply subschemas conditionally are displayed in jschemer documentation.",
+      "properties": {
+        "ifThen": {
+          "title": "\"if\", \"then\", and \"else\" Keywords",
+          "description": "This schema shows how the \"if\", \"then\", and \"else\" keywords are displayed in jschemer documentation. In this example, if the instance is a string, it must have a minimum length of 3 characters. If the instance is not a string, then it must be an object.",
+          "if": {
+            "type": "string"
+          },
+          "then": {
+            "minLength": 3
+          },
+          "else": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "references": {
+      "title": "Keywords for Referenced Schemas",
+      "description": "This schema shows how keywords that are defined by reference to other schemas are displayed in jschemer documentation.",
+      "properties": {
+        "definitions": {
+          "title": "Schemas Defined in \"definitions\"",
+          "description": "This schema shows how schemas which reference definitions in the \"definitions\" property appear in jschemer documentation. In this example, the \"key\" property must validate against the \"key\" schema in the schema definitions.",
+          "properties": {
+            "key": {
+              "$ref": "#/definitions/key"
+            }
+          }
+        },
+        "ref": {
+          "title": "Schemas Referenced with \"$ref\"",
+          "$ref": "http://geojson.org/schema/GeoJSON.json",
+          "description": "This schema shows how schemas which reference external schemas using the \"$ref\" property appear in jschemer documentation. In this example, the \"location\" property references the GeoJSON schema. This schema also shows that properties on the referencing schema overwrite properties on the referenced schema, for the purpose of generating the jschemer documentation. For example, the referenced GeoJSON schema in this example has the title `GeoJSON`, but in the jschemer documentation this example will appear with the title `Schemas Referenced with \"$ref\"`."
+        }
+      }
+    },
+    "nonJSON": {
+      "title": "Keywords for Non-JSON Data",
+      "description": "This schema shows how keywords that apply to non-JSON data encoded as a string are displayed in jschemer documentation.",
+      "properties": {
+        "contentEncoding": {
+          "title": "\"contentEncoding\" Keyword",
+          "description": "This schema shows how the \"contentEncoding\" keyword appears in jschemer documentation.",
+          "contentEncoding": "base64"
+        },
+        "contentMediaType": {
+          "title": "\"contentMediaType\" Keyword",
+          "description": "This schema shows how the \"contentMediaType\" keyword appears in jschemer documentation.",
+          "contentMediaType": "audio/wav"
+        }
+      }
+    },
+    "numeric": {
+      "title": "Keywords for Numeric Instance Types",
+      "description": "This schema shows how keywords that apply to numeric instance types are displayed in jschemer documentation.",
+      "properties": {
+        "exclusiveMaximum": {
+          "title": "\"exclusiveMaximum\" Keyword",
+          "description": "This schema shows how the \"exclusiveMaximum\" keyword appears in jschemer documentation.",
+          "exclusiveMaximum": 10
+        },
+        "exclusiveMinimum": {
+          "title": "\"exclusiveMinimum\" Keyword",
+          "description": "This schema shows how the \"exclusiveMinimum\" keyword appears in jschemer documentation.",
+          "exclusiveMinimum": -10
+        },
+        "maximum": {
+          "title": "\"maximum\" Keyword",
+          "description": "This schema shows how the \"maximum\" keyword appears in jschemer documentation.",
+          "maximum": 9.99
+        },
+        "minimum": {
+          "title": "\"minimum\" Keyword",
+          "description": "This schema shows how the \"minimum\" keyword appears in jschemer documentation.",
+          "minimum": -9.99
+        },
+        "multipleOf": {
+          "title": "\"multipleOf\" Keyword",
+          "description": "This schema shows how the \"multipleOf\" keyword appears in jschemer documentation.",
+          "multipleOf": 2
+        }
+      }
+    },
+    "objects": {
+      "title": "Keywords for Object Instances",
+      "description": "This schema shows how keywords that apply to object instances are displayed in jschemer documentation.",
+      "properties": {
+        "additionalPropertiesTrue": {
+          "title": "\"additionalProperties\" Keyword Set to Boolean",
+          "description": "This schema shows how the \"additionalProperties\" keyword appears in jschemer documentation when it is set a boolean value. In this example, the object has one defined property, \"id\", and no other properties are allowed.",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "additionalPropertiesSchema": {
+          "title": "\"additionalProperties\" Keyword Set to a Schema",
+          "description": "This schema shows how the \"additionalProperties\" keyword appears in jschemer documentation when its value is another schema. In this example, the object has one defined property, \"id\", but may have additional properties as long as those additional properties are strings.",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "title": "\"dependencies\" Keyword",
+          "description": "This schema shows how the \"dependencies\" keyword appears in jschemer documentation. In this example, the object has two dependencies: 1) if the object has an \"id\" property, it must also have a \"key\" property; 2) if the object has a \"startTime\" property, it must also have an \"endTime\" property.",
+          "dependencies": {
+            "id": {
+              "required": [
+                "key"
+              ]
+            },
+            "startTime": [
+              "endTime"
+            ]
+          }
+        },
+        "maxProperties": {
+          "title": "\"maxProperties\" Keyword",
+          "description": "This schema shows how the \"maxProperties\" keyword appears in jschemer documentation.",
+          "maxProperties": 5
+        },
+        "minProperties": {
+          "title": "\"minProperties\" Keyword",
+          "description": "This schema shows how the \"minProperties\" keyword appears in jschemer documentation.",
+          "minProperties": 1
+        },
+        "patternProperties": {
+          "title": "\"patternProperties\" Keyword",
+          "description": "This schema shows how the \"patternProperties\" keyword appears in jschemer documentation. In this example, each property of the object must contain the string \"-lang\", and the value of that property must be a string as well.",
+          "patternProperties": {
+            "-lang": {
+              "type": "string"
+            }
+          }
+        },
+        "properties": {
+          "title": "\"properties\" Keyword",
+          "description": "This schema shows how the \"properties\" keyword appears in jschemer documentation. In this example, the schema specifies two properties for the object: \"id\" and \"name\", both of which must be strings.",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "propertyNames": {
+          "title": "\"propertyNames\" Keyword",
+          "description": "This schema shows how the \"propertyNames\" keyword appears in jschemer documentation. In this example, each property name in the object must contain at least 3 characters.",
+          "propertyNames": {
+            "minLength": 3
+          }
+        },
+        "required": {
+          "title": "\"required\" Keyword",
+          "description": "This schema shows how the \"required\" keyword appears in jschemer documentation. In this example, the object must have an \"id\" property.",
+          "required": [
+            "id"
+          ]
+        }
+      }
+    },
+    "strings": {
+      "title": "Keywords for String Instances",
+      "description": "This schema shows how keywords that apply to string instances are displayed in jschemer documentation.",
+      "properties": {
+        "format": {
+          "title": "\"format\" Keyword",
+          "description": "This schema shows how the \"format\" keyword appears in jschemer documentation.",
+          "format": "date-time"
+        },
+        "maxLength": {
+          "title": "\"maxLength\" Keyword",
+          "description": "This schema shows how the \"maxLength\" keyword appears in jschemer documentation.",
+          "maxLength": 100
+        },
+        "minLength": {
+          "title": "\"minLength\" Keyword",
+          "description": "This schema shows how the \"minLength\" keyword appears in jschemer documentation.",
+          "minLength": 1
+        },
+        "pattern": {
+          "title": "\"pattern\" Keyword",
+          "description": "This schema shows how the \"pattern\" keyword appears in jschemer documentation.",
+          "pattern": "[A-Za-z]{4}"
+        }
+      }
+    },
+    "misc": {
+      "title": "Miscellaneous Tests",
+      "description": "This schema provides a space to test other miscellaneous aspects of JSON Schema.",
+      "properties": {
+        "trueSchema": {
+          "title": "True Schema",
+          "description": "This schema shows how a schema whose value is `true` appears in jschemer documentation.",
+          "items": true
+        },
+        "falseSchema": {
+          "title": "False Schema",
+          "description": "This schema shows how a schema whose value is `false` appears in jschemer documentation.",
+          "items": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang=en dir=ltr>
+
+  <head>
+
+    <meta charset=utf-8>
+    <title>Schemas</title>
+    <meta name=viewport content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+    <link href=home.css rel=stylesheet>
+
+  </head>
+
+  <body>
+
+    <nav id=jschemer-nav aria-labelledby=jschemer-schemas-list-heading role=navigation>
+    
+      
+    
+      <h2 id=jschemer-schemas-list-heading>Schemas</h1>
+    
+      <ul>
+          <li>
+            <p>
+              <a href='schemas/schema.html'>
+                  Sample Schema
+              </a>
+            </p>
+          </li>
+      </ul>
+    
+    </nav>
+
+    <main class=markdown-body><h1><a href="https://github.com/dwhieb/jschemer#readme">jschemer</a></h1>
+<p><a href="https://www.npmjs.com/package/jschemer"><img src="https://img.shields.io/npm/v/jschemer.svg" alt="npm version"></a>
+<a href="https://travis-ci.org/dwhieb/jschemer"><img src="https://img.shields.io/travis/dwhieb/jschemer/master.svg" alt="Travis status"></a>
+<a href="https://www.npmjs.com/package/jschemer"><img src="https://img.shields.io/npm/dt/jschemer.svg" alt="npm downloads"></a>
+<a href="https://github.com/dwhieb/jschemer/issues"><img src="https://img.shields.io/github/issues/dwhieb/jschemer.svg" alt="GitHub issues"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/dwhieb/jschemer.svg" alt="GitHub"></a></p>
+<p><a href="https://github.com/dwhieb/jschemer"><img src="https://img.shields.io/github/stars/dwhieb/jschemer.svg?label=Stars&amp;style=social" alt="GitHub stars"></a>
+<a href="https://github.com/dwhieb/jschemer"><img src="https://img.shields.io/github/forks/dwhieb/jschemer.svg?label=Fork&amp;style=social" alt="GitHub forks"></a></p>
+<p><code>jschemer</code> is a utility that generates documentation for JSON Schemas, providing end users with human-readable web pages instead of raw JSON documents. <a href="http://dwhieb.github.io/jschemer/">See an example of generated <code>jschemer</code> documentation here</a>. <code>jschemer</code> accepts one or more JSON Schemas as input, and produces an HTML page for each schema, along with a landing page for the documentation. It can be run as a Node module or from the command line.</p>
+<p><em>Maintained by <a href="https://github.com/dwhieb">Daniel W. Hieber</a></em></p>
+<p><a href="http://dwhieb.github.io/jschemer/">View a demo of documentation generated with <code>jschemer</code>.</a></p>
+<p><a href="http://dwhieb.github.io/jschemer/"><img src="https://raw.githubusercontent.com/dwhieb/jschemer/master/img/screenshot.png" alt="Screenshot of sample jschemer documentation"></a></p>
+<h2>Contents</h2>
+<ul>
+<li><a href="https://github.com/dwhieb/jschemer/issues/new">Report an Issue</a></li>
+<li><a href="#installation--usage">Installation &amp; Usage</a></li>
+<li><a href="#options">Options</a></li>
+<li><a href="#customizing">Customizing</a></li>
+</ul>
+<h2>Installation &amp; Usage</h2>
+<h3>Installation</h3>
+<pre><code class="language-sh">npm i -D jschemer # if installing as a dev dependency
+npm i jschemer    # if installing as a core dependency
+</code></pre>
+<h3>Command Line Usage</h3>
+<pre><code class="language-sh"># This example uses JSON schemas located in the /json folder to generate documentation in the /docs folder
+jschemer --schemas json --out docs --readme README.md
+
+# You can also just run jschemer with its defaults (/schemas -&gt; /out)
+jschemer
+</code></pre>
+<h3>Usage in Node</h3>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> jschemer = <span class="hljs-built_in">require</span>(<span class="hljs-string">`jschemer`</span>);
+
+<span class="hljs-comment">// options (see additional options below)</span>
+<span class="hljs-keyword">const</span> opts = {
+  <span class="hljs-attr">out</span>:     <span class="hljs-string">`docs`</span>,
+  <span class="hljs-attr">readme</span>:  <span class="hljs-string">`README.md`</span>,
+  <span class="hljs-attr">schemas</span>: <span class="hljs-string">`schemas`</span>,
+};
+
+<span class="hljs-comment">// generate the documentation</span>
+jschemer(opts)
+.then(<span class="hljs-comment">/* code to run after documentation is generated */</span>)
+.catch(<span class="hljs-comment">/* catch any errors */</span>);
+
+<span class="hljs-comment">// jschemer may also be run with defaults</span>
+jschemer()
+.then(<span class="hljs-comment">/* code to run after documentation is generated */</span>)
+.catch(<span class="hljs-comment">/* catch any errors */</span>);
+</code></pre>
+<p>The <code>jschemer</code> module exposes a single function which accepts two arguments: the path to a directory of JSON schemas (defaults to <code>/schemas</code>), and an options object (see the <a href="#options">Options</a> below). The <code>jschemer</code> function returns a promise that resolves when the documentation is done being generated.</p>
+<h2>Options</h2>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th style="text-align:center">Command Line</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>out</code></td>
+<td style="text-align:center"><code>‑o</code>, <code>‑‑out</code></td>
+<td><code>out</code></td>
+<td>The path to the folder where the documentation will be generated. The folder will be created if it does not already exist.</td>
+</tr>
+<tr>
+<td><code>readme</code></td>
+<td style="text-align:center"><code>‑r</code>, <code>‑‑readme</code></td>
+<td>—</td>
+<td>The path to a readme file to include in the generated documentation. This will be displayed on the landing page for the documentation (<code>index.html</code>). If no readme is provided, a placeholder readme is used.</td>
+</tr>
+<tr>
+<td><code>schemas</code></td>
+<td style="text-align:center"><code>‑s</code>, <code>‑‑schemas</code></td>
+<td><code>schemas</code></td>
+<td>The path to the folder where the JSON schemas are located.</td>
+</tr>
+</tbody>
+</table>
+<h2>Customizing</h2>
+<p>To customize the readme used on the landing page of the documentation, use the <code>readme</code> option to specify the path to a different readme.</p>
+<p>To customize the HTML or CSS used to generate the documentation, edit the files in the <code>/components</code> folder. The HTML templates are written using <a href="http://handlebarsjs.com/">Handlebars</a>. The CSS for the documentation is written in <a href="http://lesscss.org/">LESS</a>.</p>
+<p>In the HTML, each schema and subschema is wrapped in a <code>&lt;section class=schema&gt;</code> element. Each keyword in the JSON Schema is wrapped in a single element (typically a <code>&lt;section&gt;</code> or <code>&lt;p&gt;</code>) with two CSS classes: the name of the keyword (e.g. <code>minimum</code>, <code>additionalItems</code>, etc.) and <code>keyword</code>.</p>
+<p>For example, here is the HTML for JSON Schema’s <code>minimum</code> keyword. If a JSON Schema has the <code>minimum</code> keyword in it, it will use the following Handlebars code.</p>
+<pre><code class="language-hbs"><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">if</span></span> minimum}}</span>
+  &lt;p class='minimum keyword'&gt;
+    &lt;strong&gt;Minimum:&lt;/strong&gt; &lt;code&gt;<span class="hljs-template-variable">{{minimum}}</span>&lt;/code&gt;
+  &lt;/p&gt;
+<span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">if</span></span>}}</span>
+</code></pre>
+<p>If you would like to embed the schema template in your own site, without using the accompanying pages generated by <code>jschemer</code>, simply copy the files in <code>components/schema</code> into your project. Then use <a href="http://lesscss.org/">LESS</a> to compile <code>schema.less</code> to a CSS file, and use <a href="http://handlebarsjs.com/">Handlebars</a> to compile the <code>schema.hbs</code> template with your schema data. You can then insert the HTML generated by Handlebars into your webpage, and link to the CSS file to apply styling.</p>
+<h2>Notes</h2>
+<ul>
+<li>
+<p>Each schema is validated using <a href="https://www.npmjs.com/package/ajv">ajv</a> when the documentation is generated. If a schema cannot be parsed as JSON, or is not a valid schema, it will be ignored, and a warning will be shown in the console.</p>
+</li>
+<li>
+<p>When using the <code>$ref</code> keyword, you may provide additional keywords in the referencing schema as well, and jschemer will include them in the documentation. This is useful so that your end users don’t need to visit the referenced schema to see information about it. If both the referencing schema and the referenced schema have the same keyword, the value of the referencing schema will be used. This is most useful when you would like to provide specific notes (usually in the <code>description</code> property) about how an external schema should be used or interpreted in the context of the current schema.</p>
+</li>
+</ul>
+</main>
+
+  </body>
+
+</html>
