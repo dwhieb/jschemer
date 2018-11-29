@@ -15,7 +15,7 @@
 
 [View a demo of documentation generated with `jschemer`.][2]
 
-<!-- TODO: screenshot here -->
+[![Screenshot of sample jschemer documentation](https://raw.githubusercontent.com/dwhieb/jschemer/master/img/screenshot.png)][2]
 
 ## Contents
 * [Report an Issue][9]
