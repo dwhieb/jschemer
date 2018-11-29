@@ -51,7 +51,7 @@
     "jasmine": "^3.3.0",
     "nodemon": "^1.18.7",
     "rimraf": "^2.6.2",
-    "stylelint": "^9.8.0",
+    "stylelint": "^9.9.0",
     "yamljs": "^0.3.0"
   }
 }
