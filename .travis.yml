@@ -1,3 +1,6 @@
+branches:
+  only:
+    - master
 deploy:
   api_key: $NPM_KEY
   email: dwhieb@gmail.com
