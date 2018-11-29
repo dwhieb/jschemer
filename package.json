@@ -1,6 +1,6 @@
 {
   "name": "jschemer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A Node.js library to generate documentation for JSON Schemas",
   "keywords": [
     "JSON Schema",
