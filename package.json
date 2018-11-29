@@ -34,7 +34,7 @@
   },
   "scripts": {
     "build": "yaml2json test/schema.yml > test/schemas/schema.json -p & node build/index.js",
-    "test": "yaml2json test/schema.yml > test/schemas/schema.json -p & cd test & jasmine --config=jasmine.json & cd .."
+    "test": "yaml2json test/schema.yml > test/schemas/schema.json -p && cd test && jasmine --config=jasmine.json && cd .."
   },
   "dependencies": {
     "commander": "^2.19.0",
