@@ -3,6 +3,7 @@
 - [ ] Switch to Node 10.x
 - [ ] Fork the repo
 - [ ] Create an issue branch from `master`
+- [ ] Install project dependencies: `npm install`
 - [ ] Update outdated dependencies
 - [ ] Update user-facing documentation with planned changes (`README.md`)
 - [ ] Write or update (failing) tests
