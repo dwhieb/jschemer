@@ -8,7 +8,7 @@
     {{#each schemas}}
       <li>
         <p>
-          <a href='{{#if ../home}}schemas/{{filename}}{{else}}{{filename}}{{/if}}'>
+          <a href='{{#if ../home}}schemas/{{filename}}{{else}}./{{filename}}{{/if}}'>
             {{#if schema.title}}
               {{md schema.title 'inline'}}
             {{else}}
