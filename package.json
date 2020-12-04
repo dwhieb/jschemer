@@ -39,7 +39,7 @@
   "dependencies": {
     "commander": "^2.19.0",
     "handlebars": "^4.0.12",
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.4.1",
     "less": "^3.9.0",
     "markdown-it": "^8.4.2",
     "ora": "^3.0.0"
