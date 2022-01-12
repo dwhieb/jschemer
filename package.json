@@ -41,7 +41,7 @@
     "handlebars": "^4.0.12",
     "highlight.js": "^9.13.1",
     "less": "^3.9.0",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "ora": "^3.0.0"
   },
   "devDependencies": {
