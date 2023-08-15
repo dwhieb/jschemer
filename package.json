@@ -37,6 +37,7 @@
     "test": "yaml2json test/schema.yml > test/schemas/schema.json -p && cd test && jasmine --config=jasmine.json && cd .."
   },
   "dependencies": {
+    "ajv": "^6.6.1",
     "commander": "^2.19.0",
     "handlebars": "^4.0.12",
     "highlight.js": "^9.13.1",
@@ -45,7 +46,6 @@
     "ora": "^3.0.0"
   },
   "devDependencies": {
-    "ajv": "^6.6.1",
     "eslint": "^5.9.0",
     "github-markdown-css": "^2.10.0",
     "jasmine": "^3.3.0",
